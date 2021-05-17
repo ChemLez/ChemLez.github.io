@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>设计模式-依赖倒置原则</title>
+      <link href="/2021/05/16/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE%E5%8E%9F%E5%88%99/"/>
+      <url>/2021/05/16/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE%E5%8E%9F%E5%88%99/</url>
+      
+        <content type="html"><![CDATA[<p>本文用来讲述设计模式中的依赖倒置原则。通过介绍，场景，代码推进的方式进行一步步的讲解。</p><h4 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h4><p>依赖倒置原则(Dependence Inversion Principle)是指：</p><ol><li>高层模块不应该依赖底层模块，二者都应该依赖其抽象。这里调用者就是上层，被调用者就是下层。</li><li>抽象不应该依赖细节，细节应该依赖抽象。（抽象是指接口或者抽象类，细节是指具体实现及使用）</li><li><strong>依赖倒置的中心思想是面向接口编程</strong></li><li>依赖倒转原则是基于这样的设计理念：相对于细节的多变性，抽象的东西要稳定的多。以抽象为基础搭建的架构比以细节为基础的架构要稳定的多。在 java 中，抽象指的是接口或抽象类，细节就是具体的实现类</li><li>使用接口或抽象类的目的是制定好规范，而不涉及任何具体的操作，把展现细节的任务交给他们的实现类去完成</li><li><strong>使用接口或抽象类的目的是制定好规范，而不涉及任何具体的操作，把展现细节的任务交给他们的实现类去完成</strong></li></ol><h4 id="二、场景介绍"><a href="#二、场景介绍" class="headerlink" title="二、场景介绍"></a>二、场景介绍</h4><p>实现场景，一个人通过不同的通讯方式进行通信。例如，可以通过邮箱，通过微信，通过手机等等方式进行通信。</p><h4 id="三、代码实现"><a href="#三、代码实现" class="headerlink" title="三、代码实现"></a>三、代码实现</h4><p>假设现在我们需要通过微信，短信，邮箱进行信息的传递。代码都较为简单，请先直接看代码，再进行代码的讲解。</p><pre><code class="java"></code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 设计模式 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 设计模式 </tag>
+            
+            <tag> 依赖倒置原则 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>设计模式-组合优于继承原则</title>
       <link href="/2021/05/16/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88%E4%BC%98%E4%BA%8E%E7%BB%A7%E6%89%BF%E5%8E%9F%E5%88%99/"/>
       <url>/2021/05/16/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%84%E5%90%88%E4%BC%98%E4%BA%8E%E7%BB%A7%E6%89%BF%E5%8E%9F%E5%88%99/</url>
@@ -490,9 +517,9 @@
       
         <tags>
             
-            <tag> Servlet </tag>
-            
             <tag> 反射 </tag>
+            
+            <tag> Servlet </tag>
             
         </tags>
       
@@ -598,9 +625,9 @@
             
             <tag> Java </tag>
             
-            <tag> MVC </tag>
-            
             <tag> Servlet </tag>
+            
+            <tag> MVC </tag>
             
         </tags>
       
