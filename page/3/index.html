@@ -374,6 +374,118 @@
       
         
   <h2 class="title">
+    <a href="/2020/08/31/Servlet%E4%BC%98%E5%8C%96%E4%B9%8B%E5%8A%9F%E8%83%BD%E9%87%8D%E7%BB%84%E6%88%90%E6%A8%A1%E5%9D%97/">
+      Servlet优化之功能重组成模块
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+<div class='new-meta-item author'>
+  <a href="https://liizhi.cn" target="_blank" rel="nofollow noopener">
+    <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/03/13/8mvbCj.jpg">
+    <p>Chemlez</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Java/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>Java</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-edit" aria-hidden="true"></i>
+    <p>发布于：Aug 31, 2020</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard" aria-hidden="true"></i>
+      <p>1.9k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half" aria-hidden="true"></i>
+      <p>8 min</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <p>在之前的总结<btn><a href="http://www.liizhi.cn/2020/08/16/Java%E5%88%9D%E8%AF%95MVC%E5%8F%8A%E4%B8%89%E5%B1%82%E6%9E%B6%E6%9E%84/" target="_blank" rel="noopener">Java初试MVC及三层架构</a></btn>中，查看其目录结构仅仅对于<code>User</code>对象的操作就写了6，7个<code>servlet</code>，而每一个<code>servlet</code>只对应一个功能，但随着以后项目的扩大，业务逻辑的复杂化，我们需要操作的对象不仅仅是一个<code>User</code>类时，换句话说，我们操作数据库中的表不止一张时，那么可想而知我们的servlet需要写多少！</p>
+<img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/08/31/dXaNXq.png" alt="未优化前的目录结构" style="zoom:50%;" />
+
+<p><strong>思考:</strong>我们能否像<code>service</code>层和<code>dao</code>层一样，将关于<code>User</code>的操作都写在一个类当中，方便我们的使用呢。从而减少<code>Servlet</code>的数量，现在是一个功能一个<code>Servlet</code>，将其优化为一个模块一个<code>Servlet</code>，相当于在数据库中一张表对应一个<code>Servlet</code>，在<code>Servlet</code>中提供不同的方法，完成用户的请求。</p>
+<p>我们编写的所有<code>servlet</code>都继承了<code>HttpServlet</code>，与此同时都复写了<code>doGet</code>以及<code>doPost</code>方法。查看<code>HttpServlet</code>源码，可以看见对<code>doGet</code>以及<code>doPost</code>的方法的调用都写在<code>service</code>中。</p>
+      
+        
+          <div class="button readmore">
+            <a href="/2020/08/31/Servlet%E4%BC%98%E5%8C%96%E4%B9%8B%E5%8A%9F%E8%83%BD%E9%87%8D%E7%BB%84%E6%88%90%E6%A8%A1%E5%9D%97/">
+              Read More <i class="fas fa-chevron-right"></i>
+            </a>
+          </div>
+        
+      
+    </div>
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow floatable reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
     <a href="/2020/08/27/%E5%89%8D%E7%AB%AF%E4%B9%8B%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81/">
       前端之表单验证
     </a>
@@ -1450,115 +1562,6 @@
           </div>
         
       
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow floatable reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2020/01/22/%E4%BA%91%E7%AB%AFMySQL%E5%AE%89%E8%A3%85%E5%8F%8A%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE/">
-      云端MySQL安装及相关配置
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-<div class='new-meta-item author'>
-  <a href="https://liizhi.cn" target="_blank" rel="nofollow noopener">
-    <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/03/13/8mvbCj.jpg">
-    <p>Chemlez</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Linux/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>Linux</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-edit" aria-hidden="true"></i>
-    <p>发布于：Jan 22, 2020</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard" aria-hidden="true"></i>
-      <p>2.9k words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half" aria-hidden="true"></i>
-      <p>11 min</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <p>由于自己的阿里云账号申请不足6个月，能够享受新用户云服务器ECS89元一年的优惠政策，所以就购买了一台云服务器，作为日常学习的使用。本文用来记录此次装载云服务器所遇到的一些问题及MySQL的安装过程。</p>
-<h4 id="一、云服务器的选配及配置"><a href="#一、云服务器的选配及配置" class="headerlink" title="一、云服务器的选配及配置"></a>一、云服务器的选配及配置</h4><p>此次我选购的服务器网址:<a href="http://aliyun.langsan.com/?bd_vid=8575091722087683835" target="_blank" rel="noopener">http://aliyun.langsan.com/?bd_vid=8575091722087683835</a>。下图为此次所购的云服务器配置:  <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s2.ax1x.com/2020/01/22/1AMtQs.png" alt="服务器配置"> </p>
-      
-        
-          <div class="button readmore">
-            <a href="/2020/01/22/%E4%BA%91%E7%AB%AFMySQL%E5%AE%89%E8%A3%85%E5%8F%8A%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE/">
-              Read More <i class="fas fa-chevron-right"></i>
-            </a>
-          </div>
-        
-      
-    </div>
-  </section>
-</article>
-
-          </div>
-        
-      
     
   </section>
   
@@ -1750,7 +1753,7 @@ window.MathJax = {
           <li><a class="flat-box"
             title="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"
             id="categoriesE8AEBEE8AEA1E6A8A1E5BC8F"
-            ><div class='name'>设计模式</div><div class='badge'>(3)</div></a></li>
+            ><div class='name'>设计模式</div><div class='badge'>(4)</div></a></li>
         
       </ul>
     </div>
@@ -1774,7 +1777,7 @@ window.MathJax = {
 
 
     <div class='content'>
-      <a href="/tags/Beautifulsoup/" style="font-size: 19px; color: #777">Beautifulsoup</a> <a href="/tags/Data-Preprocessing/" style="font-size: 14px; color: #999">Data Preprocessing</a> <a href="/tags/DecisionTree/" style="font-size: 14px; color: #999">DecisionTree</a> <a href="/tags/Feature-Engineering/" style="font-size: 14px; color: #999">Feature Engineering</a> <a href="/tags/Filter/" style="font-size: 14px; color: #999">Filter</a> <a href="/tags/IO%E6%B5%81/" style="font-size: 14px; color: #999">IO流</a> <a href="/tags/JDBC/" style="font-size: 19px; color: #777">JDBC</a> <a href="/tags/JQuery/" style="font-size: 14px; color: #999">JQuery</a> <a href="/tags/Java/" style="font-size: 24px; color: #555">Java</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/JavaWeb/" style="font-size: 19px; color: #777">JavaWeb</a> <a href="/tags/Kaggle/" style="font-size: 14px; color: #999">Kaggle</a> <a href="/tags/Linux/" style="font-size: 19px; color: #777">Linux</a> <a href="/tags/MBG/" style="font-size: 14px; color: #999">MBG</a> <a href="/tags/MVC/" style="font-size: 14px; color: #999">MVC</a> <a href="/tags/Mapper/" style="font-size: 14px; color: #999">Mapper</a> <a href="/tags/Mongodb/" style="font-size: 14px; color: #999">Mongodb</a> <a href="/tags/MySQL/" style="font-size: 24px; color: #555">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 24px; color: #555">Mybatis</a> <a href="/tags/Nginx/" style="font-size: 14px; color: #999">Nginx</a> <a href="/tags/Python/" style="font-size: 14px; color: #999">Python</a> <a href="/tags/Request/" style="font-size: 19px; color: #777">Request</a> <a href="/tags/Servlet/" style="font-size: 24px; color: #555">Servlet</a> <a href="/tags/Spring/" style="font-size: 19px; color: #777">Spring</a> <a href="/tags/SpringMVC/" style="font-size: 19px; color: #777">SpringMVC</a> <a href="/tags/Springboot-starter/" style="font-size: 14px; color: #999">Springboot-starter</a> <a href="/tags/VMware/" style="font-size: 14px; color: #999">VMware</a> <a href="/tags/conda/" style="font-size: 14px; color: #999">conda</a> <a href="/tags/git/" style="font-size: 14px; color: #999">git</a> <a href="/tags/hexo/" style="font-size: 14px; color: #999">hexo</a> <a href="/tags/redis/" style="font-size: 14px; color: #999">redis</a> <a href="/tags/servlet/" style="font-size: 14px; color: #999">servlet</a> <a href="/tags/sklearn/" style="font-size: 19px; color: #777">sklearn</a> <a href="/tags/ssm/" style="font-size: 14px; color: #999">ssm</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">依赖倒置原则</a> <a href="/tags/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" style="font-size: 14px; color: #999">动态代理</a> <a href="/tags/%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">单一职责原则</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 19px; color: #777">反射</a> <a href="/tags/%E5%A0%86%E6%8E%92%E5%BA%8F/" style="font-size: 14px; color: #999">堆排序</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 14px; color: #999">并查集</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 19px; color: #777">正则表达式</a> <a href="/tags/%E6%BA%90%E7%A0%81/" style="font-size: 19px; color: #777">源码</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 19px; color: #777">爬虫</a> <a href="/tags/%E7%BB%84%E5%90%88%E4%BC%98%E4%BA%8E%E7%BB%A7%E6%89%BF%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">组合优于继承原则</a> <a href="/tags/%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81/" style="font-size: 14px; color: #999">表单验证</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 24px; color: #555">设计模式</a>
+      <a href="/tags/Beautifulsoup/" style="font-size: 17.33px; color: #828282">Beautifulsoup</a> <a href="/tags/Data-Preprocessing/" style="font-size: 14px; color: #999">Data Preprocessing</a> <a href="/tags/DecisionTree/" style="font-size: 14px; color: #999">DecisionTree</a> <a href="/tags/Feature-Engineering/" style="font-size: 14px; color: #999">Feature Engineering</a> <a href="/tags/Filter/" style="font-size: 14px; color: #999">Filter</a> <a href="/tags/IO%E6%B5%81/" style="font-size: 14px; color: #999">IO流</a> <a href="/tags/JDBC/" style="font-size: 17.33px; color: #828282">JDBC</a> <a href="/tags/JQuery/" style="font-size: 14px; color: #999">JQuery</a> <a href="/tags/Java/" style="font-size: 20.67px; color: #6c6c6c">Java</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/JavaWeb/" style="font-size: 17.33px; color: #828282">JavaWeb</a> <a href="/tags/Kaggle/" style="font-size: 14px; color: #999">Kaggle</a> <a href="/tags/Linux/" style="font-size: 17.33px; color: #828282">Linux</a> <a href="/tags/MBG/" style="font-size: 14px; color: #999">MBG</a> <a href="/tags/MVC/" style="font-size: 14px; color: #999">MVC</a> <a href="/tags/Mapper/" style="font-size: 14px; color: #999">Mapper</a> <a href="/tags/Mongodb/" style="font-size: 14px; color: #999">Mongodb</a> <a href="/tags/MySQL/" style="font-size: 20.67px; color: #6c6c6c">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 20.67px; color: #6c6c6c">Mybatis</a> <a href="/tags/Nginx/" style="font-size: 14px; color: #999">Nginx</a> <a href="/tags/Python/" style="font-size: 14px; color: #999">Python</a> <a href="/tags/Request/" style="font-size: 17.33px; color: #828282">Request</a> <a href="/tags/Servlet/" style="font-size: 20.67px; color: #6c6c6c">Servlet</a> <a href="/tags/Spring/" style="font-size: 17.33px; color: #828282">Spring</a> <a href="/tags/SpringMVC/" style="font-size: 17.33px; color: #828282">SpringMVC</a> <a href="/tags/Springboot-starter/" style="font-size: 14px; color: #999">Springboot-starter</a> <a href="/tags/VMware/" style="font-size: 14px; color: #999">VMware</a> <a href="/tags/conda/" style="font-size: 14px; color: #999">conda</a> <a href="/tags/git/" style="font-size: 14px; color: #999">git</a> <a href="/tags/hexo/" style="font-size: 14px; color: #999">hexo</a> <a href="/tags/redis/" style="font-size: 14px; color: #999">redis</a> <a href="/tags/servlet/" style="font-size: 14px; color: #999">servlet</a> <a href="/tags/sklearn/" style="font-size: 17.33px; color: #828282">sklearn</a> <a href="/tags/ssm/" style="font-size: 14px; color: #999">ssm</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">依赖倒置原则</a> <a href="/tags/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" style="font-size: 14px; color: #999">动态代理</a> <a href="/tags/%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">单一职责原则</a> <a href="/tags/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">原型模式</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 17.33px; color: #828282">反射</a> <a href="/tags/%E5%A0%86%E6%8E%92%E5%BA%8F/" style="font-size: 14px; color: #999">堆排序</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 14px; color: #999">并查集</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 17.33px; color: #828282">正则表达式</a> <a href="/tags/%E6%BA%90%E7%A0%81/" style="font-size: 17.33px; color: #828282">源码</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 17.33px; color: #828282">爬虫</a> <a href="/tags/%E7%BB%84%E5%90%88%E4%BC%98%E4%BA%8E%E7%BB%A7%E6%89%BF%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">组合优于继承原则</a> <a href="/tags/%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81/" style="font-size: 14px; color: #999">表单验证</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 24px; color: #555">设计模式</a>
     </div>
   </section>
 
@@ -1830,7 +1833,7 @@ window.MathJax = {
     
       
         <div class='copyright'>
-        <p><a href="https://liizhi.cn" target="_blank" rel="noopener">Copyright © 2019-2020 Chemlez</a></p>
+        <p><a href="https://liizhi.cn" target="_blank" rel="noopener">Copyright © 2019-2021 Chemlez</a></p>
 
         </div>
       
