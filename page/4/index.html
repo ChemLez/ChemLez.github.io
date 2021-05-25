@@ -374,6 +374,123 @@
       
         
   <h2 class="title">
+    <a href="/2020/02/09/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%86%B3%E7%AD%96%E6%A0%91%E5%85%A5%E9%97%A8%E4%B9%8B%E6%B3%B0%E5%9D%A6%E5%B0%BC%E5%85%8B%E5%8F%B7%E6%A1%88%E4%BE%8B/">
+      机器学习:决策树入门之泰坦尼克号案例
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+<div class='new-meta-item author'>
+  <a href="https://chemlez.cn" target="_blank" rel="nofollow noopener">
+    <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/03/13/8mvbCj.jpg">
+    <p>Chemlez</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Machine-Learning/sklearn/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>Machine Learning&nbsp;/&nbsp;sklearn</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-edit" aria-hidden="true"></i>
+    <p>发布于：Feb 9, 2020</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard" aria-hidden="true"></i>
+      <p>1.9k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half" aria-hidden="true"></i>
+      <p>8 min</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <p>本文用于记录机器学习中的一次入门练习，即：利用决策树进行简单的二分类。同时，结合Kaggle上的经典案例Titanic，来测试实际效果。</p>
+<h1 id="一、数据集"><a href="#一、数据集" class="headerlink" title="一、数据集"></a>一、数据集</h1><p>采用<a href="https://www.kaggle.com/c/titanic/data" target="_blank" rel="noopener">Kaggle</a>中的Titanic的数据集。数据包含分为：  </p>
+<ul>
+<li>训练集: training set (train.csv)</li>
+<li>测试集: test set (test.csv)</li>
+<li>提交标准: gender_submission.csv  </li>
+</ul>
+<p>由于Kaggle涉及到科学上网的操作，所以<a href="https://github.com/ChemLez/ML-sklearn/tree/master/1-%20DecisionTree" target="_blank" rel="noopener">原始数据集</a>已经下载好放在Gighub上了。</p>
+<h1 id="二、数据处理"><a href="#二、数据处理" class="headerlink" title="二、数据处理"></a>二、数据处理</h1><p>首先导入训练集，查看数据的情况：  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.tree <span class="keyword">import</span> DecisionTreeClassifier <span class="comment"># 导入模型决策树分类器</span></span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> cross_val_score,train_test_split,GridSearchCV <span class="comment"># 导入的模型作用分别为交叉验证、训练集与数据集的划分，网格搜索</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">data = pd.read_csv(<span class="string">'/Users/liz/code/jupyter-notebook/sklearn/1- DecisionTree/Titanic_train.csv'</span>) <span class="comment"># 导入数据集</span></span><br><span class="line">data.head() <span class="comment"># 显示数据集的前五行</span></span><br><span class="line">[out]:</span><br></pre></td></tr></table></figure>
+      
+        
+          <div class="button readmore">
+            <a href="/2020/02/09/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%86%B3%E7%AD%96%E6%A0%91%E5%85%A5%E9%97%A8%E4%B9%8B%E6%B3%B0%E5%9D%A6%E5%B0%BC%E5%85%8B%E5%8F%B7%E6%A1%88%E4%BE%8B/">
+              Read More <i class="fas fa-chevron-right"></i>
+            </a>
+          </div>
+        
+      
+    </div>
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post white-box shadow floatable reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
     <a href="/2020/01/22/%E4%BA%91%E7%AB%AFMySQL%E5%AE%89%E8%A3%85%E5%8F%8A%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE/">
       云端MySQL安装及相关配置
     </a>
@@ -1192,7 +1309,7 @@
           <li><a class="flat-box"
             title="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"
             id="categoriesE8AEBEE8AEA1E6A8A1E5BC8F"
-            ><div class='name'>设计模式</div><div class='badge'>(4)</div></a></li>
+            ><div class='name'>设计模式</div><div class='badge'>(5)</div></a></li>
         
       </ul>
     </div>
@@ -1216,7 +1333,7 @@
 
 
     <div class='content'>
-      <a href="/tags/Beautifulsoup/" style="font-size: 17.33px; color: #828282">Beautifulsoup</a> <a href="/tags/Data-Preprocessing/" style="font-size: 14px; color: #999">Data Preprocessing</a> <a href="/tags/DecisionTree/" style="font-size: 14px; color: #999">DecisionTree</a> <a href="/tags/Feature-Engineering/" style="font-size: 14px; color: #999">Feature Engineering</a> <a href="/tags/Filter/" style="font-size: 14px; color: #999">Filter</a> <a href="/tags/IO%E6%B5%81/" style="font-size: 14px; color: #999">IO流</a> <a href="/tags/JDBC/" style="font-size: 17.33px; color: #828282">JDBC</a> <a href="/tags/JQuery/" style="font-size: 14px; color: #999">JQuery</a> <a href="/tags/Java/" style="font-size: 20.67px; color: #6c6c6c">Java</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/JavaWeb/" style="font-size: 17.33px; color: #828282">JavaWeb</a> <a href="/tags/Kaggle/" style="font-size: 14px; color: #999">Kaggle</a> <a href="/tags/Linux/" style="font-size: 17.33px; color: #828282">Linux</a> <a href="/tags/MBG/" style="font-size: 14px; color: #999">MBG</a> <a href="/tags/MVC/" style="font-size: 14px; color: #999">MVC</a> <a href="/tags/Mapper/" style="font-size: 14px; color: #999">Mapper</a> <a href="/tags/Mongodb/" style="font-size: 14px; color: #999">Mongodb</a> <a href="/tags/MySQL/" style="font-size: 20.67px; color: #6c6c6c">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 20.67px; color: #6c6c6c">Mybatis</a> <a href="/tags/Nginx/" style="font-size: 14px; color: #999">Nginx</a> <a href="/tags/Python/" style="font-size: 14px; color: #999">Python</a> <a href="/tags/Request/" style="font-size: 17.33px; color: #828282">Request</a> <a href="/tags/Servlet/" style="font-size: 20.67px; color: #6c6c6c">Servlet</a> <a href="/tags/Spring/" style="font-size: 17.33px; color: #828282">Spring</a> <a href="/tags/SpringMVC/" style="font-size: 17.33px; color: #828282">SpringMVC</a> <a href="/tags/Springboot-starter/" style="font-size: 14px; color: #999">Springboot-starter</a> <a href="/tags/VMware/" style="font-size: 14px; color: #999">VMware</a> <a href="/tags/conda/" style="font-size: 14px; color: #999">conda</a> <a href="/tags/git/" style="font-size: 14px; color: #999">git</a> <a href="/tags/hexo/" style="font-size: 14px; color: #999">hexo</a> <a href="/tags/redis/" style="font-size: 14px; color: #999">redis</a> <a href="/tags/servlet/" style="font-size: 14px; color: #999">servlet</a> <a href="/tags/sklearn/" style="font-size: 17.33px; color: #828282">sklearn</a> <a href="/tags/ssm/" style="font-size: 14px; color: #999">ssm</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">依赖倒置原则</a> <a href="/tags/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" style="font-size: 14px; color: #999">动态代理</a> <a href="/tags/%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">单一职责原则</a> <a href="/tags/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">原型模式</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 17.33px; color: #828282">反射</a> <a href="/tags/%E5%A0%86%E6%8E%92%E5%BA%8F/" style="font-size: 14px; color: #999">堆排序</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 14px; color: #999">并查集</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 17.33px; color: #828282">正则表达式</a> <a href="/tags/%E6%BA%90%E7%A0%81/" style="font-size: 17.33px; color: #828282">源码</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 17.33px; color: #828282">爬虫</a> <a href="/tags/%E7%BB%84%E5%90%88%E4%BC%98%E4%BA%8E%E7%BB%A7%E6%89%BF%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">组合优于继承原则</a> <a href="/tags/%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81/" style="font-size: 14px; color: #999">表单验证</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 24px; color: #555">设计模式</a>
+      <a href="/tags/Beautifulsoup/" style="font-size: 17.33px; color: #828282">Beautifulsoup</a> <a href="/tags/Data-Preprocessing/" style="font-size: 14px; color: #999">Data Preprocessing</a> <a href="/tags/DecisionTree/" style="font-size: 14px; color: #999">DecisionTree</a> <a href="/tags/Feature-Engineering/" style="font-size: 14px; color: #999">Feature Engineering</a> <a href="/tags/Filter/" style="font-size: 14px; color: #999">Filter</a> <a href="/tags/IO%E6%B5%81/" style="font-size: 14px; color: #999">IO流</a> <a href="/tags/JDBC/" style="font-size: 17.33px; color: #828282">JDBC</a> <a href="/tags/JQuery/" style="font-size: 14px; color: #999">JQuery</a> <a href="/tags/Java/" style="font-size: 20.67px; color: #6c6c6c">Java</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/JavaWeb/" style="font-size: 17.33px; color: #828282">JavaWeb</a> <a href="/tags/Kaggle/" style="font-size: 14px; color: #999">Kaggle</a> <a href="/tags/Linux/" style="font-size: 17.33px; color: #828282">Linux</a> <a href="/tags/MBG/" style="font-size: 14px; color: #999">MBG</a> <a href="/tags/MVC/" style="font-size: 14px; color: #999">MVC</a> <a href="/tags/Mapper/" style="font-size: 14px; color: #999">Mapper</a> <a href="/tags/Mongodb/" style="font-size: 14px; color: #999">Mongodb</a> <a href="/tags/MySQL/" style="font-size: 20.67px; color: #6c6c6c">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 20.67px; color: #6c6c6c">Mybatis</a> <a href="/tags/Nginx/" style="font-size: 14px; color: #999">Nginx</a> <a href="/tags/Python/" style="font-size: 14px; color: #999">Python</a> <a href="/tags/Request/" style="font-size: 17.33px; color: #828282">Request</a> <a href="/tags/Servlet/" style="font-size: 20.67px; color: #6c6c6c">Servlet</a> <a href="/tags/Spring/" style="font-size: 17.33px; color: #828282">Spring</a> <a href="/tags/SpringMVC/" style="font-size: 17.33px; color: #828282">SpringMVC</a> <a href="/tags/Springboot-starter/" style="font-size: 14px; color: #999">Springboot-starter</a> <a href="/tags/VMware/" style="font-size: 14px; color: #999">VMware</a> <a href="/tags/conda/" style="font-size: 14px; color: #999">conda</a> <a href="/tags/git/" style="font-size: 14px; color: #999">git</a> <a href="/tags/hexo/" style="font-size: 14px; color: #999">hexo</a> <a href="/tags/redis/" style="font-size: 14px; color: #999">redis</a> <a href="/tags/servlet/" style="font-size: 14px; color: #999">servlet</a> <a href="/tags/sklearn/" style="font-size: 17.33px; color: #828282">sklearn</a> <a href="/tags/ssm/" style="font-size: 14px; color: #999">ssm</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">依赖倒置原则</a> <a href="/tags/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" style="font-size: 14px; color: #999">动态代理</a> <a href="/tags/%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">单一职责原则</a> <a href="/tags/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">原型模式</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 17.33px; color: #828282">反射</a> <a href="/tags/%E5%A0%86%E6%8E%92%E5%BA%8F/" style="font-size: 14px; color: #999">堆排序</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 14px; color: #999">并查集</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E9%9A%94%E7%A6%BB%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">接口隔离原则</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 17.33px; color: #828282">正则表达式</a> <a href="/tags/%E6%BA%90%E7%A0%81/" style="font-size: 17.33px; color: #828282">源码</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 17.33px; color: #828282">爬虫</a> <a href="/tags/%E7%BB%84%E5%90%88%E4%BC%98%E4%BA%8E%E7%BB%A7%E6%89%BF%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">组合优于继承原则</a> <a href="/tags/%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81/" style="font-size: 14px; color: #999">表单验证</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 24px; color: #555">设计模式</a>
     </div>
   </section>
 
