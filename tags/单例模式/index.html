@@ -18,7 +18,7 @@
 
   <!-- 页面元数据 -->
   
-    <title>Archive: 2019/8 - Liz&#39;blog</title>
+    <title>Tag: 单例模式 - Liz&#39;blog</title>
   
   
 
@@ -68,93 +68,7 @@
 
 <body>
   
-  <div class="cover-wrapper">
-    
-      <cover class='cover  half'>
-        <div class='cover-body'>
-  <div class='a'>
-    
-    
-      <p class="title">Chemlez</p>
-    
-    
-  </div>
-  <div class='b'>
-    
-      <div class="m_search">
-        <form name="searchform" class="form u-search-form">
-          <input type="text" class="input u-search-input" placeholder="" />
-          <i class="icon fas fa-search fa-fw"></i>
-        </form>
-      </div>
-    
-    <div class='menu navigation'>
-      <ul class='h-list'>
-        
-          
-            <li>
-              <a class="nav home"
-                href="/"
-                
-                
-                id="home">
-                <i class='fas fa-home fa-fw'></i>&nbsp;主页
-              </a>
-            </li>
-          
-            <li>
-              <a class="nav home"
-                href="/categories/"
-                
-                
-                id="categories">
-                <i class='fas fa-folder-open fa-fw'></i>&nbsp;分类
-              </a>
-            </li>
-          
-            <li>
-              <a class="nav home"
-                href="/archives/"
-                
-                  rel="external nofollow noopener noreferrer"
-                
-                
-                  target="_blank"
-                
-                id="archives">
-                <i class='fas fa-archive fa-fw'></i>&nbsp;归档
-              </a>
-            </li>
-          
-            <li>
-              <a class="nav home"
-                href="/friends/"
-                
-                
-                id="friends">
-                <i class='fas fa-link fa-fw'></i>&nbsp;友链
-              </a>
-            </li>
-          
-            <li>
-              <a class="nav home"
-                href="/about/"
-                
-                
-                id="about">
-                <i class='fas fa-info-circle fa-fw'></i>&nbsp;关于
-              </a>
-            </li>
-          
-        
-      </ul>
-    </div>
-  </div>
-</div>
-
-      </cover>
-    
-    <div id="loading-bar-wrapper">
+  <div id="loading-bar-wrapper">
   <div id="loading-bar"></div>
 </div>
 <header class="l_header shadow blur">
@@ -433,16 +347,17 @@
 </ul>
 <script>setLoadingBarProgress(40);</script>
 
-  </div>
 
 
-  <div class="l_body">
+  <div class="l_body nocover">
     <div class='body-wrapper'>
       
 
+
 <div class='l_main'>
-	
-		
+  
+    
+      
   <section class="post-list ">
     
       
@@ -466,8 +381,8 @@
       
         
   <h2 class="title">
-    <a href="/2019/08/28/hexo-yilia-%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%9B%B8%E5%86%8C%E5%8A%9F%E8%83%BD/">
-      Hexo yilia 主题添加相册功能
+    <a href="/2021/05/26/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">
+      设计模式之单例模式
     </a>
   </h2>
 
@@ -490,6 +405,14 @@
         
           
             
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>设计模式</p>
+    </a>
+  </div>
+
 
           
         
@@ -497,7 +420,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-edit" aria-hidden="true"></i>
-    <p>发布于：Aug 28, 2019</p>
+    <p>发布于：May 26, 2021</p>
   </a>
 </div>
 
@@ -508,13 +431,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard" aria-hidden="true"></i>
-      <p>2.1k words</p>
+      <p>2.7k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half" aria-hidden="true"></i>
-      <p>8 min</p>
+      <p>10 min</p>
     </a>
   </div>
 
@@ -536,14 +459,30 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p>当我们使用hexo博客框架中的yilia主题时，在我们这一博客页面中，原作者Litten并未帮我们添加相册这一功能。这时，如果想让我们的博客拥有相册的功能，就需要我们自行添加改变、添加主题中的相关参数。从网上百度了很多，看了许多的博客，还是遇到了一些坑爬不过去。最终，还是请教了一个小伙伴才得以解决。</p>
-<h2 id="一、博客页面添加相册"><a href="#一、博客页面添加相册" class="headerlink" title="一、博客页面添加相册"></a>一、博客页面添加相册</h2><p>首先，打开cmd进入blog的source目录下，创建photos文件夹。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">E:\&gt;cd blog</span><br><span class="line">E:\blog&gt;cd source</span><br><span class="line">E:\blog\source&gt;hexo new page &quot;photos&quot;</span><br><span class="line">INFO  Created: E:\blog\source\photos\index.md</span><br></pre></td></tr></table></figure>
-<p>删除文件夹中的index.md文件，否则最终生成的是一个单纯的页面。也可以直接进入source文件下创建photos文件夹。</p>
+      <p>本文用来介绍设计模式中的单例模式。</p>
+<h4 id="一、基本介绍"><a href="#一、基本介绍" class="headerlink" title="一、基本介绍"></a>一、基本介绍</h4><p>所谓类的单例设计模式，就是采取一定的方法保证在整个的软件系统中，对某个类只能存在一个对象实例， 并且该类只提供一个取得其对象实例的方法(静态方法)。</p>
+<p>并且常见的单例设计模式共有八种：</p>
+<ul>
+<li>饿汉式(静态常量)</li>
+<li>饿汉式(静态代码块的方式)</li>
+<li>懒汉式(线程不安全)</li>
+<li>懒汉式(线程安全，同步方法)</li>
+<li>懒汉式(线程安全，同步代码块)</li>
+<li>双重检查</li>
+<li>静态内部类</li>
+<li>枚举</li>
+</ul>
+<p>接下来，我们将逐一介绍这八种单例设计模式。</p>
+<p>单例模式设计步骤如下：</p>
+<ol>
+<li>构造器私有化(防止new)</li>
+<li>类的内部创建对象</li>
+<li>向外暴露一个静态的公共方法。</li>
+</ol>
       
         
           <div class="button readmore">
-            <a href="/2019/08/28/hexo-yilia-%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%9B%B8%E5%86%8C%E5%8A%9F%E8%83%BD/">
+            <a href="/2021/05/26/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">
               Read More <i class="fas fa-chevron-right"></i>
             </a>
           </div>
@@ -567,7 +506,8 @@
   
 
 
-	
+    
+  
 </div>
 <aside class='l_side'>
   
@@ -794,14 +734,6 @@
   </footer>
 
 <script>setLoadingBarProgress(80);</script>
-
-
-
-
-	<!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-	
-
-	
 
 
       <script>setLoadingBarProgress(60);</script>
