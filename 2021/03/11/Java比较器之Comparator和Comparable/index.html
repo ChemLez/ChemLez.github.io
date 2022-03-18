@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Java比较器之Comparator和Comparable - Liz&#39;blog</title>
+  
+  
+    <meta name="description" content="本文用来简单记录Java中Comparator和Comparable接口特点与使用。
+首先，分别查看官方对这两个接口的描述定义：
+一、Comparator接口
+This is a functional interface and can therefore be used as the assignment ta...">
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css">
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+  <link rel="shortcut icon" type='image/x-icon' href="https://s1.ax1x.com/2020/03/15/81ZR5F.jpg">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1.5.2/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+
+  <div class='wrapper'>
+    <div class='nav-sub container--flex'>
+      <a class="logo flat-box"></a>
+      <ul class='switcher h-list'>
+        <li><a class="s-comment flat-btn fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc flat-btn fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main container container--flex">
+      
+        
+        <a class="logo flat-box" target="_self" href='/'>
+          
+          
+          
+          
+            CHEMLEZ <b><sup style='color:#3AA757'></sup></b>
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='h-list'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-home fa-fw'></i>
+                  
+                  主页
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" 
+                  
+                  
+                  >
+                  
+                    <i class='fas fa-list-alt fa-fw fa-fw'></i>
+                  
+                  索引
+                </a>
+                
+                  <ul class="submenu">
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  
+                    <i class='fas fa-tags fa-fw'></i>
+                  
+                  标签
+                </a>
+                
+              </li>
+            
+          
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  
+                    <i class='fas fa-folder-open fa-fw'></i>
+                  
+                  类别
+                </a>
+                
+              </li>
+            
+          
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  
+                    <i class='fas fa-archive fa-fw'></i>
+                  
+                  归档
+                </a>
+                
+              </li>
+            
+          
+                    
+                  </ul>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  
+                    <i class='fas fa-link fa-fw'></i>
+                  
+                  友链
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  
+                    <i class='fas fa-info-circle fa-fw'></i>
+                  
+                  关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      
+        <div class="m_search">
+          <form name="searchform" class="form u-search-form">
+            <i class="icon fas fa-search fa-fw"></i>
+            <input type="text" class="input u-search-input" placeholder="搜索" />
+          </form>
+        </div>
+      
+
+			<ul class='switcher h-list'>
+				
+					<li><a class="s-search flat-btn fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li><a class="s-menu flat-btn fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+	</div>
+</header>
+<ul class="menu-phone navigation white-box">
+  
+  
+    <li>
+      <a class="flat-box" href=/
+        
+        
+        
+          id="home"
+        >
+        
+          <i class='fas fa-clock fa-fw fa-fw'></i>
+        
+        近期文章
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/archives/
+        
+        
+        
+          id="archives"
+        >
+        
+          <i class='fas fa-list-alt fa-fw fa-fw'></i>
+        
+        文章归档
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/categories/
+        
+        
+        
+          id="categories"
+        >
+        
+          <i class='fas fa-folder-open fa-fw'></i>
+        
+        文章类别
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/tags/
+        
+        
+        
+          id="tags"
+        >
+        
+          <i class='fas fa-tags fa-fw'></i>
+        
+        文章标签
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/friends/
+        
+        
+        
+          id="friends"
+        >
+        
+          <i class='fas fa-link fa-fw'></i>
+        
+        我的友链
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/about/
+        
+        
+        
+          id="about"
+        >
+        
+          <i class='fas fa-info-circle fa-fw'></i>
+        
+        关于小站
+      </a>
+    </li>
+  
+</ul>
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box shadow floatable article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2021/03/11/Java%E6%AF%94%E8%BE%83%E5%99%A8%E4%B9%8BComparator%E5%92%8CComparable/">
+        Java比较器之Comparator和Comparable
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+<div class='new-meta-item author'>
+  <a href="https://chemlez.cn" target="_blank" rel="nofollow noopener">
+    <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/03/13/8mvbCj.jpg">
+    <p>Chemlez</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Java/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>Java</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-edit" aria-hidden="true"></i>
+    <p>发布于：Mar 11, 2021</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>本文用来简单记录<code>Java</code>中<code>Comparator</code>和<code>Comparable</code>接口特点与使用。</p>
+<p>首先，分别查看官方对这两个接口的描述定义：</p>
+<h4 id="一、Comparator接口"><a href="#一、Comparator接口" class="headerlink" title="一、Comparator接口"></a>一、Comparator接口</h4><blockquote>
+<p>This is a functional interface and can therefore be used as the assignment target for a lambda expression or method reference.</p>
+<p>A comparison function, which imposes a <em>total ordering</em> on some collection of objects.</p>
+</blockquote>
+<p>可以看出官方对该接口的描述是，它是一种比较函数，用于对一些集合中的对象进行总的排序。即：对集合中的元素进行排序。通过其源码可以看出，除了<code>compare(T o1,T o2)</code>方法，其他方法都给了默认实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">compare</span><span class="params">(T o1, T o2)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>所以要想使用该接口，就得实现该接口的此方法。那么，该接口的作用是什么呢？</p>
+<a id="more"></a>
+
+<p>实现接口<code>Comparator&lt;T&gt;</code>类型的任何类都必须要有一个<code>compare</code>的方法，该方法有两个泛型类型(AnyType)的参数 并返回一个<code>int</code>型的量，遵守和<code>compareTo</code>(Comparable接口中需要实现的方法)相同的约定。</p>
+<p>简而言之，是对集合中的元素，进行比较。该接口用来返回<code>int</code>类型的结果。当返回是一个正数时，表明<code>o1</code>在集合中的排列在<code>o2</code>之前(<strong>注意：这里只是说<code>o1</code>排列在<code>o2</code>之前，并没有说<code>o1</code>大于/小于<code>o2</code>，因此这里的比较，只是用来确定元素在集合中的排列顺序，说大小的比较其实并不太准确</strong>)；当返回是一个负数时，表明<code>o2</code>在集合中排列在<code>o1</code>之前；如果返回0，那么<code>o1</code>和<code>o2</code>的排列先后顺序没有关系，简单理解成两个对象”相等”。</p>
+<p>我们以最简单的例子，来对上面的说法进行实践：</p>
+<p><code>Java</code>中的<code>java.util.Arrays</code>中的<code>sort</code>方法如果对<code>int</code>类型的数组进行排序，默认是升序排序，这里我们自定义一个<code>Comparator</code>接口来实现降序排序。</p>
+<ol>
+<li>自定义<code>Comparator</code>接口</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyComparator</span> <span class="keyword">implements</span> <span class="title">Comparator</span>&lt;<span class="title">Integer</span>&gt; </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(Integer o1, Integer o2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (o1 - o2 &gt; <span class="number">0</span>) &#123; <span class="comment">//  该条件表明o1大于o2，o1排列在o2之后</span></span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (o1 - o2 &lt; <span class="number">0</span>) &#123; <span class="comment">// 该条件表明o1小于o2，o1排列在o2之前</span></span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 顺序无关</span></span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>使用自定的接口</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyComparatorTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Random random = <span class="keyword">new</span> Random();</span><br><span class="line">        Integer[] res = <span class="keyword">new</span> Integer[<span class="number">20</span>];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">20</span>; ++i) &#123;</span><br><span class="line">            res[i] = random.nextInt(<span class="number">50</span>) + <span class="number">50</span>; <span class="comment">// 随机生成 50 到 100 之间的随机整数</span></span><br><span class="line">        &#125;</span><br><span class="line">        Arrays.sort(res, <span class="keyword">new</span> MyComparator());</span><br><span class="line">        System.out.println(Arrays.toString(res));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">=====结果=====</span><br><span class="line">[<span class="number">96</span>, <span class="number">87</span>, <span class="number">87</span>, <span class="number">85</span>, <span class="number">84</span>, <span class="number">80</span>, <span class="number">80</span>, <span class="number">78</span>, <span class="number">78</span>, <span class="number">74</span>, <span class="number">68</span>, <span class="number">65</span>, <span class="number">65</span>, <span class="number">65</span>, <span class="number">64</span>, <span class="number">63</span>, <span class="number">53</span>, <span class="number">53</span>, <span class="number">53</span>, <span class="number">51</span>]</span><br></pre></td></tr></table></figure>
+
+<p>所以，<code>Comparator</code>用于指定集合中对象的排列方式，并且我们在使用<code>Comparator</code>接口时，是专门定义类(工具类)去实现该接口，使得该工具类与被比较对象的类进行了分离。如果对被需要比较的对象修改了比较策略，那么只需要修改我们的工具类即可，因此大大降低了对象之间的耦合性(与<code>Comparable</code>接口最大的不同之处)，更具有灵活性。</p>
+<h4 id="二、Comparable接口"><a href="#二、Comparable接口" class="headerlink" title="二、Comparable接口"></a>二、Comparable接口</h4><blockquote>
+<p>This interface imposes a total ordering on the objects of each class that implements it. This ordering is referred to as the class’s <em>natural ordering</em>, and the class’s <code>compareTo</code> method is referred to as its <em>natural comparison method</em>.</p>
+</blockquote>
+<p>从上面的实现中看出，对实现该接口的对象进行一个”总”的排序。即：如果想要使用该接口的排列策略，让需要排列的对象的类实现该接口。</p>
+<p>其源码:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Compares this object with the specified object for order.  Returns a</span></span><br><span class="line"><span class="comment">     * negative integer, zero, or a positive integer as this object is less</span></span><br><span class="line"><span class="comment">     * than, equal to, or greater than the specified object.</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(T o)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>使用方式同<code>Comparator</code>接口，只是这里是实现<code>compareTo</code>接口。</p>
+<p>这里我们自定义一个<code>People</code>类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">People</span>  <span class="keyword">implements</span> <span class="title">Comparable</span>&lt;<span class="title">Object</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> salary;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">People</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">People</span><span class="params">(<span class="keyword">int</span> age, String name, <span class="keyword">double</span> salary)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.salary = salary;</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    	getter / setter / toString 方法的省略</span></span><br><span class="line"><span class="comment">    **/</span></span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">        People tempPeople = (People) o;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.age &gt; tempPeople.getAge()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.age &lt; tempPeople.getAge()) &#123;</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.salary &gt; tempPeople.getSalary()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.salary &lt; tempPeople.getSalary()) &#123;</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们看出我们自定义的<code>People</code>类实现了<code>Comparable</code>接口，实现的比较规则是，先按照年龄的大小进行排序，如果年龄大小相同，按照工资的大小进行排序，否则最终返回<code>0</code>.(代表此时两个对象”相等”)。</p>
+<p>接下来来对该类进行测试：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    People p1 = <span class="keyword">new</span> People(<span class="number">24</span>, <span class="string">"Lisa"</span>, <span class="number">4000</span>d);</span><br><span class="line">    People p2 = <span class="keyword">new</span> People(<span class="number">24</span>, <span class="string">"Lisa"</span>, <span class="number">5000</span>d);</span><br><span class="line">    People p3 = <span class="keyword">new</span> People(<span class="number">25</span>, <span class="string">"Lisa"</span>, <span class="number">5000</span>d);</span><br><span class="line"></span><br><span class="line">    People[] people = &#123;p1, p2, p3&#125;;</span><br><span class="line">    Arrays.sort(people);</span><br><span class="line">    System.out.println(Arrays.toString(people));</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">====结果====</span><br><span class="line">[People&#123;age=<span class="number">24</span>, name=<span class="string">'Lisa'</span>, salary=<span class="number">4000.0</span>&#125;, People&#123;age=<span class="number">24</span>, name=<span class="string">'Lisa'</span>, salary=<span class="number">5000.0</span>&#125;, People&#123;age=<span class="number">25</span>, name=<span class="string">'Lisa'</span>, salary=<span class="number">5000.0</span>&#125;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h4><blockquote>
+<p><code>Comparable</code>接口和<code>Comparator</code>接口区别</p>
+</blockquote>
+<ol>
+<li><code>Comparator</code>位于包<code>Java.util</code>下，而<code>Comparable</code>位于包<code>Java.lang</code>包下。</li>
+<li><code>Comparable</code>接口将比较代码嵌入需要进行比较的自身代码中，而<code>Comparator</code>接口在一个独立的类中实现比较。</li>
+<li><code>Comparable</code>接口需要实现重写<code>comparaTo</code>方法，同时<code>Comparable</code>是排序接口，若一个类实现了<code>Comparable</code>接口，该类支持排序，相当于内部比较器，<code>Comparator</code>相当于外部比较器。<code>Comparable</code>接口强制进行自然排序，<code>Comparator</code>不强制，可以指定排序。</li>
+<li><code>Comparator</code>更适用于<code>Java</code>提供的类使用；<code>Comparable</code>适用我们自定义的类使用(嵌入在自定义的类中)</li>
+</ol>
+
+          
+            <br>
+            
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.chemlez.cn/2021/03/11/Java%E6%AF%94%E8%BE%83%E5%99%A8%E4%B9%8BComparator%E5%92%8CComparable/>https://www.chemlez.cn/2021/03/11/Java%E6%AF%94%E8%BE%83%E5%99%A8%E4%B9%8BComparator%E5%92%8CComparable/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget related_posts  desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-bookmark fa-fw" aria-hidden="true"></i><span class='name'>相关文章</span>
+    
+  </header>
+
+
+    <div class="content">
+      <ul class="popular-posts"><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="/2019/11/18/JDBC基础使用/" title="JDBC基础使用" rel="bookmark">JDBC基础使用</a></h3></div></li></ul>
+    </div>
+  </section>
+
+
+  
+
+
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-17T14:03:33+08:00">
+  <a class='notlink'>
+    <i class="fas fa-save" aria-hidden="true"></i>
+    <p>更新于：Mar 17, 2021</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.chemlez.cn/2021/03/11/Java%E6%AF%94%E8%BE%83%E5%99%A8%E4%B9%8BComparator%E5%92%8CComparable/&title=Java比较器之Comparator和Comparable - Liz'blog&summary=本文用来简单记录Java中Comparator和Comparable接口特点与使用。
+首先，分别查看官方对这两个接口的描述定义：
+一、Comparator接口
+This is a functional interface and can therefore be used as the assignment target for a lambda expression or method reference.
+A comparison function, which imposes a total ordering on some collection of objects.
+
+可以看出官方对该接口的描述是，它是一种比较函数，用于对一些集合中的对象进行总的排序。即：对集合中的元素进行排序。通过其源码可以看出，除了compare(T o1,T o2)方法，其他方法都给了默认实现。
+1int compare(T o1, T o2);
+
+所以要想使用该接口，就得实现该接口的此方法。那么，该接口的作用是什么呢？"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.chemlez.cn/2021/03/11/Java%E6%AF%94%E8%BE%83%E5%99%A8%E4%B9%8BComparator%E5%92%8CComparable/&title=Java比较器之Comparator和Comparable - Liz'blog&summary=本文用来简单记录Java中Comparator和Comparable接口特点与使用。
+首先，分别查看官方对这两个接口的描述定义：
+一、Comparator接口
+This is a functional interface and can therefore be used as the assignment target for a lambda expression or method reference.
+A comparison function, which imposes a total ordering on some collection of objects.
+
+可以看出官方对该接口的描述是，它是一种比较函数，用于对一些集合中的对象进行总的排序。即：对集合中的元素进行排序。通过其源码可以看出，除了compare(T o1,T o2)方法，其他方法都给了默认实现。
+1int compare(T o1, T o2);
+
+所以要想使用该接口，就得实现该接口的此方法。那么，该接口的作用是什么呢？"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.chemlez.cn/2021/03/11/Java%E6%AF%94%E8%BE%83%E5%99%A8%E4%B9%8BComparator%E5%92%8CComparable/&title=Java比较器之Comparator和Comparable - Liz'blog&summary=本文用来简单记录Java中Comparator和Comparable接口特点与使用。
+首先，分别查看官方对这两个接口的描述定义：
+一、Comparator接口
+This is a functional interface and can therefore be used as the assignment target for a lambda expression or method reference.
+A comparison function, which imposes a total ordering on some collection of objects.
+
+可以看出官方对该接口的描述是，它是一种比较函数，用于对一些集合中的对象进行总的排序。即：对集合中的元素进行排序。通过其源码可以看出，除了compare(T o1,T o2)方法，其他方法都给了默认实现。
+1int compare(T o1, T o2);
+
+所以要想使用该接口，就得实现该接口的此方法。那么，该接口的作用是什么呢？"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXgAAAF4CAAAAAB79r16AAAFKUlEQVR42u3dQW4bMRAEQP3/08k9gbCcnqasBMWbZO+SLPLSmDH8+mX8yHghAA/eAA/eAA/eKMC/wvHXC//4Pn3u7YIf3vf0nqd1PD3X8gIPHjx48ODBgwcPvgmfLmQK9PSeKez0grTmiw8OPHjw4MGDBw8ePPgL8NOgkn4+PcDpgU8PZAs/9gIPHjx48ODBgwcP/gvhU6jb808D1nR+8ODBgwcPHjx48OD/Zfi0EDEtrKQNTnVI8ODBgwcPHjx48OC/AH7coPMAnQaVTxdAWhflY51k4MGDBw8ePHjw4MEHYxpI/rfPsRd48ODBgwcPHjx48AX47ZgGlGnB4lahZNt4FXuBBw8ePHjw4MGDB1+ATwNCWjBpFTROD3y6ntODSn3AgwcPHjx48ODBg78B3w4W0wAzDT5pgJsGtO2FAQ8ePHjw4MGDBw/+JnyrsNEKKGlQm75nGqziCwMePHjw4MGDBw8e/AX4FGDb+DQNdO2gtT2I4/eBBw8ePHjw4MGDB1+An4KdLnTbCJUeQBqQ0vWMLwx48ODBgwcPHjx48BfgWw0/rcJBCp8WeNLgdewFHjx48ODBgwcPHvwPwE+h00LFdGyDWLqecWEGPHjw4MGDBw8ePPgi/LQxZxpstlDT97Z+Lw1Qb58DDx48ePDgwYMHD74InzbotBqSWoWNWwWetFBznFzBgwcPHjx48ODBgw/+wHgabKbfpxDTg9gWWNKDPV4XePDgwYMHDx48ePAF+GlgmG6gDTUtwEzB0oM4DljgwYMHDx48ePDgwRfgt41I24JIC/g0aLUOLr4o4MGDBw8ePHjw4MFfgL9VSJgWNFrzTwNSC/i4AgUePHjw4MGDBw8e/EX4aVDaBpnpc8eFiOW+tgcDHjx48ODBgwcPHnwTfhtMxo09w+C1nb8VkNYXDDx48ODBgwcPHjz4AnwrQJxu6HZD0jZgbd9/HKDAgwcPHjx48ODBgy/AtwNGrQFo2dh0ehG28z2tGzx48ODBgwcPHjz4G/BpISMtcNyC2TZetRqm3n4GDx48ePDgwYMHD74I3yp8pKAtsOn30wC3DYrgwYMHDx48ePDgwd+EvxVQTgNSGlC2QSttXKoFKPDgwYMHDx48ePDgB/9It7WRdoEkXec0yLXX8fZ58ODBgwcPHjx48OCL8O3AdArTamDaFiq2jVzHPwcPHjx48ODBgwcP/oPw25+n0C2IViFnetDgwYMHDx48ePDgwd+AT4NB2gDVDlbtQHfrfeDBgwcPHjx48ODBN+GngSgFbhUw0qA0fd/2gN7uDzx48ODBgwcPHjz4AvwTwOnndIPtQkxa6JheoPiigQcPHjx48ODBgwdfhN8WQKYLa8G0DjwtyJzuDzx48ODBgwcPHjz4G/BpAaK1kdaBTQ8wbWhK3cCDBw8ePHjw4MGDb8BvJ24VTtKNpY1J6YVKgxp48ODBgwcPHjx48E347Wg1GG3fk673dgEGPHjw4MGDBw8ePPgb8K9wpAuZBpo0mLWC0XT+x/2CBw8ePHjw4MGDB1+Eny54W/A4DWDbIJYe1LX5wYMHDx48ePDgwYO/AJ8GiHYAuwV7Gtja+wIPHjx48ODBgwcP/hvhp89v50mD3jTgtfYJHjx48ODBgwcPHvw3wk9h0sJJu+EpDUZxQQg8ePDgwYMHDx48+AvwKdSnCg+twLQd6XzgwYMHDx48ePDgwTfhU4BWAEkPcNrYNG5AKhVAwIMHDx48ePDgwYNvwhufHeDBgzfAgzfAgzcW4zcocS2/pysb6gAAAABJRU5ErkJggg==">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/2021/03/17/%E5%88%9D%E6%8E%A2%E5%B9%B6%E6%9F%A5%E9%9B%86/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>初探并查集</p>
+                <p class='content'>本文用来记录对并查集的学习与总结，并通过leetcode的两道题目来加深对其的理论与实战学习(实现代码Java)。学习一种数据结构，最高效的方式，就是学以致用，所以这里，以leetcode的题目...</p>
+              </a>
+            
+            
+              <a class='next' href='/2020/11/29/%E4%BB%8EServlet%E5%88%B0HttpServlet%E9%83%BD%E7%BB%8F%E5%8E%86%E4%BA%86%E4%BB%80%E4%B9%88/'>
+                <p class='title'>从Servlet到HttpServlet都经历了什么<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>在之前的文章Servlet执行原理浅谈中对Servlet的整个原理做了大概介绍。我们知道客户端发送的请求是交给Servlet中的service方法进行处理。而在实际使用时，并没有直接重写serv...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box comments shadow floatable">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> Comment</p>
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-spinner fa-spin fa-fw"></i>
+          </div>
+        </section>
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Java比较器之Comparator和Comparable',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+    
+    
+
+<section class="widget blogger shadow floatable desktop">
+  <div class='content'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='https://s1.ax1x.com/2020/03/13/8mvbCj.jpg'/>
+      </div>
+    
+    
+      <div class='text'>
+        
+        
+        
+          <p><span id="jinrishici-sentence">Liz'blog</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="https://github.com/Chemlez"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://weibo.com/u/5653780011?nick=Sane_z&is_all=1"
+              class="social fab fa-weibo flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="mailto:liz_1106@163.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget category shadow floatable desktop">
+    
+  <header>
+    
+      <a href='/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <ul class="entry navigation">
+        
+          <li><a class="flat-box"
+            title="/categories/Java/" href="/categories/Java/"
+            id="categoriesJava"
+            ><div class='name'>Java</div><div class='badge'>(17)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Java/%E6%A1%86%E6%9E%B6/" href="/categories/Java/%E6%A1%86%E6%9E%B6/"
+            id="categoriesJavaE6A186E69EB6"
+            ><div class='name'>框架</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Linux/" href="/categories/Linux/"
+            id="categoriesLinux"
+            ><div class='name'>Linux</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Machine-Learning/" href="/categories/Machine-Learning/"
+            id="categoriesMachine-Learning"
+            ><div class='name'>Machine Learning</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Machine-Learning/sklearn/" href="/categories/Machine-Learning/sklearn/"
+            id="categoriesMachine-Learningsklearn"
+            ><div class='name'>sklearn</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Mongodb/" href="/categories/Mongodb/"
+            id="categoriesMongodb"
+            ><div class='name'>Mongodb</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Nginx/" href="/categories/Nginx/"
+            id="categoriesNginx"
+            ><div class='name'>Nginx</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Python/" href="/categories/Python/"
+            id="categoriesPython"
+            ><div class='name'>Python</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Python/%E7%88%AC%E8%99%AB/" href="/categories/Python/%E7%88%AC%E8%99%AB/"
+            id="categoriesPythonE788ACE899AB"
+            ><div class='name'>爬虫</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/git/" href="/categories/git/"
+            id="categoriesgit"
+            ><div class='name'>git</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E5%89%8D%E7%AB%AF/" href="/categories/%E5%89%8D%E7%AB%AF/"
+            id="categoriesE5898DE7ABAF"
+            ><div class='name'>前端</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"
+            id="categoriesE5A49AE7BABFE7A88B"
+            ><div class='name'>多线程</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"
+            id="categoriesE695B0E68DAEE7BB93E69E84E4B88EE7AE97E6B395"
+            ><div class='name'>数据结构与算法</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"
+            id="categoriesE8AEBEE8AEA1E6A8A1E5BC8F"
+            ><div class='name'>设计模式</div><div class='badge'>(10)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget tagcloud shadow floatable desktop">
+    
+  <header>
+    
+      <a href='/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <a href="/tags/Beautifulsoup/" style="font-size: 17.33px; color: #828282">Beautifulsoup</a> <a href="/tags/Data-Preprocessing/" style="font-size: 14px; color: #999">Data Preprocessing</a> <a href="/tags/DecisionTree/" style="font-size: 14px; color: #999">DecisionTree</a> <a href="/tags/Feature-Engineering/" style="font-size: 14px; color: #999">Feature Engineering</a> <a href="/tags/Filter/" style="font-size: 14px; color: #999">Filter</a> <a href="/tags/IO%E6%B5%81/" style="font-size: 14px; color: #999">IO流</a> <a href="/tags/JDBC/" style="font-size: 17.33px; color: #828282">JDBC</a> <a href="/tags/JQuery/" style="font-size: 14px; color: #999">JQuery</a> <a href="/tags/Java/" style="font-size: 20.67px; color: #6c6c6c">Java</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/JavaWeb/" style="font-size: 17.33px; color: #828282">JavaWeb</a> <a href="/tags/Kaggle/" style="font-size: 14px; color: #999">Kaggle</a> <a href="/tags/Linux/" style="font-size: 17.33px; color: #828282">Linux</a> <a href="/tags/MBG/" style="font-size: 14px; color: #999">MBG</a> <a href="/tags/MVC/" style="font-size: 14px; color: #999">MVC</a> <a href="/tags/Mapper/" style="font-size: 14px; color: #999">Mapper</a> <a href="/tags/Mongodb/" style="font-size: 14px; color: #999">Mongodb</a> <a href="/tags/MySQL/" style="font-size: 20.67px; color: #6c6c6c">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 20.67px; color: #6c6c6c">Mybatis</a> <a href="/tags/Nginx/" style="font-size: 14px; color: #999">Nginx</a> <a href="/tags/Python/" style="font-size: 14px; color: #999">Python</a> <a href="/tags/Request/" style="font-size: 17.33px; color: #828282">Request</a> <a href="/tags/Servlet/" style="font-size: 20.67px; color: #6c6c6c">Servlet</a> <a href="/tags/Spring/" style="font-size: 17.33px; color: #828282">Spring</a> <a href="/tags/SpringMVC/" style="font-size: 17.33px; color: #828282">SpringMVC</a> <a href="/tags/Springboot-starter/" style="font-size: 14px; color: #999">Springboot-starter</a> <a href="/tags/ThreadLocal/" style="font-size: 14px; color: #999">ThreadLocal</a> <a href="/tags/VMware/" style="font-size: 14px; color: #999">VMware</a> <a href="/tags/conda/" style="font-size: 14px; color: #999">conda</a> <a href="/tags/git/" style="font-size: 14px; color: #999">git</a> <a href="/tags/hexo/" style="font-size: 14px; color: #999">hexo</a> <a href="/tags/redis/" style="font-size: 14px; color: #999">redis</a> <a href="/tags/servlet/" style="font-size: 14px; color: #999">servlet</a> <a href="/tags/sklearn/" style="font-size: 17.33px; color: #828282">sklearn</a> <a href="/tags/ssm/" style="font-size: 14px; color: #999">ssm</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">依赖倒置原则</a> <a href="/tags/%E5%89%8D%E7%BC%80%E6%A0%91/" style="font-size: 14px; color: #999">前缀树</a> <a href="/tags/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" style="font-size: 14px; color: #999">动态代理</a> <a href="/tags/%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">单一职责原则</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">单例模式</a> <a href="/tags/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">原型模式</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 17.33px; color: #828282">反射</a> <a href="/tags/%E5%A0%86%E6%8E%92%E5%BA%8F/" style="font-size: 14px; color: #999">堆排序</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 14px; color: #999">多线程</a> <a href="/tags/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">工厂模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 14px; color: #999">并查集</a> <a href="/tags/%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">建造者模式</a> <a href="/tags/%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">开闭原则</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E9%9A%94%E7%A6%BB%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">接口隔离原则</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 17.33px; color: #828282">正则表达式</a> <a href="/tags/%E6%BA%90%E7%A0%81/" style="font-size: 17.33px; color: #828282">源码</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 17.33px; color: #828282">爬虫</a> <a href="/tags/%E7%BB%84%E5%90%88%E4%BC%98%E4%BA%8E%E7%BB%A7%E6%89%BF%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">组合优于继承原则</a> <a href="/tags/%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81/" style="font-size: 14px; color: #999">表单验证</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 24px; color: #555">设计模式</a> <a href="/tags/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">适配器模式</a>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow floatable desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#一、Comparator接口"><span class="toc-text">一、Comparator接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二、Comparable接口"><span class="toc-text">二、Comparable接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#三、总结"><span class="toc-text">三、总结</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="https://github.com/Chemlez"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="https://weibo.com/u/5653780011?nick=Sane_z&amp;is_all=1"
+                class="social fab fa-weibo flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="mailto:liz_1106@163.com"
+                class="social fas fa-envelope flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://chemlez.cn" target="_blank" rel="noopener">Copyright © 2019-2021 Chemlez</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.0/js/valine.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var notify = 'true' == true;
+  var verify = 'true' == true;
+  var valine = new Valine();
+  valine.init({
+    el: '#valine_container',
+    notify: notify,
+    verify: verify,
+    guest_info: guest_info,
+    
+    appId: "YSitK1ig1lRcy3jvrtTzT6fb-MdYXbMMI",
+    appKey: "e7hFf2zqvyWgNmDsClWcM7W3",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'wavatar',
+    lang:'zh-cn',
+    visitor: 'false',
+    highlight:'true'
+  })
+  </script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1.5/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copyed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-clipboard-check');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPYED';
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-exclamation-triangle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+
+  <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "[object Object]";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+<script>!function(e){var c=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){for(var r=0;r<c.length;r++)t=c[r],0<=(n=t.getBoundingClientRect()).bottom&&0<=n.left&&n.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=c[r];t=o,n=function(){c=c.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n&&n()},e.src=i}();var t,n}i(),e.addEventListener("scroll",function(){var t,n;t=i,n=e,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)})}(this);</script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script></body>
+</html>

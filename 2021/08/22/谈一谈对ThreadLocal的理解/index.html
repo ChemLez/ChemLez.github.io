@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>谈一谈对ThreadLocal的理解 - Liz&#39;blog</title>
+  
+    <meta name="keywords" content="多线程,ThreadLocal">
+  
+  
+    <meta name="description" content="最近看面经经常能看到面试官对ThreadLocal方面的提问，于是就去翻了翻ThreadLocal的源码，发现源码并不长，大概看了一通，能看出其中的七七八八，打算借此来梳理一下。PS：HashMap的源码能看明白，看这个源码也不是问题。
+一、基本认识点进源码，看见ThreadLocal是java.lang包下的类...">
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css">
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+  <link rel="shortcut icon" type='image/x-icon' href="https://s1.ax1x.com/2020/03/15/81ZR5F.jpg">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1.5.2/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+
+  <div class='wrapper'>
+    <div class='nav-sub container--flex'>
+      <a class="logo flat-box"></a>
+      <ul class='switcher h-list'>
+        <li><a class="s-comment flat-btn fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc flat-btn fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main container container--flex">
+      
+        
+        <a class="logo flat-box" target="_self" href='/'>
+          
+          
+          
+          
+            CHEMLEZ <b><sup style='color:#3AA757'></sup></b>
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='h-list'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-home fa-fw'></i>
+                  
+                  主页
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" 
+                  
+                  
+                  >
+                  
+                    <i class='fas fa-list-alt fa-fw fa-fw'></i>
+                  
+                  索引
+                </a>
+                
+                  <ul class="submenu">
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  
+                    <i class='fas fa-tags fa-fw'></i>
+                  
+                  标签
+                </a>
+                
+              </li>
+            
+          
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  
+                    <i class='fas fa-folder-open fa-fw'></i>
+                  
+                  类别
+                </a>
+                
+              </li>
+            
+          
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  
+                    <i class='fas fa-archive fa-fw'></i>
+                  
+                  归档
+                </a>
+                
+              </li>
+            
+          
+                    
+                  </ul>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  
+                    <i class='fas fa-link fa-fw'></i>
+                  
+                  友链
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  
+                    <i class='fas fa-info-circle fa-fw'></i>
+                  
+                  关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      
+        <div class="m_search">
+          <form name="searchform" class="form u-search-form">
+            <i class="icon fas fa-search fa-fw"></i>
+            <input type="text" class="input u-search-input" placeholder="搜索" />
+          </form>
+        </div>
+      
+
+			<ul class='switcher h-list'>
+				
+					<li><a class="s-search flat-btn fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li><a class="s-menu flat-btn fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+	</div>
+</header>
+<ul class="menu-phone navigation white-box">
+  
+  
+    <li>
+      <a class="flat-box" href=/
+        
+        
+        
+          id="home"
+        >
+        
+          <i class='fas fa-clock fa-fw fa-fw'></i>
+        
+        近期文章
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/archives/
+        
+        
+        
+          id="archives"
+        >
+        
+          <i class='fas fa-list-alt fa-fw fa-fw'></i>
+        
+        文章归档
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/categories/
+        
+        
+        
+          id="categories"
+        >
+        
+          <i class='fas fa-folder-open fa-fw'></i>
+        
+        文章类别
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/tags/
+        
+        
+        
+          id="tags"
+        >
+        
+          <i class='fas fa-tags fa-fw'></i>
+        
+        文章标签
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/friends/
+        
+        
+        
+          id="friends"
+        >
+        
+          <i class='fas fa-link fa-fw'></i>
+        
+        我的友链
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/about/
+        
+        
+        
+          id="about"
+        >
+        
+          <i class='fas fa-info-circle fa-fw'></i>
+        
+        关于小站
+      </a>
+    </li>
+  
+</ul>
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box shadow floatable article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2021/08/22/%E8%B0%88%E4%B8%80%E8%B0%88%E5%AF%B9ThreadLocal%E7%9A%84%E7%90%86%E8%A7%A3/">
+        谈一谈对ThreadLocal的理解
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+<div class='new-meta-item author'>
+  <a href="https://chemlez.cn" target="_blank" rel="nofollow noopener">
+    <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/03/13/8mvbCj.jpg">
+    <p>Chemlez</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>多线程</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-edit" aria-hidden="true"></i>
+    <p>发布于：Aug 22, 2021</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>最近看面经经常能看到面试官对<code>ThreadLocal</code>方面的提问，于是就去翻了翻<code>ThreadLocal</code>的源码，发现源码并不长，大概看了一通，能看出其中的七七八八，打算借此来梳理一下。PS：HashMap的源码能看明白，看这个源码也不是问题。</p>
+<h4 id="一、基本认识"><a href="#一、基本认识" class="headerlink" title="一、基本认识"></a>一、基本认识</h4><p>点进源码，看见<code>ThreadLocal</code>是<code>java.lang</code>包下的类；在网上也看了看其他人对它的概括，加上自己对看完源码后对<code>ThreadLocal</code>的理解：</p>
+<p>用于线程之间数据的隔离。简单说就是通过<code>ThreadLocal</code>来开辟一块区间存放数据，这个区间作为线程的本地线程存储，只有当前线程才能获取到这个数据，这个数据对其他线程是不可见的。</p>
+<p>可以看到<code>ThreadLocal</code>的公有构造方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ThreadLocal</span><span class="params">()</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>就是用来创建<code>ThreadLocal</code>对象，没有在其中做其他的工作。</p>
+<p>平常用<code>ThreadLocal</code>最多的两个方法就是<code>set</code>、<code>get</code>两个方法；那我们来看一看这两个方法的源码。</p>
+<a id="more"></a>
+
+<h4 id="二、set方法探析"><a href="#二、set方法探析" class="headerlink" title="二、set方法探析"></a>二、set方法探析</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(T value)</span> </span>&#123;</span><br><span class="line">    Thread t = Thread.currentThread();</span><br><span class="line">    ThreadLocalMap map = getMap(t);</span><br><span class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>)</span><br><span class="line">        map.set(<span class="keyword">this</span>, value);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        createMap(t, value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先在使用<code>set</code>方法时，能够看到它先通过<code>Thread</code>的静态方法，来获取到当前线程。这个很关键，因为后面的操作，都是基于当前线程进行的操作，这也是为什么ThreadLocal能够做到线程之间数据隔离的。具体如何做到的，还要继续往下面看。</p>
+<p>获取到当前线程后，通过<code>getMap(t)</code>方法来获取到一个<code>ThreadLocalMap</code>类型的<code>map</code>对象；来，点进<code>getMap</code>方法看看里面是啥：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ThreadLocalMap <span class="title">getMap</span><span class="params">(Thread t)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> t.threadLocals;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>返回的是当前这个线程的属性——<code>threadLocals</code>，继续点进：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ThreadLocal.ThreadLocalMap threadLocals = <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到初始时，这个线程的该属性为<code>null</code>；现在先不管<code>ThreadLocalMap</code>具体是什么，只要明白该类可以由实例化的一个线程内部的属性指向ThreadLocalMap的实例即可。</p>
+<p>下面的逻辑就比较简单了，如果<code>map</code>不为<code>null</code>，就能将<code>value</code>设置到<code>map</code>中，可以看见<code>key</code>是由当前的<code>ThreadLocal</code>对象作为的<code>key</code>；而值是由我们传递的<code>value</code>；如果为<code>null</code>，则进行<code>createMap</code>操作，从方法名也能看出，是先创建出这个<code>map</code>，然后后续再进行赋值的操作。</p>
+<p>好了，可以看出，搞明白这个<code>ThreadLocalMap</code>是个啥，对我们很关键。那么下面我们继续看看<code>ThreadLocalMap</code>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadLocalMap</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> Entry[] table;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> INITIAL_CAPACITY = <span class="number">16</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Entry</span> <span class="keyword">extends</span> <span class="title">WeakReference</span>&lt;<span class="title">ThreadLocal</span>&lt;?&gt;&gt; </span>&#123;</span><br><span class="line">        <span class="comment">/** The value associated with this ThreadLocal. */</span></span><br><span class="line">        Object value;</span><br><span class="line"></span><br><span class="line">        Entry(ThreadLocal&lt;?&gt; k, Object v) &#123;</span><br><span class="line">            <span class="keyword">super</span>(k);</span><br><span class="line">            value = v;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ThreadLocalMap(ThreadLocal&lt;?&gt; firstKey, Object firstValue) &#123;</span><br><span class="line">        table = <span class="keyword">new</span> Entry[INITIAL_CAPACITY];</span><br><span class="line">        <span class="keyword">int</span> i = firstKey.threadLocalHashCode &amp; (INITIAL_CAPACITY - <span class="number">1</span>);</span><br><span class="line">        table[i] = <span class="keyword">new</span> Entry(firstKey, firstValue);</span><br><span class="line">        size = <span class="number">1</span>;</span><br><span class="line">        setThreshold(INITIAL_CAPACITY);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里只列出了该类的部分方法和属性，如果谈到其他的方法和属性，到时再列出来。</p>
+<p>首先该类是<code>ThreadLocal</code>中的静态类，诶，那为什么<code>Thread</code>也能访问到呢？？别忘了，我们开头就提到<code>ThreadLocal</code>是<code>java.lang</code>包下的类，当然<code>ThreadLocalMap</code>同样是，而<code>Thread</code>也是，所以该类对<code>Thread</code>具有包可见性。</p>
+<p>能够看到它其中一个属性为<code>Entry</code>继承了<code>WeakReference</code>，弱引用。也就是说正常情况下，<code>Entry</code>对象的生命周期只能存活到下一次垃圾收集为止。这里<code>Entry</code>是作为<code>ThreadLocalMap</code>中的<code>table</code>数组，也就是<code>map</code>用来散列的<code>table</code>；</p>
+<p>通过其构造方法，能够看出去。将<code>table</code>设置为容量为16，然后通过<code>key</code>的<code>hash</code>来计算散列到的位置<code>i</code>；然后创建<code>Entry</code>节点设置到<code>table[i]</code>处，最后设定<code>table</code>此时的容量为1并设定阈值；设定阈值的方法就不继续看了，就是为了后续方便扩容的判断。到这里大致能看明白<code>ThreadLocalMap</code>的数据结构大致长什么样了；</p>
+<p>再回到上面<code>createMap</code>方法处：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">createMap</span><span class="params">(Thread t, T firstValue)</span> </span>&#123;</span><br><span class="line">    t.threadLocals = <span class="keyword">new</span> ThreadLocalMap(<span class="keyword">this</span>, firstValue);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>创建<code>ThreadLocalMap</code>，并以当前线程引用这个<code>Map</code>；同时，当前的ThreadLocal对象作为key，我们传入的value作为Entry节点的value。此时结构如下图所示：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://z3.ax1x.com/2021/08/22/hpMbnI.png" alt="1"></p>
+<p>这个时候，我们再看一看当<code>map</code>已经存在时，调用<code>map.set(this,value)</code>时的操作：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(ThreadLocal&lt;?&gt; key, Object value)</span> </span>&#123;</span><br><span class="line">    Entry[] tab = table; <span class="comment">// 首先引用当前ThreadLocalMap中的table</span></span><br><span class="line">    <span class="keyword">int</span> len = tab.length; <span class="comment">// 计算table的长度</span></span><br><span class="line">    <span class="keyword">int</span> i = key.threadLocalHashCode &amp; (len-<span class="number">1</span>); <span class="comment">// 除留余数法 计算出关键字应该插入的位置</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (Entry e = tab[i];</span><br><span class="line">         e != <span class="keyword">null</span>;</span><br><span class="line">         e = tab[i = nextIndex(i, len)]) &#123; <span class="comment">// 发生冲突 进行探查/比较</span></span><br><span class="line">        ThreadLocal&lt;?&gt; k = e.get();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (k == key) &#123; <span class="comment">// 与当前探查的key相等直接替换 entry中的值 返回即可</span></span><br><span class="line">            e.value = value;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (k == <span class="keyword">null</span>) &#123; <span class="comment">// 当前探查的key为Null 表明存在过期的entry，那么就开始在set的过程中清除这些过期的entry</span></span><br><span class="line">            replaceStaleEntry(key, value, i);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    tab[i] = <span class="keyword">new</span> Entry(key, value);</span><br><span class="line">    <span class="keyword">int</span> sz = ++size; <span class="comment">// hashtable中元素增加一个</span></span><br><span class="line">    <span class="keyword">if</span> (!cleanSomeSlots(i, sz) &amp;&amp; sz &gt;= threshold) <span class="comment">// 从当前插入位置探查</span></span><br><span class="line">        rehash(); <span class="comment">// rehash操作其中，包含删除旧条目及扩容操作</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其实就是<code>hash</code>的插入方式，通过<code>hash</code>计算到索引的位置，也就是table中的位置，只是这里解决哈希冲突的方式是通过线性探查法进行冲突的解决(HashMap中是通过拉链法进行的解决)。</p>
+<p>其中整个<code>for</code>循环的逻辑是，根据<code>hash</code>函数定位到关键字的位置后，如果当前<code>table[i]</code>上面存在了元素，那么表明可能发生了冲突<strong>或者</strong>就是同一个<code>key</code>，进入<code>for</code>循环中，一个一个判断是否插入的<code>key</code>和冲突的<code>key</code>相等，如果相等那就直接替换该<code>entry</code>上的<code>value</code>；</p>
+<p>如果在探查过程中发现<code>table</code>中的<code>key</code>为null时：这块逻辑比较复杂，目前读源码理解的是，将过时的entry进行删除，用没有过时的key-value进行覆盖，目的是为了防止在后续线程探查解决冲突的时候，冲突的key在数组中是离散的并不是紧凑的；</p>
+<p>最后当探查到一个不存在entry时，表明查找到了应该插入的位置，那么就新建一个<code>entry</code>节点，并将该<code>entry</code>节点设置到该位置上。下面是清除过期entry的逻辑：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">cleanSomeSlots</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">boolean</span> removed = <span class="keyword">false</span>;</span><br><span class="line">    Entry[] tab = table;</span><br><span class="line">    <span class="keyword">int</span> len = tab.length;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        i = nextIndex(i, len);</span><br><span class="line">        Entry e = tab[i]; <span class="comment">// 当前的entry节点</span></span><br><span class="line">        <span class="keyword">if</span> (e != <span class="keyword">null</span> &amp;&amp; e.get() == <span class="keyword">null</span>) &#123; <span class="comment">// 如果key不为Null,但是value为Null</span></span><br><span class="line">            n = len;</span><br><span class="line">            removed = <span class="keyword">true</span>; <span class="comment">// 标记 存在清除过程</span></span><br><span class="line">            i = expungeStaleEntry(i); <span class="comment">// 移除这个过期的entry节点</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">while</span> ( (n &gt;&gt;&gt;= <span class="number">1</span>) != <span class="number">0</span>); <span class="comment">// 每次 除2 探查，采用启发式扫描探查过期的entry</span></span><br><span class="line">    <span class="keyword">return</span> removed;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="三、get方法探析"><a href="#三、get方法探析" class="headerlink" title="三、get方法探析"></a>三、get方法探析</h4><p>大致明白了<code>set</code>方法后，再看<code>get</code>方法会比较轻松。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Thread t = Thread.currentThread(); <span class="comment">// 获取到当前线程</span></span><br><span class="line">    ThreadLocalMap map = getMap(t); <span class="comment">// 获取当前线程的ThreadLocalMap</span></span><br><span class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>) &#123;</span><br><span class="line">        ThreadLocalMap.Entry e = map.getEntry(<span class="keyword">this</span>); <span class="comment">// 通过key获取到value</span></span><br><span class="line">        <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123; </span><br><span class="line">            <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">            T result = (T)e.value;</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> setInitialValue();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同样的获取到当前线程，并且从当前线程中获取到ThreadLocalMap；我们之前看到ThreadLocalMap中<code>set</code>值时，是将ThreadLocal作为key，所以我们通过将<code>ThreadLocal</code>传入获取到<code>value</code>；其中具体的逻辑就不看了，和<code>set</code>差不多，就是通过关键字定位进行比较，线性探查法那一套逻辑。</p>
+<h4 id="四、一些细节"><a href="#四、一些细节" class="headerlink" title="四、一些细节"></a>四、一些细节</h4><h5 id="4-1-ThreadLocalMap中的相关参数"><a href="#4-1-ThreadLocalMap中的相关参数" class="headerlink" title="4.1 ThreadLocalMap中的相关参数"></a>4.1 ThreadLocalMap中的相关参数</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* The number of entries in the table.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> size = <span class="number">0</span>; <span class="comment">// table中初始容量为0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* The next size value at which to resize.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> threshold; <span class="comment">// Default to 0；扩容的阈值</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Set the resize threshold to maintain at worst a 2/3 load factor.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setThreshold</span><span class="params">(<span class="keyword">int</span> len)</span> </span>&#123; <span class="comment">// 装载因子为 2 / 3</span></span><br><span class="line">    threshold = len * <span class="number">2</span> / <span class="number">3</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="4-2-ThreadLocal中的hash问题"><a href="#4-2-ThreadLocal中的hash问题" class="headerlink" title="4.2  ThreadLocal中的hash问题"></a>4.2  ThreadLocal中的hash问题</h5><p>我们知道这里的<code>ThreadLocalMap</code>是通过计算关键字<code>key</code>的<code>hash</code>进行散列的，而<code>key</code>就是不同的<code>ThreadLocal</code>对象，所以看看系统是如何分配这些散列值的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> threadLocalHashCode = nextHashCode();</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> AtomicInteger nextHashCode =</span><br><span class="line">    <span class="keyword">new</span> AtomicInteger();</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> HASH_INCREMENT = <span class="number">0x61c88647</span>; <span class="comment">// 固定值</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">nextHashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> nextHashCode.getAndAdd(HASH_INCREMENT);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>开始时<code>ThreadLocal</code>存在一个final静态变量<code>HASH_INCREMENT</code>；每次实例化<code>ThreadLocal</code>时，都带调用<code>nextHashCode()</code>方法，继而调用原子类的<code>getAndAdd()</code>方法，即：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">getAndAdd</span><span class="params">(<span class="keyword">int</span> delta)</span> </span>&#123; <span class="comment">// delta -&gt; HASH_INCREMENT -&gt; 0x61c88647</span></span><br><span class="line">    <span class="keyword">return</span> unsafe.getAndAddInt(<span class="keyword">this</span>, valueOffset, delta);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以看到是通过<code>cas</code>操作，给每个<code>ThreadLocal</code>对象加上固定的值——<code>HASH_INCREMENT -&gt; 0x61c88647</code>；所以每个<code>ThreadLocal</code>对象的<code>hash</code>值是<code>0x61c88647</code>倍数；</p>
+<h5 id="4-3-ThreadLocalMap的扩容操作"><a href="#4-3-ThreadLocalMap的扩容操作" class="headerlink" title="4.3 ThreadLocalMap的扩容操作"></a>4.3 ThreadLocalMap的扩容操作</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">         * Double the capacity of the table.</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">resize</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Entry[] oldTab = table;</span><br><span class="line">    <span class="keyword">int</span> oldLen = oldTab.length;</span><br><span class="line">    <span class="keyword">int</span> newLen = oldLen * <span class="number">2</span>; <span class="comment">// 两倍扩容</span></span><br><span class="line">    Entry[] newTab = <span class="keyword">new</span> Entry[newLen];</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; oldLen; ++j) &#123; <span class="comment">// 进行节点的搬迁</span></span><br><span class="line">        Entry e = oldTab[j]; </span><br><span class="line">        <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123; <span class="comment">// entry不为空进行搬迁</span></span><br><span class="line">            ThreadLocal&lt;?&gt; k = e.get();</span><br><span class="line">            <span class="keyword">if</span> (k == <span class="keyword">null</span>) &#123; <span class="comment">// 如果key 为null，表示过期</span></span><br><span class="line">                e.value = <span class="keyword">null</span>; <span class="comment">// Help the GC</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">int</span> h = k.threadLocalHashCode &amp; (newLen - <span class="number">1</span>); <span class="comment">// 重新根据hash计算散列的位置</span></span><br><span class="line">                <span class="keyword">while</span> (newTab[h] != <span class="keyword">null</span>) <span class="comment">// 发生冲突，线性探查位置</span></span><br><span class="line">                    h = nextIndex(h, newLen);</span><br><span class="line">                newTab[h] = e;</span><br><span class="line">                count++; <span class="comment">// 计数</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    setThreshold(newLen); <span class="comment">// 设置新的阈值</span></span><br><span class="line">    size = count;</span><br><span class="line">    table = newTab; <span class="comment">// 新table代替旧table</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过注释也能看出，每次进行两倍的扩容。</p>
+<h4 id="五、Thread-ThreadLocal-ThreadLocalMap三者之间的关系"><a href="#五、Thread-ThreadLocal-ThreadLocalMap三者之间的关系" class="headerlink" title="五、Thread/ThreadLocal/ThreadLocalMap三者之间的关系"></a>五、Thread/ThreadLocal/ThreadLocalMap三者之间的关系</h4><p>通过一张图进行说明：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://z3.ax1x.com/2021/08/22/hpMTcd.png" alt="2"></p>
+<p>上面表明两个线程，Thread-1，Thread-2；创建了三个ThreadLocal对象；每个<code>Thread</code>都有自己的<code>ThreadLocalMap</code>；而一个<code>ThreadLocal</code>对于一个<code>Thread</code>只能存放一个变量；所以每个线程的<code>ThreadLocalMap</code>中的<code>key</code>是不同的<code>ThreadLocal</code>；所以，看到<code>ThreadLocal</code>是每个线程可以共用的，但是由于相同的<code>ThreadLocal</code>是作为每个线程中独有的<code>ThreadLocalMap</code>中的<code>key</code>；所以，在不同的线程中，通过<code>ThreadLocal</code>获取到值不一样；<strong>是通过给线程设定独有的<code>ThreadLocalMap</code>来进行的数据隔离</strong>。</p>
+<h4 id="六、简单的例子"><a href="#六、简单的例子" class="headerlink" title="六、简单的例子"></a>六、简单的例子</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(<span class="number">16</span>);</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">f1</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line"></span><br><span class="line">    ThreadLocal&lt;String&gt; threadLocal1 = <span class="keyword">new</span> ThreadLocal&lt;&gt;();</span><br><span class="line">    ThreadLocal&lt;String&gt; threadLocal2 = <span class="keyword">new</span> ThreadLocal&lt;&gt;();</span><br><span class="line">    <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">        threadLocal1.set(<span class="string">"张四"</span>);</span><br><span class="line">        threadLocal2.set(<span class="string">"李五"</span>);</span><br><span class="line">        System.out.println(Thread.currentThread().getName()+<span class="string">":"</span> + threadLocal1.get());</span><br><span class="line">        System.out.println(Thread.currentThread().getName()+<span class="string">":"</span> + threadLocal2.get());</span><br><span class="line">    &#125;,<span class="string">"Thread-1"</span>).start();</span><br><span class="line">    Thread.sleep(<span class="number">10</span>);</span><br><span class="line">    <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">        System.out.println(Thread.currentThread().getName()+<span class="string">":"</span> + threadLocal1.get());</span><br><span class="line">        System.out.println(Thread.currentThread().getName()+<span class="string">":"</span> + threadLocal2.get());</span><br><span class="line">        System.out.println(<span class="string">"=========="</span>);</span><br><span class="line">        threadLocal1.set(<span class="string">"张四"</span>);</span><br><span class="line">        threadLocal2.set(<span class="string">"李五"</span>);</span><br><span class="line">        System.out.println(Thread.currentThread().getName()+<span class="string">":"</span> + threadLocal1.get());</span><br><span class="line">        System.out.println(Thread.currentThread().getName()+<span class="string">":"</span> + threadLocal2.get());</span><br><span class="line">    &#125;,<span class="string">"Thread-2"</span>).start();</span><br><span class="line">&#125;</span><br><span class="line">结果：</span><br><span class="line">Thread-<span class="number">1</span>:张三</span><br><span class="line">Thread-<span class="number">1</span>:李四</span><br><span class="line">Thread-<span class="number">2</span>:<span class="keyword">null</span></span><br><span class="line">Thread-<span class="number">2</span>:<span class="keyword">null</span></span><br><span class="line">==========</span><br><span class="line">Thread-<span class="number">2</span>:张四</span><br><span class="line">Thread-<span class="number">2</span>:李五</span><br></pre></td></tr></table></figure>
+
+<p>看到在<code>Thread-1</code>中设置的值，在<code>Thread-2</code>中并获取不到。</p>
+<h4 id="七、ThreadLocalMap中的弱引用"><a href="#七、ThreadLocalMap中的弱引用" class="headerlink" title="七、ThreadLocalMap中的弱引用"></a>七、ThreadLocalMap中的弱引用</h4><p>可以看到<code>ThreadLocalMap</code>中的<code>Entry</code>节点继承了弱引用引用关系的<code>ThreadLocal</code>；也就是说<code>ThreadLocalMap</code>中的<code>key</code>是弱引用，当他不再关联强引用关系时，在下一次垃圾回收时，便会被回收；但是，其中的<code>value</code>是具有强引用关系的，因此会出现<code>key</code>为<code>null</code>，但是<code>value</code>不为<code>null</code>的情况，也就是说<code>entry</code>节点不为null，而强引用关系的<code>value</code>，它的生命周期同线程的生命周期，因此如果不手动设置为null，会造成内存泄露，继而会引发内存溢出。</p>
+<p>在前面的<code>set</code>、<code>get</code>等方法中，也能看到，他们在遍历的时候，如果发现<code>key</code>为<code>Null</code>的情况，便会进行清除工作，即将<code>value</code>设置为<code>null</code>；</p>
+<p>因此[<a href="https://zhuanlan.zhihu.com/p/102571059" target="_blank" rel="noopener">1</a>]：</p>
+<p>由于Thread中包含变量ThreadLocalMap，因此ThreadLocalMap与Thread的生命周期是一样长，如果都没有手动删除对应key，都会导致内存泄漏。</p>
+<p>但是使用<strong>弱引用</strong>可以多一层保障：弱引用ThreadLocal不会内存泄漏，对应的value在下一次ThreadLocalMap调用set(),get(),remove()的时候会被清除。</p>
+<p>因此，ThreadLocal内存泄漏的根源是：由于ThreadLocalMap的生命周期跟Thread一样长，如果没有手动删除对应key就会导致内存泄漏，而不是因为弱引用。</p>
+<p><strong>正确使用方式：</strong></p>
+<ul>
+<li>每次使用完ThreadLocal都调用它的remove()方法清除数据；</li>
+<li>将ThreadLocal变量定义成private static，这样就一直存在ThreadLocal的强引用，也就能保证任何时候都能通过ThreadLocal的弱引用访问到Entry的value值，进而清除掉 。</li>
+</ul>
+<h4 id="八、使用示例"><a href="#八、使用示例" class="headerlink" title="八、使用示例"></a>八、使用示例</h4><p>需求：在SpringBoot中自定义一个日志类，用于记录一个接口执行花费的时间。</p>
+<p>思路：首先采用注解类，对于标志了注解的接口，统计该接口的一个请求所花费的时间；而对该接口的解析，通过设定过滤器，拦截每一个请求，检查请求的接口是否注解了该接口，如果采用了该注解那么就对该请求进行处理。</p>
+<p>注解类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.annotation.ElementType;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Retention;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.RetentionPolicy;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Target;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Target</span>(ElementType.METHOD) <span class="comment">// 作用在方法上</span></span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME) <span class="comment">// 运行时</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> MyLog &#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">String <span class="title">desc</span><span class="params">()</span> <span class="keyword">default</span> ""</span>; <span class="comment">// 类的描述信息</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Interceptor：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 日志拦截器</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyLogIntercepter</span> <span class="keyword">extends</span> <span class="title">HandlerInterceptorAdapter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 采用ThreadLocal来隔离每个请求接口的线程</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ThreadLocal&lt;Long&gt; startTimeThreadLocal = <span class="keyword">new</span> ThreadLocal&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">preHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        HandlerMethod handlerMethod = (HandlerMethod) handler; <span class="comment">// 执行的方法</span></span><br><span class="line">        Method method = handlerMethod.getMethod(); <span class="comment">// 获取方法对象</span></span><br><span class="line">        MyLog myLog = method.getAnnotation(MyLog<span class="class">.<span class="keyword">class</span>)</span>; <span class="comment">// 获取方法上的注解</span></span><br><span class="line">        <span class="keyword">if</span> (myLog != <span class="keyword">null</span>) &#123; <span class="comment">// 注解不为空</span></span><br><span class="line">            <span class="keyword">long</span> startTime = System.currentTimeMillis(); <span class="comment">// 开始时间</span></span><br><span class="line">            startTimeThreadLocal.set(startTime); <span class="comment">// 设置执行的时间</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 后置处理器</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        HandlerMethod handlerMethod = (HandlerMethod) handler; <span class="comment">// 方法拦截器</span></span><br><span class="line">        Method method = handlerMethod.getMethod(); <span class="comment">// 获得被拦截的方法对象</span></span><br><span class="line">        MyLog myLog = method.getAnnotation(MyLog<span class="class">.<span class="keyword">class</span>)</span>; <span class="comment">// 获取方法上的注解</span></span><br><span class="line">        <span class="keyword">if</span> (myLog != <span class="keyword">null</span>) &#123; <span class="comment">// 存在该注解 则需要进行日志记录</span></span><br><span class="line">            <span class="keyword">long</span> endTime = System.currentTimeMillis();</span><br><span class="line">            Long startTime = startTimeThreadLocal.get();</span><br><span class="line">            <span class="keyword">long</span> optTime = endTime - startTime;</span><br><span class="line">            String requestURI = request.getRequestURI(); <span class="comment">// URI</span></span><br><span class="line">            String methodName = method.getDeclaringClass().getName() + <span class="string">"."</span> + method.getName();  <span class="comment">// 全类名.方法名</span></span><br><span class="line">            String desc = myLog.desc(); <span class="comment">// 方法描述</span></span><br><span class="line">            System.out.println(<span class="string">"请求uri: "</span> + requestURI);</span><br><span class="line">            System.out.println(<span class="string">"请求方法名："</span> + methodName);</span><br><span class="line">            System.out.println(<span class="string">"方法描述："</span> + desc);</span><br><span class="line">            System.out.println(<span class="string">"方法执行时间："</span> + optTime + <span class="string">"ms"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>添加拦截器到配置中：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 这是一个自动配置类，容器启动时，将MyLogAutoConfiguration注入到容器中</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyLogAutoConfiguration</span> <span class="keyword">implements</span> <span class="title">WebMvcConfigurer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 想容器中注册新的拦截器</span></span><br><span class="line"><span class="comment">     * 这个拦截器的作用：统计加入MyLog注解中的方法一个执行周期内的花费的时间</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> registry: 被注册的拦截器</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> </span>&#123;</span><br><span class="line">        registry.addInterceptor(<span class="keyword">new</span> MyLogIntercepter()).addPathPatterns(<span class="string">"/**"</span>).excludePathPatterns(<span class="string">"/images/**"</span>, <span class="string">"/js/**"</span>, <span class="string">"/css/**"</span>, <span class="string">"/toLogin"</span>, <span class="string">"/login"</span>, <span class="string">"/bootstrap-3.3.7-dist/**"</span>, <span class="string">"/favicon.ico"</span>, <span class="string">"/bizhi.jpg"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将自定义的过滤器进行注册，并设定拦截的路径；</p>
+
+          
+            <br>
+            
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.chemlez.cn/2021/08/22/%E8%B0%88%E4%B8%80%E8%B0%88%E5%AF%B9ThreadLocal%E7%9A%84%E7%90%86%E8%A7%A3/>https://www.chemlez.cn/2021/08/22/%E8%B0%88%E4%B8%80%E8%B0%88%E5%AF%B9ThreadLocal%E7%9A%84%E7%90%86%E8%A7%A3/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget related_posts  desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-bookmark fa-fw" aria-hidden="true"></i><span class='name'>相关文章</span>
+    
+  </header>
+
+
+    <div class="content">
+      
+    </div>
+  </section>
+
+
+  
+
+
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-08-30T16:54:41+08:00">
+  <a class='notlink'>
+    <i class="fas fa-save" aria-hidden="true"></i>
+    <p>更新于：Aug 30, 2021</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i><p>多线程</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/ThreadLocal/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i><p>ThreadLocal</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.chemlez.cn/2021/08/22/%E8%B0%88%E4%B8%80%E8%B0%88%E5%AF%B9ThreadLocal%E7%9A%84%E7%90%86%E8%A7%A3/&title=谈一谈对ThreadLocal的理解 - Liz'blog&summary=最近看面经经常能看到面试官对ThreadLocal方面的提问，于是就去翻了翻ThreadLocal的源码，发现源码并不长，大概看了一通，能看出其中的七七八八，打算借此来梳理一下。PS：HashMap的源码能看明白，看这个源码也不是问题。
+一、基本认识点进源码，看见ThreadLocal是java.lang包下的类；在网上也看了看其他人对它的概括，加上自己对看完源码后对ThreadLocal的理解：
+用于线程之间数据的隔离。简单说就是通过ThreadLocal来开辟一块区间存放数据，这个区间作为线程的本地线程存储，只有当前线程才能获取到这个数据，这个数据对其他线程是不可见的。
+可以看到ThreadLocal的公有构造方法：
+12public ThreadLocal() &#123;&#125;
+
+就是用来创建ThreadLocal对象，没有在其中做其他的工作。
+平常用ThreadLocal最多的两个方法就是set、get两个方法；那我们来看一看这两个方法的源码。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.chemlez.cn/2021/08/22/%E8%B0%88%E4%B8%80%E8%B0%88%E5%AF%B9ThreadLocal%E7%9A%84%E7%90%86%E8%A7%A3/&title=谈一谈对ThreadLocal的理解 - Liz'blog&summary=最近看面经经常能看到面试官对ThreadLocal方面的提问，于是就去翻了翻ThreadLocal的源码，发现源码并不长，大概看了一通，能看出其中的七七八八，打算借此来梳理一下。PS：HashMap的源码能看明白，看这个源码也不是问题。
+一、基本认识点进源码，看见ThreadLocal是java.lang包下的类；在网上也看了看其他人对它的概括，加上自己对看完源码后对ThreadLocal的理解：
+用于线程之间数据的隔离。简单说就是通过ThreadLocal来开辟一块区间存放数据，这个区间作为线程的本地线程存储，只有当前线程才能获取到这个数据，这个数据对其他线程是不可见的。
+可以看到ThreadLocal的公有构造方法：
+12public ThreadLocal() &#123;&#125;
+
+就是用来创建ThreadLocal对象，没有在其中做其他的工作。
+平常用ThreadLocal最多的两个方法就是set、get两个方法；那我们来看一看这两个方法的源码。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.chemlez.cn/2021/08/22/%E8%B0%88%E4%B8%80%E8%B0%88%E5%AF%B9ThreadLocal%E7%9A%84%E7%90%86%E8%A7%A3/&title=谈一谈对ThreadLocal的理解 - Liz'blog&summary=最近看面经经常能看到面试官对ThreadLocal方面的提问，于是就去翻了翻ThreadLocal的源码，发现源码并不长，大概看了一通，能看出其中的七七八八，打算借此来梳理一下。PS：HashMap的源码能看明白，看这个源码也不是问题。
+一、基本认识点进源码，看见ThreadLocal是java.lang包下的类；在网上也看了看其他人对它的概括，加上自己对看完源码后对ThreadLocal的理解：
+用于线程之间数据的隔离。简单说就是通过ThreadLocal来开辟一块区间存放数据，这个区间作为线程的本地线程存储，只有当前线程才能获取到这个数据，这个数据对其他线程是不可见的。
+可以看到ThreadLocal的公有构造方法：
+12public ThreadLocal() &#123;&#125;
+
+就是用来创建ThreadLocal对象，没有在其中做其他的工作。
+平常用ThreadLocal最多的两个方法就是set、get两个方法；那我们来看一看这两个方法的源码。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXgAAAF4CAAAAAB79r16AAAFHElEQVR42u3aS64bMQwEQN//0skBAsNis+VPUNo5sUdScTb9yMcf6yPrgQA8eAs8eAs8eKsA/wjXPw8c/u70udvvP/v9q++fPmd8b/DgwYMHDx48ePDgi/DHAWAI/+ri00Kdwpzeb1uIqRd48ODBgwcPHjx48DfgpwCnhZgGmTbgNEBtAxV48ODBgwcPHjx48L8Ef+v3rWA1PVf9vuDBgwcPHjx48ODB/0CAShsI6QDR9HlpQwc8ePDgwYMHDx48+G+CHw/ohBDbwn76Rfj4JBl48ODBgwcPHjx48MGaNjb+t8+xF3jw4MGDBw8ePHjwBfjtelWQtPGQBrH2QFQatJ6eFzx48ODBgwcPHjz4AnwaEKYNginEFjIFbZ0PPHjw4MGDBw8ePPib8Olg0jTgTINYqyHTCmbbAS/w4MGDBw8ePHjw4JvwrYNsQbaFaj0/LfzpCwcePHjw4MGDBw8efAM+DRxp0NoWZh1glo2c0/1rjRDw4MGDBw8ePHjw4IOBpncN+kzPM13pC5B+fvo98ODBgwcPHjx48OCL8GmA2h4kBU8bN+1gNW4EgQcPHjx48ODBgwdfgG8FqdbA061Gy7QBc3r+adADDx48ePDgwYMHD74BvwWbBpltMGo1ZlpBbHwu8ODBgwcPHjx48OAL8GnQSIFT+DS4tQaa0kbOcXIFDx48ePDgwYMHDz6APw0s20GkbaNjetFtkEsD3XEHCjx48ODBgwcPHjz4wkBT2lBIg87twDV9sVqNoVpyBQ8ePHjw4MGDBw9+EKCmF36UV7rftjGzDVbgwYMHDx48ePDgwX8TfAvy1vdPGyPpv9f2Bw8ePHjw4MGDBw++CJ82FFpQrUGlLWR6/+OCgAcPHjx48ODBgwdfgN8Gg22Q2RbidmPldP/jQoEHDx48ePDgwYMHfwH+dDBnG3DSgPat+68DFHjw4MGDBw8ePHjwQSOk9uDDi06DzrbB0jrf1gE8ePDgwYMHDx48+Bvw7UbCNJi0C5eeL10vGyXgwYMHDx48ePDgwRfgbw3wbAPK9vlToOnv4+eDBw8ePHjw4MGDB1+ETx88hWoHl+l+6XlbQQ08ePDgwYMHDx48+CZ8ayBofJCwQTEt4PYFqwVI8ODBgwcPHjx48OAL8GlQSoG3BW9Dnp6vFbjAgwcPHjx48ODBg2/An4K0QU8vOoVuF7R1fvDgwYMHDx48ePDgb8KnEGnDIwVvNVjajaCX/w8ePHjw4MGDBw8e/EX4beDYQm+D0LZRsw1o4MGDBw8ePHjw4MHfhJ8efPqH/9OA0QpEt8C3jRnw4MGDBw8ePHjw4G/Ab8HbjYbTz+2GxtsGmsCDBw8ePHjw4MGDL8C3GhbbBsv0Oa3GTBr0xkEUPHjw4MGDBw8ePPgCfLrxFCANSFu4duNmfQ7w4MGDBw8ePHjw4Avw2zUdQNoGmNPAku6b7n/cWAEPHjx48ODBgwcPvgD/CNcUYFu4NHCl59zuf9wIAQ8ePHjw4MGDBw9+AT8NTGmDYVrYNMC0XphtgAIPHjx48ODBgwcP/h3w4z/sh4Fi+r1todr7rQeawIMHDx48ePDgwYP/Ifhbhds2NtLnjfcDDx48ePDgwYMHD/6L4acX2TZQ0gGjdxUGPHjw4MGDBw8ePPib8NOBptODn14kbTSkL9B28Gkc7MCDBw8ePHjw4MGDL8KngzstkG1BtoEtDU7jFxQ8ePDgwYMHDx48+AK89d4FHjx4Czx4Czx4a7H+AlDaMJL7stBxAAAAAElFTkSuQmCC">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/2021/08/30/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>设计模式之建造者模式</p>
+                <p class='content'>一、定义建造者模式：指将一个复杂对象的构造与它的表示分离，使同样的构建过程可以创建不同的表示，这样的设计模式称为建造者模式。
+概念较为复杂，我们还是通过实例需求进行建造者模式的理解。
+
+
+二、需...</p>
+              </a>
+            
+            
+              <a class='next' href='/2021/07/10/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/'>
+                <p class='title'>设计模式之适配器模式<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>一、介绍概念：一个类的接口转换成客户端希望的另一个接口。适配器模式让那些接口不兼容的类可以一起工作。即根据已有的接口，生成想要的接口。
+先看下面这个小例子体会一下适配器模式：
+123456789...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box comments shadow floatable">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> Comment</p>
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-spinner fa-spin fa-fw"></i>
+          </div>
+        </section>
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '谈一谈对ThreadLocal的理解',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+    
+    
+
+<section class="widget blogger shadow floatable desktop">
+  <div class='content'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='https://s1.ax1x.com/2020/03/13/8mvbCj.jpg'/>
+      </div>
+    
+    
+      <div class='text'>
+        
+        
+        
+          <p><span id="jinrishici-sentence">Liz'blog</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="https://github.com/Chemlez"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://weibo.com/u/5653780011?nick=Sane_z&is_all=1"
+              class="social fab fa-weibo flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="mailto:liz_1106@163.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget category shadow floatable desktop">
+    
+  <header>
+    
+      <a href='/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <ul class="entry navigation">
+        
+          <li><a class="flat-box"
+            title="/categories/Java/" href="/categories/Java/"
+            id="categoriesJava"
+            ><div class='name'>Java</div><div class='badge'>(17)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Java/%E6%A1%86%E6%9E%B6/" href="/categories/Java/%E6%A1%86%E6%9E%B6/"
+            id="categoriesJavaE6A186E69EB6"
+            ><div class='name'>框架</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Linux/" href="/categories/Linux/"
+            id="categoriesLinux"
+            ><div class='name'>Linux</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Machine-Learning/" href="/categories/Machine-Learning/"
+            id="categoriesMachine-Learning"
+            ><div class='name'>Machine Learning</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Machine-Learning/sklearn/" href="/categories/Machine-Learning/sklearn/"
+            id="categoriesMachine-Learningsklearn"
+            ><div class='name'>sklearn</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Mongodb/" href="/categories/Mongodb/"
+            id="categoriesMongodb"
+            ><div class='name'>Mongodb</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Nginx/" href="/categories/Nginx/"
+            id="categoriesNginx"
+            ><div class='name'>Nginx</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Python/" href="/categories/Python/"
+            id="categoriesPython"
+            ><div class='name'>Python</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Python/%E7%88%AC%E8%99%AB/" href="/categories/Python/%E7%88%AC%E8%99%AB/"
+            id="categoriesPythonE788ACE899AB"
+            ><div class='name'>爬虫</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/git/" href="/categories/git/"
+            id="categoriesgit"
+            ><div class='name'>git</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E5%89%8D%E7%AB%AF/" href="/categories/%E5%89%8D%E7%AB%AF/"
+            id="categoriesE5898DE7ABAF"
+            ><div class='name'>前端</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"
+            id="categoriesE5A49AE7BABFE7A88B"
+            ><div class='name'>多线程</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"
+            id="categoriesE695B0E68DAEE7BB93E69E84E4B88EE7AE97E6B395"
+            ><div class='name'>数据结构与算法</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"
+            id="categoriesE8AEBEE8AEA1E6A8A1E5BC8F"
+            ><div class='name'>设计模式</div><div class='badge'>(10)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget tagcloud shadow floatable desktop">
+    
+  <header>
+    
+      <a href='/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <a href="/tags/Beautifulsoup/" style="font-size: 17.33px; color: #828282">Beautifulsoup</a> <a href="/tags/Data-Preprocessing/" style="font-size: 14px; color: #999">Data Preprocessing</a> <a href="/tags/DecisionTree/" style="font-size: 14px; color: #999">DecisionTree</a> <a href="/tags/Feature-Engineering/" style="font-size: 14px; color: #999">Feature Engineering</a> <a href="/tags/Filter/" style="font-size: 14px; color: #999">Filter</a> <a href="/tags/IO%E6%B5%81/" style="font-size: 14px; color: #999">IO流</a> <a href="/tags/JDBC/" style="font-size: 17.33px; color: #828282">JDBC</a> <a href="/tags/JQuery/" style="font-size: 14px; color: #999">JQuery</a> <a href="/tags/Java/" style="font-size: 20.67px; color: #6c6c6c">Java</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/JavaWeb/" style="font-size: 17.33px; color: #828282">JavaWeb</a> <a href="/tags/Kaggle/" style="font-size: 14px; color: #999">Kaggle</a> <a href="/tags/Linux/" style="font-size: 17.33px; color: #828282">Linux</a> <a href="/tags/MBG/" style="font-size: 14px; color: #999">MBG</a> <a href="/tags/MVC/" style="font-size: 14px; color: #999">MVC</a> <a href="/tags/Mapper/" style="font-size: 14px; color: #999">Mapper</a> <a href="/tags/Mongodb/" style="font-size: 14px; color: #999">Mongodb</a> <a href="/tags/MySQL/" style="font-size: 20.67px; color: #6c6c6c">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 20.67px; color: #6c6c6c">Mybatis</a> <a href="/tags/Nginx/" style="font-size: 14px; color: #999">Nginx</a> <a href="/tags/Python/" style="font-size: 14px; color: #999">Python</a> <a href="/tags/Request/" style="font-size: 17.33px; color: #828282">Request</a> <a href="/tags/Servlet/" style="font-size: 20.67px; color: #6c6c6c">Servlet</a> <a href="/tags/Spring/" style="font-size: 17.33px; color: #828282">Spring</a> <a href="/tags/SpringMVC/" style="font-size: 17.33px; color: #828282">SpringMVC</a> <a href="/tags/Springboot-starter/" style="font-size: 14px; color: #999">Springboot-starter</a> <a href="/tags/ThreadLocal/" style="font-size: 14px; color: #999">ThreadLocal</a> <a href="/tags/VMware/" style="font-size: 14px; color: #999">VMware</a> <a href="/tags/conda/" style="font-size: 14px; color: #999">conda</a> <a href="/tags/git/" style="font-size: 14px; color: #999">git</a> <a href="/tags/hexo/" style="font-size: 14px; color: #999">hexo</a> <a href="/tags/redis/" style="font-size: 14px; color: #999">redis</a> <a href="/tags/servlet/" style="font-size: 14px; color: #999">servlet</a> <a href="/tags/sklearn/" style="font-size: 17.33px; color: #828282">sklearn</a> <a href="/tags/ssm/" style="font-size: 14px; color: #999">ssm</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">依赖倒置原则</a> <a href="/tags/%E5%89%8D%E7%BC%80%E6%A0%91/" style="font-size: 14px; color: #999">前缀树</a> <a href="/tags/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" style="font-size: 14px; color: #999">动态代理</a> <a href="/tags/%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">单一职责原则</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">单例模式</a> <a href="/tags/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">原型模式</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 17.33px; color: #828282">反射</a> <a href="/tags/%E5%A0%86%E6%8E%92%E5%BA%8F/" style="font-size: 14px; color: #999">堆排序</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 14px; color: #999">多线程</a> <a href="/tags/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">工厂模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 14px; color: #999">并查集</a> <a href="/tags/%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">建造者模式</a> <a href="/tags/%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">开闭原则</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E9%9A%94%E7%A6%BB%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">接口隔离原则</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 17.33px; color: #828282">正则表达式</a> <a href="/tags/%E6%BA%90%E7%A0%81/" style="font-size: 17.33px; color: #828282">源码</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 17.33px; color: #828282">爬虫</a> <a href="/tags/%E7%BB%84%E5%90%88%E4%BC%98%E4%BA%8E%E7%BB%A7%E6%89%BF%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">组合优于继承原则</a> <a href="/tags/%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81/" style="font-size: 14px; color: #999">表单验证</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 24px; color: #555">设计模式</a> <a href="/tags/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">适配器模式</a>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow floatable desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#一、基本认识"><span class="toc-text">一、基本认识</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二、set方法探析"><span class="toc-text">二、set方法探析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#三、get方法探析"><span class="toc-text">三、get方法探析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#四、一些细节"><span class="toc-text">四、一些细节</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#4-1-ThreadLocalMap中的相关参数"><span class="toc-text">4.1 ThreadLocalMap中的相关参数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-2-ThreadLocal中的hash问题"><span class="toc-text">4.2  ThreadLocal中的hash问题</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-3-ThreadLocalMap的扩容操作"><span class="toc-text">4.3 ThreadLocalMap的扩容操作</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#五、Thread-ThreadLocal-ThreadLocalMap三者之间的关系"><span class="toc-text">五、Thread&#x2F;ThreadLocal&#x2F;ThreadLocalMap三者之间的关系</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#六、简单的例子"><span class="toc-text">六、简单的例子</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#七、ThreadLocalMap中的弱引用"><span class="toc-text">七、ThreadLocalMap中的弱引用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#八、使用示例"><span class="toc-text">八、使用示例</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="https://github.com/Chemlez"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="https://weibo.com/u/5653780011?nick=Sane_z&amp;is_all=1"
+                class="social fab fa-weibo flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="mailto:liz_1106@163.com"
+                class="social fas fa-envelope flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://chemlez.cn" target="_blank" rel="noopener">Copyright © 2019-2021 Chemlez</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.0/js/valine.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var notify = 'true' == true;
+  var verify = 'true' == true;
+  var valine = new Valine();
+  valine.init({
+    el: '#valine_container',
+    notify: notify,
+    verify: verify,
+    guest_info: guest_info,
+    
+    appId: "YSitK1ig1lRcy3jvrtTzT6fb-MdYXbMMI",
+    appKey: "e7hFf2zqvyWgNmDsClWcM7W3",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'wavatar',
+    lang:'zh-cn',
+    visitor: 'false',
+    highlight:'true'
+  })
+  </script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1.5/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copyed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-clipboard-check');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPYED';
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-exclamation-triangle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+
+  <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "[object Object]";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+<script>!function(e){var c=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){for(var r=0;r<c.length;r++)t=c[r],0<=(n=t.getBoundingClientRect()).bottom&&0<=n.left&&n.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=c[r];t=o,n=function(){c=c.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n&&n()},e.src=i}();var t,n}i(),e.addEventListener("scroll",function(){var t,n;t=i,n=e,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)})}(this);</script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script></body>
+</html>

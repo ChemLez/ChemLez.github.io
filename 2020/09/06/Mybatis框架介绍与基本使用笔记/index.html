@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Mybatis框架介绍与基本使用笔记 - Liz&#39;blog</title>
+  
+    <meta name="keywords" content="Mybatis">
+  
+  
+    <meta name="description" content="Mybatis框架介绍与基本使用笔记注意:一般的一个Maven工程首先注入的依赖包含数据库驱动依赖，日志依赖，测试依赖
+domain中的实体类实现serizlizable接口序列化的原因:
+
+最重要的两个原因是：
+　　1、将对象的状态保存在存储媒体中以便可以在以后重新创建出完全相同的副本；
+　　2、按值将对象从一...">
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css">
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+  <link rel="shortcut icon" type='image/x-icon' href="https://s1.ax1x.com/2020/03/15/81ZR5F.jpg">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1.5.2/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+
+  <div class='wrapper'>
+    <div class='nav-sub container--flex'>
+      <a class="logo flat-box"></a>
+      <ul class='switcher h-list'>
+        <li><a class="s-comment flat-btn fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc flat-btn fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main container container--flex">
+      
+        
+        <a class="logo flat-box" target="_self" href='/'>
+          
+          
+          
+          
+            CHEMLEZ <b><sup style='color:#3AA757'></sup></b>
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='h-list'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-home fa-fw'></i>
+                  
+                  主页
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" 
+                  
+                  
+                  >
+                  
+                    <i class='fas fa-list-alt fa-fw fa-fw'></i>
+                  
+                  索引
+                </a>
+                
+                  <ul class="submenu">
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  
+                    <i class='fas fa-tags fa-fw'></i>
+                  
+                  标签
+                </a>
+                
+              </li>
+            
+          
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  
+                    <i class='fas fa-folder-open fa-fw'></i>
+                  
+                  类别
+                </a>
+                
+              </li>
+            
+          
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  
+                    <i class='fas fa-archive fa-fw'></i>
+                  
+                  归档
+                </a>
+                
+              </li>
+            
+          
+                    
+                  </ul>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  
+                    <i class='fas fa-link fa-fw'></i>
+                  
+                  友链
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  
+                    <i class='fas fa-info-circle fa-fw'></i>
+                  
+                  关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      
+        <div class="m_search">
+          <form name="searchform" class="form u-search-form">
+            <i class="icon fas fa-search fa-fw"></i>
+            <input type="text" class="input u-search-input" placeholder="搜索" />
+          </form>
+        </div>
+      
+
+			<ul class='switcher h-list'>
+				
+					<li><a class="s-search flat-btn fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li><a class="s-menu flat-btn fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+	</div>
+</header>
+<ul class="menu-phone navigation white-box">
+  
+  
+    <li>
+      <a class="flat-box" href=/
+        
+        
+        
+          id="home"
+        >
+        
+          <i class='fas fa-clock fa-fw fa-fw'></i>
+        
+        近期文章
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/archives/
+        
+        
+        
+          id="archives"
+        >
+        
+          <i class='fas fa-list-alt fa-fw fa-fw'></i>
+        
+        文章归档
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/categories/
+        
+        
+        
+          id="categories"
+        >
+        
+          <i class='fas fa-folder-open fa-fw'></i>
+        
+        文章类别
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/tags/
+        
+        
+        
+          id="tags"
+        >
+        
+          <i class='fas fa-tags fa-fw'></i>
+        
+        文章标签
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/friends/
+        
+        
+        
+          id="friends"
+        >
+        
+          <i class='fas fa-link fa-fw'></i>
+        
+        我的友链
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/about/
+        
+        
+        
+          id="about"
+        >
+        
+          <i class='fas fa-info-circle fa-fw'></i>
+        
+        关于小站
+      </a>
+    </li>
+  
+</ul>
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box shadow floatable article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2020/09/06/Mybatis%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/">
+        Mybatis框架介绍与基本使用笔记
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+<div class='new-meta-item author'>
+  <a href="https://chemlez.cn" target="_blank" rel="nofollow noopener">
+    <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/03/13/8mvbCj.jpg">
+    <p>Chemlez</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Java/%E6%A1%86%E6%9E%B6/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>Java&nbsp;/&nbsp;框架</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-edit" aria-hidden="true"></i>
+    <p>发布于：Sep 6, 2020</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <h1 id="Mybatis框架介绍与基本使用笔记"><a href="#Mybatis框架介绍与基本使用笔记" class="headerlink" title="Mybatis框架介绍与基本使用笔记"></a>Mybatis框架介绍与基本使用笔记</h1><p><strong>注意:</strong>一般的一个<code>Maven</code>工程首先注入的依赖包含数据库驱动依赖，日志依赖，测试依赖</p>
+<p><code>domain</code>中的实体类实现<code>serizlizable</code>接口序列化的原因:</p>
+<blockquote>
+<p>最重要的两个原因是：</p>
+<p>　　1、将对象的状态保存在存储媒体中以便可以在以后重新创建出完全相同的副本；</p>
+<p>　　2、按值将对象从一个应用程序域发送至另一个应用程序域。</p>
+<p>　　实现<a href="https://www.baidu.com/s?wd=serializable接口&tn=44039180_cpr&fenlei=mv6quAkxTZn0IZRqIHckPjm4nH00T1Y3nHRknHu9uHm4PWTznWNb0ZwV5Hcvrjm3rH6sPfKWUMw85HfYnjn4nH6sgvPsT6KdThsqpZwYTjCEQLGCpyw9Uz4Bmy-bIi4WUvYETgN-TLwGUv3EPHmknjfkn1cd" target="_blank" rel="noopener">serializable接口</a>的作用是就是可以把对象存到字节流，然后可以恢复。所以你想如果你的对象没实现序列化怎么才能进行<a href="https://www.baidu.com/s?wd=网络传输&tn=44039180_cpr&fenlei=mv6quAkxTZn0IZRqIHckPjm4nH00T1Y3nHRknHu9uHm4PWTznWNb0ZwV5Hcvrjm3rH6sPfKWUMw85HfYnjn4nH6sgvPsT6KdThsqpZwYTjCEQLGCpyw9Uz4Bmy-bIi4WUvYETgN-TLwGUv3EPHmknjfkn1cd" target="_blank" rel="noopener">网络传输</a>呢，要<a href="https://www.baidu.com/s?wd=网络传输&tn=44039180_cpr&fenlei=mv6quAkxTZn0IZRqIHckPjm4nH00T1Y3nHRknHu9uHm4PWTznWNb0ZwV5Hcvrjm3rH6sPfKWUMw85HfYnjn4nH6sgvPsT6KdThsqpZwYTjCEQLGCpyw9Uz4Bmy-bIi4WUvYETgN-TLwGUv3EPHmknjfkn1cd" target="_blank" rel="noopener">网络传输</a>就得转为字节流，所以在分布式应用中，你就得实现序列化，如果你不需要分布式应用，那就没那个必要实现序列.</p>
+</blockquote>
+<p><strong>namespace</strong>:名称空间；写接口的全类名；相当于告诉<code>Mybatis</code>这个配置文件是实现哪个接口的;</p>
+<a id="more"></a>
+
+<h2 id="一、Mybatis相关配置"><a href="#一、Mybatis相关配置" class="headerlink" title="一、Mybatis相关配置"></a>一、Mybatis相关配置</h2><blockquote>
+<p>[1] <a href="https://blog.csdn.net/gaoxin_gx/article/details/100183455?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.channel_param&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.channel_param" target="_blank" rel="noopener">mybatis配置文件中config与mapper的约束</a></p>
+</blockquote>
+<p>自己预设定的配置文件:</p>
+<h3 id="1-1-config-mybatis-config-xml-全局配置文件"><a href="#1-1-config-mybatis-config-xml-全局配置文件" class="headerlink" title="1.1 config(mybatis-config.xml)全局配置文件"></a>1.1 config(mybatis-config.xml)全局配置文件</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">configuration</span></span></span><br><span class="line"><span class="meta">        <span class="meta-keyword">PUBLIC</span> <span class="meta-string">"-//mybatis.org//DTD Config 3.0//EN"</span></span></span><br><span class="line"><span class="meta">        <span class="meta-string">"http://mybatis.org/dtd/mybatis-3-config.dtd"</span>&gt;</span> <span class="comment">&lt;!-- 引入Mybatis的配置声明dtd文件 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- mybatis的主配置文件 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 配置环境 若想让environments环境起作用，下列的标签中的配置都需要起作用 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">environments</span> <span class="attr">default</span>=<span class="string">"mysql"</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 配置mysql(default的值)环境 id值等于default的值 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">environment</span> <span class="attr">id</span>=<span class="string">"mysql"</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- 配置事务的类型 --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">transactionManager</span> <span class="attr">type</span>=<span class="string">"JDBC"</span>/&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- 配置数据源(连接池 -\- druid、c3p0..) --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">dataSource</span> <span class="attr">type</span>=<span class="string">"POOLED"</span>&gt;</span></span><br><span class="line">                <span class="comment">&lt;!-- 配置数据库连接的基本信息 --&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driver"</span> <span class="attr">value</span>=<span class="string">"com.mysql.jdbc.Driver"</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"jdbc:mysql://url:3306/mybatis?characterEncoding=utf8"</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"root"</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"root"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">dataSource</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">environment</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">environments</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mappers</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- 使用的是注解 指定映射配置文件的位置(使用注解时，不能留下配置文件的方式，否则会冲突)，映射配置文件指的是每个dao对立的配置文件--&gt;</span></span><br><span class="line"><span class="comment">&lt;!--         &lt;mapper class="cn.lizhi.mybatis_01.dao.UserDao"/&gt; --&gt;</span></span><br><span class="line"><span class="comment">&lt;!--         该包下所有的dao接口都可以使用 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!--        &lt;package name="cn.lizhi.mybatis_01.dao"/&gt;--&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 配置文件的指定方式 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mapper</span> <span class="attr">resource</span>=<span class="string">"cn/lizhi/mybatis_01/dao/UserDao.xml"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">mappers</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="1-1-1-通过properties标签引入外部配置信息-动态配置"><a href="#1-1-1-通过properties标签引入外部配置信息-动态配置" class="headerlink" title="1.1.1 通过properties标签引入外部配置信息(动态配置)"></a>1.1.1 通过properties标签引入外部配置信息(动态配置)</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">configuration</span></span></span><br><span class="line"><span class="meta">        <span class="meta-keyword">PUBLIC</span> <span class="meta-string">"-//mybatis.org//DTD Config 3.0//EN"</span></span></span><br><span class="line"><span class="meta">        <span class="meta-string">"http://mybatis.org/dtd/mybatis-3-config.dtd"</span>&gt;</span> <span class="comment">&lt;!-- 引入Mybatis的配置声明dtd文件 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- mybatis的主配置文件 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 配置properties</span></span><br><span class="line"><span class="comment"> 		 可以在标签内部配置连接数据库的信息。也可以通过属性引用外部配置文件信息</span></span><br><span class="line"><span class="comment">		 resource属性:</span></span><br><span class="line"><span class="comment"> 			用于指定配置文件的位置，是按照类路径的写法来写，并且必须存在与类路径下</span></span><br><span class="line"><span class="comment">		 url属性:</span></span><br><span class="line"><span class="comment">			是要求按照url的写法来写地址</span></span><br><span class="line"><span class="comment">			写法:</span></span><br><span class="line"><span class="comment">				http://localhost:8080/servlet/demoServlet</span></span><br><span class="line"><span class="comment">				协议     主机     端口        URI</span></span><br><span class="line"><span class="comment">			URI：统一资源标识符。应用中可以唯一定位一个资源。</span></span><br><span class="line"><span class="comment">	--&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 方式1.jdbcConfig.properties 是存放在类(resources)路径的根路径下 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">properties</span> <span class="attr">resource</span>=<span class="string">"jdbcConfig.properties"</span>/&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- 方式2. 这种是在标签内部配置连接数据库信息</span></span><br><span class="line"><span class="comment">    &lt;properties&gt;</span></span><br><span class="line"><span class="comment">        &lt;property name="driver" value="com.mysql.jdbc.Driver"/&gt;</span></span><br><span class="line"><span class="comment">        &lt;property name="url" value="jdbc:mysql://url:3306/mybatis?characterEncoding=utf8"/&gt;</span></span><br><span class="line"><span class="comment">        &lt;property name="username" value="root"/&gt;</span></span><br><span class="line"><span class="comment">        &lt;property name="password" value="root"/&gt;</span></span><br><span class="line"><span class="comment">    &lt;/properties&gt;</span></span><br><span class="line"><span class="comment">	--&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- 配置环境 若想让environments环境起作用，下列的标签中的配置都需要起作用 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">environments</span> <span class="attr">default</span>=<span class="string">"mysql"</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 配置mysql(default的值)环境 id值等于default的值 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">environment</span> <span class="attr">id</span>=<span class="string">"mysql"</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- 配置事务的类型 --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">transactionManager</span> <span class="attr">type</span>=<span class="string">"JDBC"</span>/&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- 配置数据源(连接池 -\- druid、c3p0..) --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">dataSource</span> <span class="attr">type</span>=<span class="string">"POOLED"</span>&gt;</span></span><br><span class="line">                <span class="comment">&lt;!-- 配置数据库连接的基本信息 --&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driver"</span> <span class="attr">value</span>=<span class="string">"$&#123;driver&#125;"</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"$&#123;url&#125;"</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"$&#123;username&#125;"</span>/&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;password&#125;"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">dataSource</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">environment</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">environments</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mappers</span>&gt;</span>     </span><br><span class="line">        <span class="tag">&lt;<span class="name">mapper</span> <span class="attr">resource</span>=<span class="string">"cn/lizhi/mybatis_01/dao/UserDao.xml"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">mappers</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>jdbcConfig.properties</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">jdbc.driver=com.mysql.jdbc.Driver</span><br><span class="line">jdbc.url=jdbc:mysql://url:3306/mybatis?characterEncoding=utf8</span><br><span class="line">jdbc.username=root</span><br><span class="line">jdbc.password=root</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-Mapper"><a href="#1-2-Mapper" class="headerlink" title="1.2 Mapper"></a>1.2 Mapper</h3><p><code>Mapper</code>是具体某张表的映射。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">mapper</span></span></span><br><span class="line"><span class="meta">        <span class="meta-keyword">PUBLIC</span> <span class="meta-string">"-//mybatis.org//DTD Mapper 3.0//EN"</span></span></span><br><span class="line"><span class="meta">        <span class="meta-string">"http://mybatis.org/dtd/mybatis-3-mapper.dtd"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mapper</span> <span class="attr">namespace</span>=<span class="string">"com.lizhi.dao.IUserDao"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--配置查询所有，resultType的作用就是返回封装的位置，如果你要是不写的话，最后mybatis是不知道你到底要封装到哪里，会出现错误，我这个是User表，查询的也是这个，最后返回的结果就封装在User类中 id要写对应dao中的方法名称--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findAll"</span> <span class="attr">resultType</span>=<span class="string">"com.lizhi.domain.User"</span>&gt;</span></span><br><span class="line">        SELECT *FROM user</span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--注意在resources中，目录是一级结构，要一个一个创建，而cn.lizhi.mybatis.dao是一个目录。而包是三级结构--&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 使用时直接复制以下的即可 --&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">mapper</span></span></span><br><span class="line"><span class="meta">        <span class="meta-keyword">PUBLIC</span> <span class="meta-string">"-//mybatis.org//DTD Mapper 3.0//EN"</span></span></span><br><span class="line"><span class="meta">        <span class="meta-string">"http://mybatis.org/dtd/mybatis-3-mapper.dtd"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mapper</span> <span class="attr">namespace</span>=<span class="string">""</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">""</span> <span class="attr">resultType</span>=<span class="string">""</span>&gt;</span></span><br><span class="line">        SELECT *FROM user;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>通过实例 – 由<code>Mybatis</code>创建实现<code>Dao</code>的接口，进行数据库的查询时，在<code>mapper</code>中只有<code>id</code>是无法定位到具体数据库访问的方法的，所以要加上<code>namespace</code>，限定住工作空间(即限定住全类名，一个类中，方法名是唯一的)。可以简单理解为<code>namespace</code>是定位到具体的一个<code>dao</code>接口，<code>id</code>是定位到当前这个<code>dao</code>下的具体方法。</p>
+<h3 id="1-3-log4j的日志配置文件-–-log4j-properties"><a href="#1-3-log4j的日志配置文件-–-log4j-properties" class="headerlink" title="1.3 log4j的日志配置文件 – log4j.properties"></a>1.3 log4j的日志配置文件 – log4j.properties</h3><p>将<code>log4j</code>配置文件放入resource资源目录下，记录日志，对日志的操作。</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Set root category priority to INFO and its only appender to CONSOLE.</span></span><br><span class="line"><span class="comment">#log4j.rootCategory=INFO, CONSOLE            debug   info   warn error fatal</span></span><br><span class="line"><span class="meta">log4j.rootCategory</span>=<span class="string">debug, CONSOLE, LOGFILE</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Set the enterprise logger category to FATAL and its only appender to CONSOLE.</span></span><br><span class="line"><span class="meta">log4j.logger.org.apache.axis.enterprise</span>=<span class="string">FATAL, CONSOLE</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># CONSOLE is set to be a ConsoleAppender using a PatternLayout.</span></span><br><span class="line"><span class="meta">log4j.appender.CONSOLE</span>=<span class="string">org.apache.log4j.ConsoleAppender</span></span><br><span class="line"><span class="meta">log4j.appender.CONSOLE.layout</span>=<span class="string">org.apache.log4j.PatternLayout</span></span><br><span class="line"><span class="meta">log4j.appender.CONSOLE.layout.ConversionPattern</span>=<span class="string">%d&#123;ISO8601&#125; %-6r [%15.15t] %-5p %30.30c %x - %m\n</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># LOGFILE is set to be a File appender using a PatternLayout.</span></span><br><span class="line"><span class="meta">log4j.appender.LOGFILE</span>=<span class="string">org.apache.log4j.FileAppender</span></span><br><span class="line"><span class="meta">log4j.appender.LOGFILE.File</span>=<span class="string">axis.log</span></span><br><span class="line"><span class="meta">log4j.appender.LOGFILE.Append</span>=<span class="string">true</span></span><br><span class="line"><span class="meta">log4j.appender.LOGFILE.layout</span>=<span class="string">org.apache.log4j.PatternLayout</span></span><br><span class="line"><span class="meta">log4j.appender.LOGFILE.layout.ConversionPattern</span>=<span class="string">%d&#123;ISO8601&#125; %-6r [%15.15t] %-5p %30.30c %x - %m\n</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-4-表的初始创建"><a href="#1-4-表的初始创建" class="headerlink" title="1.4 表的初始创建"></a>1.4 表的初始创建</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">create DATABASE mybatis;</span><br><span class="line">use mybatis;</span><br><span class="line"></span><br><span class="line">-- user表的创建</span><br><span class="line">DROP TABLE IF EXISTS &#96;user&#96;;</span><br><span class="line">CREATE TABLE &#96;user&#96; (</span><br><span class="line">  &#96;id&#96; int(11) Not NULL PRIMARY KEY	auto_increment,</span><br><span class="line">  &#96;username&#96; varchar(32) NOT NULL COMMENT &#39;用户名称&#39;,</span><br><span class="line">  &#96;birthday&#96; datetime default NULL COMMENT &#39;生日&#39;,</span><br><span class="line">  &#96;sex&#96; char(1) default NULL COMMENT &#39;性别&#39;,</span><br><span class="line">  &#96;address&#96; varchar(256) default NULL COMMENT &#39;地址&#39;</span><br><span class="line">) ENGINE&#x3D;InnoDB DEFAULT CHARSET&#x3D;utf8;</span><br><span class="line">insert  into &#96;user&#96;(&#96;id&#96;,&#96;username&#96;,&#96;birthday&#96;,&#96;sex&#96;,&#96;address&#96;) values (41,&#39;老王&#39;,&#39;2018-02-27 17:47:08&#39;,&#39;男&#39;,&#39;北京&#39;),(42,&#39;小二王&#39;,&#39;2018-03-02 15:09:37&#39;,&#39;女&#39;,&#39;北京金燕龙&#39;),(43,&#39;小二王&#39;,&#39;2018-03-04 11:34:34&#39;,&#39;女&#39;,&#39;北京金燕龙&#39;),(45,&#39;传智播客&#39;,&#39;2018-03-04 12:04:06&#39;,&#39;男&#39;,&#39;北京金燕龙&#39;),(46,&#39;老王&#39;,&#39;2018-03-07 17:37:26&#39;,&#39;男&#39;,&#39;北京&#39;),(48,&#39;小马宝莉&#39;,&#39;2018-03-08 11:44:00&#39;,&#39;女&#39;,&#39;北京修正&#39;);</span><br><span class="line"></span><br><span class="line">-- account表的创建</span><br><span class="line">DROP TABLE IF EXISTS &#96;account&#96;;</span><br><span class="line">CREATE TABLE &#96;account&#96; (</span><br><span class="line">  &#96;ID&#96; int(11) NOT NULL COMMENT &#39;编号&#39;,</span><br><span class="line">  &#96;UID&#96; int(11) default NULL COMMENT &#39;用户编号&#39;,</span><br><span class="line">  &#96;MONEY&#96; double default NULL COMMENT &#39;金额&#39;,</span><br><span class="line">  PRIMARY KEY  (&#96;ID&#96;),</span><br><span class="line">  KEY &#96;FK_Reference_8&#96; (&#96;UID&#96;),</span><br><span class="line">  CONSTRAINT &#96;FK_Reference_8&#96; FOREIGN KEY (&#96;UID&#96;) REFERENCES &#96;user&#96; (&#96;id&#96;)</span><br><span class="line">) ENGINE&#x3D;InnoDB DEFAULT CHARSET&#x3D;utf8;</span><br><span class="line">insert  into &#96;account&#96;(&#96;ID&#96;,&#96;UID&#96;,&#96;MONEY&#96;) values (1,41,1000),(2,45,1000),(3,41,2000);</span><br><span class="line"></span><br><span class="line">-- role表的创建</span><br><span class="line">DROP TABLE IF EXISTS &#96;role&#96;;</span><br><span class="line">CREATE TABLE &#96;role&#96; (</span><br><span class="line">  &#96;ID&#96; int(11) NOT NULL COMMENT &#39;编号&#39;,</span><br><span class="line">  &#96;ROLE_NAME&#96; varchar(30) default NULL COMMENT &#39;角色名称&#39;,</span><br><span class="line">  &#96;ROLE_DESC&#96; varchar(60) default NULL COMMENT &#39;角色描述&#39;,</span><br><span class="line">  PRIMARY KEY  (&#96;ID&#96;)</span><br><span class="line">) ENGINE&#x3D;InnoDB DEFAULT CHARSET&#x3D;utf8;</span><br><span class="line"></span><br><span class="line">insert  into &#96;role&#96;(&#96;ID&#96;,&#96;ROLE_NAME&#96;,&#96;ROLE_DESC&#96;) values (1,&#39;院长&#39;,&#39;管理整个学院&#39;),(2,&#39;总裁&#39;,&#39;管理整个公司&#39;),(3,&#39;校长&#39;,&#39;管理整个学校&#39;);</span><br><span class="line"></span><br><span class="line">-- user_role表的创建</span><br><span class="line">DROP TABLE IF EXISTS &#96;user_role&#96;;</span><br><span class="line">CREATE TABLE &#96;user_role&#96; (</span><br><span class="line">  &#96;UID&#96; int(11) NOT NULL COMMENT &#39;用户编号&#39;,</span><br><span class="line">  &#96;RID&#96; int(11) NOT NULL COMMENT &#39;角色编号&#39;,</span><br><span class="line">  PRIMARY KEY  (&#96;UID&#96;,&#96;RID&#96;),</span><br><span class="line">  KEY &#96;FK_Reference_10&#96; (&#96;RID&#96;),</span><br><span class="line">  CONSTRAINT &#96;FK_Reference_10&#96; FOREIGN KEY (&#96;RID&#96;) REFERENCES &#96;role&#96; (&#96;ID&#96;),</span><br><span class="line">  CONSTRAINT &#96;FK_Reference_9&#96; FOREIGN KEY (&#96;UID&#96;) REFERENCES &#96;user&#96; (&#96;id&#96;)</span><br><span class="line">) ENGINE&#x3D;InnoDB DEFAULT CHARSET&#x3D;utf8;</span><br><span class="line">insert  into &#96;user_role&#96;(&#96;UID&#96;,&#96;RID&#96;) values (41,1),(45,1),(41,2);</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、Mybatis的注意事项"><a href="#二、Mybatis的注意事项" class="headerlink" title="二、Mybatis的注意事项"></a>二、Mybatis的注意事项</h2><p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/09/06/weQhbF.png" alt="Mybaits入门使用"></p>
+<ul>
+<li>两个配置文件的编写<ul>
+<li><code>config</code>(全局环境<code>Mybatis</code>配置文件)</li>
+<li><code>mapper</code>(映射配置文件) – 要与<code>dao</code>的目录结构相同<ul>
+<li><code>select</code>中的，<code>resultType</code>的作用就是返回封装的位置，如果你要是不写的话，最后<code>mybatis</code>是不知道你到底要封装到哪里，会出现错误，我这个是<code>User</code>表，查询的也是这个，最后返回的结果就封装在<code>User</code>类中 <code>id</code>要写对应<code>dao</code>中的方法名称。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="三、快速入门-–-实现user表中的全部用户信息的查询"><a href="#三、快速入门-–-实现user表中的全部用户信息的查询" class="headerlink" title="三、快速入门 – 实现user表中的全部用户信息的查询"></a>三、快速入门 – 实现user表中的全部用户信息的查询</h2><h3 id="3-1-实体类编写"><a href="#3-1-实体类编写" class="headerlink" title="3.1 实体类编写"></a>3.1 实体类编写</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Integer id;</span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line">    <span class="keyword">private</span> Date birthday;</span><br><span class="line">    <span class="keyword">private</span> Character sex;</span><br><span class="line">    <span class="keyword">private</span> String address;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(String username, Date birthday, Character sex, String address)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.username = username;</span><br><span class="line">        <span class="keyword">this</span>.birthday = birthday;</span><br><span class="line">        <span class="keyword">this</span>.sex = sex;</span><br><span class="line">        <span class="keyword">this</span>.address = address;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 省略getter和setter方法以及toString()方法的展示</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-dao层接口的编写"><a href="#3-2-dao层接口的编写" class="headerlink" title="3.2 dao层接口的编写"></a>3.2 dao层接口的编写</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserDao</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 查询所有用户信息</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">List&lt;User&gt; <span class="title">findAll</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-UserMapper-xml配置文件的创建"><a href="#3-3-UserMapper-xml配置文件的创建" class="headerlink" title="3.3 UserMapper.xml配置文件的创建"></a>3.3 UserMapper.xml配置文件的创建</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">mapper</span></span></span><br><span class="line"><span class="meta">        <span class="meta-keyword">PUBLIC</span> <span class="meta-string">"-//mybatis.org//DTD Mapper 3.0//EN"</span></span></span><br><span class="line"><span class="meta">        <span class="meta-string">"http://mybatis.org/dtd/mybatis-3-mapper.dtd"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mapper</span> <span class="attr">namespace</span>=<span class="string">"cn.lizhi.dao.UserDao"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 配置查询所有，resultType的作用就是返回封装的位置。这里是对User对象进行封装 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findAll"</span> <span class="attr">resultType</span>=<span class="string">"cn.lizhi.domain.User"</span>&gt;</span></span><br><span class="line">        SELECT *FROM user;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-4-测试方法"><a href="#3-4-测试方法" class="headerlink" title="3.4 测试方法"></a>3.4 测试方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MybatisTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="comment">// 1. 读取mybatis的全局配置文件</span></span><br><span class="line">        InputStream in = Resources.getResourceAsStream(<span class="string">"mybatis-config.xml"</span>);</span><br><span class="line">        <span class="comment">// 2.创建SqlSessionFactory工厂</span></span><br><span class="line">        SqlSessionFactoryBuilder builder = <span class="keyword">new</span> SqlSessionFactoryBuilder();</span><br><span class="line">        SqlSessionFactory factory = builder.build(in);</span><br><span class="line">        <span class="comment">// 3.使用工厂生产SqlSession对象</span></span><br><span class="line">        SqlSession session = factory.openSession();</span><br><span class="line">        <span class="comment">// 4.使用SqlSession创建Dao接口的代理对象</span></span><br><span class="line">        UserDao userDao = session.getMapper(UserDao<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">        <span class="comment">// 5.使用代理对象执行方法</span></span><br><span class="line">        List&lt;User&gt; users = userDao.findAll();</span><br><span class="line">        <span class="keyword">for</span> (User user : users) &#123;</span><br><span class="line">            System.out.println(user);</span><br><span class="line">        &#125;</span><br><span class="line">        session.close();</span><br><span class="line">        in.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中<code>Resources</code>(<code>ibatis</code>)类默认加载<code>resource</code>资源路径下的配置文件。</p>
+<h2 id="四、路径问题与代理dao的方式解析"><a href="#四、路径问题与代理dao的方式解析" class="headerlink" title="四、路径问题与代理dao的方式解析"></a>四、路径问题与代理dao的方式解析</h2><ul>
+<li>绝对路径:<del>d:/xxx/xxx/xml</del>  –&gt; 采用：类加载器，它只能读取类路径的配置文件</li>
+<li>相对路径:<del>src/java/main/xxx.xml</del> (在web项目下没有src目录文件) –&gt; 使用<code>ServletContext</code>对象的<code>getRealPath()</code>获取<code>web</code>下真实运行的类的路径。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2.创建SqlSessionFactory工厂</span></span><br><span class="line">SqlSessionFactoryBuilder builder = <span class="keyword">new</span> SqlSessionFactoryBuilder();</span><br><span class="line">SqlSessionFactory factory = builder.build(in);</span><br></pre></td></tr></table></figure>
+
+<p>以上创建工厂使用了构建者模式。 — <code>builder</code>就是构建者。</p>
+<p><strong>构建者模式:</strong>把对象的创建细节隐藏，是使用者直接调用方法即可拿到对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 3.使用工厂生产SqlSession对象</span></span><br><span class="line">SqlSession session = factory.openSession();</span><br></pre></td></tr></table></figure>
+
+<p>通过<code>factory</code>生产<code>SqlSession</code>使用了工厂模式。优势：解耦(降低类之间的依赖关系)。没有用<code>new</code>，不需重新边编译，解决了类之间的依赖关系。通过工厂生产对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 4.使用SqlSession创建Dao接口的代理对象</span></span><br><span class="line">UserDao userDao = session.getMapper(UserDao<span class="class">.<span class="keyword">class</span>)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>创建<code>Dao</code>接口实现类使用了代理模式。优势:不修改源码的基础上对已有方法增强。</p>
+<h3 id="代理dao的方式解析"><a href="#代理dao的方式解析" class="headerlink" title="代理dao的方式解析"></a>代理dao的方式解析</h3><ol>
+<li>连接数据库信息 – 用于创建<code>connection</code>对象。</li>
+<li>同时在<code>config</code>配置中的有了<code>mapper</code>就有了所需要映射的信息(位置)</li>
+<li>映射到<code>Mapper</code>文件，即可查询到全类名，id(接口方法),sql语句。便能获取到<code>PreparedStatement</code>。</li>
+</ol>
+<p>对以上进行读取配置文件(用到解析XML的技术) – 此处用到的是<code>dom4j</code>解析<code>xml</code>的技术</p>
+<p>继而：</p>
+<ol>
+<li><p>根据配置文件的信息创建Connection对象</p>
+<p>注册驱动，获取连接</p>
+</li>
+<li><p>获取预处理对象PreparedStatement</p>
+<p>此时需要SQL语句 –&gt; 从3中的sql语句中获取</p>
+</li>
+<li><p>执行查询</p>
+</li>
+</ol>
+<blockquote>
+<p>此节涉及源码，待我理解完了，再填上。</p>
+</blockquote>
+<h2 id="五、Mybatis的增删改查"><a href="#五、Mybatis的增删改查" class="headerlink" title="五、Mybatis的增删改查"></a>五、Mybatis的增删改查</h2><p>在<code>Mapper</code>配置文件中，增加配置信息,其中<code>id</code>为接口中的方法名.</p>
+<p>如果在测试类中，自定义方法上<code>@Before</code>表示在测试方法前执行；<code>@After</code>表示在测试方法之后执行。</p>
+<p><code>sqlSession.commit()</code> – 手动提交事务。<code>resultType</code>的指定是在对数据库的结果进行封装时的<strong>返回值类型</strong>，告诉<code>Mybatis</code>应该封装到哪里的参数。<code>parameterType</code>指查询的时候<strong>查询参数类型</strong></p>
+<h3 id="5-1-findAll-–-查找全部用户的信息"><a href="#5-1-findAll-–-查找全部用户的信息" class="headerlink" title="5.1 findAll() – 查找全部用户的信息"></a>5.1 findAll() – 查找全部用户的信息</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findAll"</span> <span class="attr">resultType</span>=<span class="string">"cn.lizhi.mybatis_01.domain.User"</span>&gt;</span></span><br><span class="line">        SELECT *FROM user;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>resultType</code>为全类名，表示需要封装到的对象。</p>
+<h3 id="5-2-saveUser-–-保存用户信息-插入用户"><a href="#5-2-saveUser-–-保存用户信息-插入用户" class="headerlink" title="5.2 saveUser – 保存用户信息(插入用户)"></a>5.2 saveUser – 保存用户信息(插入用户)</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">"saveUser"</span> <span class="attr">parameterType</span>=<span class="string">"cn.lizhi.mybatis_01.domain.User"</span>&gt;</span></span><br><span class="line">       insert into user(username,address,sex,birthday)values(#&#123;username&#125;,#&#123;address&#125;,#&#123;sex&#125;,#&#123;birthday&#125;);</span><br><span class="line"><span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>parameterType</code>为提供属性的<code>domain</code>中的对象全类名。<code>values</code>中是写<code>{}</code>是写<code>domain</code>对象中的属性名称。</p>
+<p><strong>如果要想获得当前保存的信息的<code>id</code>，其使用方法是:</strong></p>
+<p><code>select last_insert_id()</code> – 获取最后一条插入语句的<code>id</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">"saveUser"</span> <span class="attr">parameterType</span>=<span class="string">"cn.lizhi.mybatis_01.domain.User"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- KeyPropery代表要返回的值名称，order:取值为AFTER代表插入后的行为 resultType代表返回值的类型 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">selectKey</span> <span class="attr">keyProperty</span>=<span class="string">'id'</span> <span class="attr">order</span>=<span class="string">'AFTER'</span> <span class="attr">resultType</span>=<span class="string">"java.lang.Integer"</span>&gt;</span></span><br><span class="line">    	select last_insert_id();</span><br><span class="line">    <span class="tag">&lt;/<span class="name">selectKey</span>&gt;</span></span><br><span class="line">       insert into user(username,address,sex,birthday)values(#&#123;username&#125;,#&#123;address&#125;,#&#123;sex&#125;,#&#123;birthday&#125;);</span><br><span class="line"><span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-3-updateUser-–-更新用户"><a href="#5-3-updateUser-–-更新用户" class="headerlink" title="5.3 updateUser – 更新用户"></a>5.3 updateUser – 更新用户</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">update</span> <span class="attr">id</span>=<span class="string">"updateUser"</span> <span class="attr">parameterType</span>=<span class="string">"cn.lizhi.mybatis_01.domain.User"</span>&gt;</span></span><br><span class="line">       update user set username=#&#123;username&#125;,address=#&#123;address&#125;,sex=#&#123;sex&#125;,birthday=#&#123;birthday&#125; where id=#&#123;id&#125;;</span><br><span class="line"><span class="tag">&lt;/<span class="name">update</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-4-deleteUser-–-删除用户"><a href="#5-4-deleteUser-–-删除用户" class="headerlink" title="5.4 deleteUser – 删除用户"></a>5.4 deleteUser – 删除用户</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">delete</span> <span class="attr">id</span>=<span class="string">"deleteUser"</span> <span class="attr">parameterType</span>=<span class="string">"Integer"</span>&gt;</span></span><br><span class="line">	delete from user where id=#&#123;uid&#125;; <span class="comment">&lt;!-- 这个id的占位符可以随便写 --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">delete</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在删除方法中<code>parameterType</code>只指定id，没有像上面一样指定<code>User</code>对象，是因为，我们这个是只对表进行操作，没有经过<code>User</code>对象的取值或使用(即在delete中，指定了我所要删除的是哪张表，并指定了id，那么我就可以通过这两项信息去定位到我所要删除的那条记录)。</p>
+<h3 id="5-5-findById-–-根据用户id查询一条记录"><a href="#5-5-findById-–-根据用户id查询一条记录" class="headerlink" title="5.5 findById – 根据用户id查询一条记录"></a>5.5 findById – 根据用户id查询一条记录</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findById"</span> <span class="attr">parameterType</span>=<span class="string">"Integer"</span> <span class="attr">resultType</span>=<span class="string">"cn.lizhi.mybatis_01.domain.User"</span>&gt;</span></span><br><span class="line">        SELECT *FROM user where id=#&#123;uid&#125;;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-6-findByName-–-模糊查询"><a href="#5-6-findByName-–-模糊查询" class="headerlink" title="5.6 findByName – 模糊查询"></a>5.6 findByName – 模糊查询</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findById"</span> <span class="attr">parameterType</span>=<span class="string">"String"</span> <span class="attr">resultType</span>=<span class="string">"cn.lizhi.mybatis_01.domain.User"</span>&gt;</span></span><br><span class="line">        SELECT *FROM user where username like #&#123;name&#125;;</span><br><span class="line">    	或者</span><br><span class="line">    	SELECT *FROM user where username like '%$&#123;value&#125;%'; <span class="comment">&lt;!-- value是固定写法 --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在进行<code>MyBatis</code>时的模糊查询时，通配符需要需要设置在参数中，即和查询的参数组成字符串，而不是将通配符写在<code>mapper</code>配置文件中。推荐用第一种，预编译可防止<code>SQL</code>注入。</p>
+<h3 id="5-7-findTotal-–-聚合函数的使用"><a href="#5-7-findTotal-–-聚合函数的使用" class="headerlink" title="5.7 findTotal – 聚合函数的使用"></a>5.7 findTotal – 聚合函数的使用</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findTotal"</span> <span class="attr">resultType</span>=<span class="string">"int"</span>&gt;</span></span><br><span class="line">        SELECT count(id) FROM user;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="六、MyBatis的参数深入"><a href="#六、MyBatis的参数深入" class="headerlink" title="六、MyBatis的参数深入"></a>六、MyBatis的参数深入</h2><h3 id="6-1-parameterType-查询参数的输入类型"><a href="#6-1-parameterType-查询参数的输入类型" class="headerlink" title="6.1 parameterType(查询参数的输入类型)"></a>6.1 parameterType(查询参数的输入类型)</h3><ol>
+<li><p><code>Integer</code>,<code>String</code>等简单类型</p>
+</li>
+<li><p>OGNL表达式 Object Graphic Navigation Language</p>
+<p>通过对象的取值方法来获取数组，在写法上将<code>get</code>省去。</p>
+<p>例如获取用户的名称：</p>
+<p>​    类中的写法:user.getUsername();</p>
+<p>​    OGNL表达式写法:user.username;</p>
+<p>Mybatis中能直接写<code>username</code>,而不用<code>user.</code>的原因是：</p>
+<p>​        因为在parameterType中已经提供了属性所属的类，所以此时不需要写对象名。例如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">update</span> <span class="attr">id</span>=<span class="string">"updateUser"</span> <span class="attr">parameterType</span>=<span class="string">"c"</span>&gt;</span></span><br><span class="line">       update user set username=#&#123;username&#125;,address=#&#123;address&#125;,sex=#&#123;sex&#125;,birthday=#&#123;birthday&#125; where id=#&#123;id&#125;;</span><br><span class="line"><span class="tag">&lt;/<span class="name">update</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>​        上面的参数都是直接写属性名称，而没有通过<code>对象.属性</code>的方式进行获取值<code>username=#{username},address=#{address},sex=#{sex},birthday=#{birthday} where id=#{id}</code></p>
+<p>这里的用处：当我们的查询条件被封装成一个对象时，就需要采用OGNL表达式。</p>
+<p>例如封装了一个对象<code>QueryVo</code>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QueryVo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> User user;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">getUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> user;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUser</span><span class="params">(User user)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.user = user;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时将<code>QueryVo</code>作为查询对象时，<code>mapper</code>配置文件应该写成:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findUserByVo"</span> <span class="attr">parameterType</span>=<span class="string">"cn.lizhi.mybatis_01.domain.QueryVo"</span> <span class="attr">resultType</span>=<span class="string">"cn.lizhi.mybatis_01.domain.User"</span>&gt;</span></span><br><span class="line">	select * from user where username like #&#123;user.username&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>{user.username}</code>的解释，根据上面的解释，我们知道<code>user</code>是<code>QueryVo</code>类的一个属性，我们可以直接获取属性，而<code>username</code>是<code>user</code>类的属性，所以可以继而通过<code>对象.属性</code>(继续对ONGL表达式的嵌套使用)的方式获取。</p>
+<p><strong>以上这种适用于由多个对象组成的查询条件，实现对数据库的进行查询</strong></p>
+</li>
+<li><p>传递<code>pojo</code>对象</p>
+<p><code>Mybatis</code>使用<code>ognl</code>表达式解析对象字段的值，<code>#{}</code>或者<code>${}</code>括号中的值为<code>pojo</code>属性名称。</p>
+<p>其中对<code>pojo</code>和<code>javaBean</code>两者的区别，参考链接:<a href="https://www.jianshu.com/p/224489dfdec8" target="_blank" rel="noopener">java对象 POJO和JavaBean的区别</a>。可以简单的把<code>pojo</code>理解为我们定义的实体类。</p>
+</li>
+<li><p>传递<code>pojo</code>包装对象</p>
+<p>开发中通过<code>pojo</code>传递查询条件，查询条件时综合的查询条件，不仅包括用户查询条件还包含其它的查询条件(比如将用户购买商品信息也作为查询条件),这时可以使用包装对象传递输入参数。<code>Pojo</code>类中包含<code>pojo</code>.</p>
+<p>例如上面的：根据用户名查询用户信息，查询条件放到<code>QueryVo</code>的<code>user</code>属性中。</p>
+</li>
+</ol>
+<h3 id="6-2-resultType-输出类型"><a href="#6-2-resultType-输出类型" class="headerlink" title="6.2 resultType(输出类型)"></a>6.2 resultType(输出类型)</h3><ol>
+<li>可以输出<code>Integer</code>、<code>String</code>等简单类型</li>
+<li><code>pojo</code>对象</li>
+<li><code>pojo</code>列表</li>
+</ol>
+<ul>
+<li><p>问题一</p>
+<p>在属性和<code>Mysql</code>数据库表中字段不统一时，会无法进行封装。</p>
+<p><strong>注意:</strong><code>windows</code>下的<code>MySQL</code>不区分大小写；<code>Linux</code>下的<code>MySQL</code>严格区分大小写。</p>
+<p>解决方式：</p>
+<ul>
+<li><p>在<code>Mapper</code>配置文件中的<code>sql</code>语句中对操作字段起别名。别名和<code>pojo</code>中的属性名称相同。</p>
+<p>例如: <code>select id as userId,username as userName,address as userAddress,sex as UserSex from user;</code></p>
+<p>这种方式运行效率最高，因为在数据库层面进行了解决，速度更快。</p>
+</li>
+<li><p>配置查询结果的列名和实体类的属性名的对应关系</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">resultMap</span> <span class="attr">id</span>=<span class="string">"userMap"</span> <span class="attr">type</span>=<span class="string">"cn.lizhi.mybatis_01.domain.User"</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 主键字段的对应 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span> <span class="attr">property</span>=<span class="string">"userId"</span> <span class="attr">column</span>=<span class="string">"id"</span>&gt;</span><span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 非主键字段的对应 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"userName"</span> <span class="attr">column</span>=<span class="string">"username"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"userAddress"</span> <span class="attr">column</span>=<span class="string">"address"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"userSex"</span> <span class="attr">column</span>=<span class="string">"sex"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"userBirthday"</span> <span class="attr">column</span>=<span class="string">"birthday"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>id</code>:唯一标志 – 随便填写。用于<code>select</code>、<code>insert</code>、<code>delete</code>等配置的类型映射。</p>
+<p><code>type</code>:查询的实体类，所对应的实体类是哪一个 – 全类名</p>
+<p>举例使用：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findAll"</span> <span class="attr">resultMap</span>=<span class="string">"userMap"</span>&gt;</span></span><br><span class="line">	select * from user;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>即将以前的<code>resultType</code>替换成<code>resultMap</code>，值匹配<code>resultMap</code>配置中的<code>id</code>，这样就能够进行映射匹配。</p>
+<p>这种方式能够提升开发效率。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="6-3-配置别名文件"><a href="#6-3-配置别名文件" class="headerlink" title="6.3 配置别名文件"></a>6.3 配置别名文件</h4><ol>
+<li><code>typeAliases</code>配置别名，用于配置<code>domain</code>中类的别名 – 指定实体类别名</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">typeAliases</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">typeAlias</span> <span class="attr">type</span>=<span class="string">"cn.lizhi.mybatis_01.domain.User"</span> <span class="attr">alias</span>=<span class="string">"user"</span>&gt;</span><span class="tag">&lt;/<span class="name">typeAlias</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">typeAliases</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>typeAlias</code>用于配置别名。<code>type</code>属性指定的是实体类全限定类名。<code>alias</code>属性指定别名，当指定了别名就不再区分大小写。</p>
+<ol start="2">
+<li><code>package</code>用于指定要配置别名的包，当指定后，该包下的实体类都会注册别名，并且类名就是别名，不再区分大小写。 – 指定实体类别名</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">typeAliases</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">"cn.lizhi.mybatis_01.domain"</span>&gt;</span><span class="tag">&lt;/<span class="name">package</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">typeAliases</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>作用于接口，<code>package</code>标签是用于指定<code>dao</code>接口所在的包，当指定了之后，就不需要再写mapper以及<code>resource</code>或者<code>class</code>.</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mapper</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- package标签是用于指定dao接口所在的包，当指定了之后，就不需要再写mapper以及resource或者class --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">"cn.lizhi.mybatis_01.dao"</span>&gt;</span><span class="tag">&lt;/<span class="name">package</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="七、Mybatis实现Dao层的开发"><a href="#七、Mybatis实现Dao层的开发" class="headerlink" title="七、Mybatis实现Dao层的开发"></a>七、Mybatis实现Dao层的开发</h2><h3 id="7-1-Dao实现类的使用"><a href="#7-1-Dao实现类的使用" class="headerlink" title="7.1 Dao实现类的使用"></a>7.1 Dao实现类的使用</h3><p>  由于是自己写实现类，所以就不需要代理对象对我们的方法进行增强。</p>
+<p>  首先实现类的方法：</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserDaoImpl</span> <span class="keyword">implements</span> <span class="title">UserDao</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> SqlSessionFactory factory;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">UserDaoImpl</span><span class="params">(SqlSessionFactory factory)</span> </span>&#123; <span class="comment">// 保证我们的factory中有值,通过构造方法将配置文件读取</span></span><br><span class="line">        <span class="keyword">this</span>.factory = factory;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">findAll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        SqlSession session = factory.openSession();</span><br><span class="line">        List&lt;User&gt; user = session.selectList(<span class="string">"cn.lizhi.mybatis_01.dao.UserDao.findAll"</span>);<span class="comment">// 配置文件中namespace+id</span></span><br><span class="line">        session.close();</span><br><span class="line">        <span class="keyword">return</span> user;</span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>  测试类:</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findAllTest</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">       InputStream is = Resources.getResourceAsStream(<span class="string">"SqlMapConfig.xml"</span>);</span><br><span class="line">       SqlSessionFactoryBuilder builder = <span class="keyword">new</span> SqlSessionFactoryBuilder();</span><br><span class="line">       SqlSessionFactory factory = builder.build(is);</span><br><span class="line">       UserDaoImpl userDao = <span class="keyword">new</span> UserDaoImpl(factory);</span><br><span class="line">       List&lt;User&gt; users = userDao.findAll();</span><br><span class="line">       <span class="keyword">for</span> (User user : users) &#123;</span><br><span class="line">           System.out.println(user);</span><br><span class="line">       &#125;</span><br><span class="line">       is.close();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-2-session中各种操作数据库语句"><a href="#7-2-session中各种操作数据库语句" class="headerlink" title="7.2 session中各种操作数据库语句"></a>7.2 session中各种操作数据库语句</h3>  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 保存方法</span></span><br><span class="line">session.insert(<span class="string">"namespace+id"</span>,Object)</span><br><span class="line"><span class="comment">// 更新操作</span></span><br><span class="line">session.update(<span class="string">"namespace+id"</span>,Object)</span><br><span class="line"><span class="comment">// 删除操作</span></span><br><span class="line">session.delete(<span class="string">"namespace+id"</span>,Integer id)</span><br><span class="line"><span class="comment">// 单条查询</span></span><br><span class="line">session.selectOne(<span class="string">"namespace+id"</span>,Integer id)</span><br><span class="line"><span class="comment">// 聚合函数</span></span><br><span class="line">session.selectOne(<span class="string">"namespace+id"</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-3-源码分析"><a href="#7-3-源码分析" class="headerlink" title="7.3 源码分析"></a>7.3 源码分析</h3><ul>
+<li><p><code>PreparedStatement</code>对象的执行方法</p>
+<ul>
+<li><code>execute</code>:执行<code>CRUD</code>中的任意一种语句。它的返回值是一个<code>boolean</code>类型，表示是否有结果集。有结果集是<code>true</code>,没有结果集是<code>false</code>。</li>
+<li><code>executeUpdate</code>:只能执行<code>CUD</code>语句，查询语句无法执行。他的返回值是影响数据库记录的记录数。</li>
+<li><code>executeQuery</code>:只能执行<code>select</code>语句，无法执行增删改。执行结果封装的结果集<code>ResultSet</code>对象。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>以后再补上…</p>
+</blockquote>
+<h2 id="八、Mybatis连接池与事务相关"><a href="#八、Mybatis连接池与事务相关" class="headerlink" title="八、Mybatis连接池与事务相关"></a>八、Mybatis连接池与事务相关</h2><p>连接池介绍：可以减少我们获取连接所消耗的时间。用于存储连接的一个容器。</p>
+<ul>
+<li>容器其实就是一个集合对象，该集合必须是线程安全的，不能两个线程拿到同一连接。该集合还必须实现队列的特性 – 先进先出</li>
+</ul>
+<h3 id="8-1-Mybatis连接池"><a href="#8-1-Mybatis连接池" class="headerlink" title="8.1 Mybatis连接池"></a>8.1 Mybatis连接池</h3><p>配置位置：</p>
+<ul>
+<li><p>主配置文件<code>SqlMapConfig.xml</code>中的<code>dataSource</code>标签，<code>type</code>属性就是表示采用何种连接池方式。</p>
+</li>
+<li><p><code>type</code>属性：</p>
+<ul>
+<li><p><code>POOLED</code>:采用传统的<code>javax.sql.DataSource</code>规范中的连接池,<code>Mybatis</code>中有针对规范的实现(每次从池中获取连接，连接完以后归还)</p>
+</li>
+<li><p><code>UNPOOLED</code>:采用传统的获取连接的方式，虽然也实现<code>Javax.sql.DataSource</code>接口，但是并没有实现池的思想(每次创建一个连接来使用)</p>
+</li>
+<li><p><code>JNDI</code>:采用服务器提供的<code>JNDI</code>技术实现，来获取<code>DataSource</code>对象，不同的服务器所能拿到<code>DataSource</code>是不一样的。</p>
+<p><strong>注意：</strong>如果不是<code>web</code>或者<code>maven</code>的<code>war</code>工程，是不能使用的。</p>
+<p>这里采用<code>dbcp</code>连接池。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><code>Mybaits POOLED</code>的连接池原理:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/09/06/weleaQ.jpg" alt="连接池源代码"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/09/06/weltIJ.png" alt="mybatis_pooled的过程"></p>
+<h3 id="8-2-事务"><a href="#8-2-事务" class="headerlink" title="8.2 事务"></a>8.2 事务</h3><p>解决4个问题</p>
+<ol>
+<li>什么是事务</li>
+<li>事务的四大特性<code>ACID</code></li>
+<li>不考虑隔离性会产生的3个问题</li>
+<li>解决办法：四种隔离级别</li>
+</ol>
+<p><code>Mybatis</code>底层实现还是借用<code>JDBC</code>。</p>
+<h2 id="九、Mybatis动态sql"><a href="#九、Mybatis动态sql" class="headerlink" title="九、Mybatis动态sql"></a>九、Mybatis动态sql</h2><h3 id="9-1-动态查询"><a href="#9-1-动态查询" class="headerlink" title="9.1 动态查询"></a>9.1 动态查询</h3><p>动态查询(组合查询) – 查询条件不确定有没有的情况.</p>
+<p>查询条件:可以根据<code>username</code>、<code>gender</code>、<code>age</code>等多条件组合查询</p>
+<p><code>Mapper</code>中的配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 根据条件进行查询 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"方法名"</span> <span class="attr">resultType</span>=<span class="string">"返回值类型"</span> <span class="attr">parameterType</span>=<span class="string">"查询的参数类型"</span>&gt;</span></span><br><span class="line">	select * from user where 1=1</span><br><span class="line">    <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"username!=null（条件1）"</span>&gt;</span> <span class="comment">&lt;!-- username是对应的实体类属性名(判断是否提供了这个查询条件的参数值)  --&gt;</span></span><br><span class="line">    	and username = #&#123;username&#125;  <span class="comment">&lt;!-- 左边是数据库column字段名称，右边是实体类属性名称 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"（条件2）"</span>&gt;</span></span><br><span class="line">    	and sex = #&#123;sex&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"（条件3）"</span>&gt;</span></span><br><span class="line">    	and age = #&#123;age&#125; <span class="comment">&lt;!-- 注意属性名和字段名对应问题 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- where 标签可以省略 初始条件的 where --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"方法名"</span> <span class="attr">resultType</span>=<span class="string">"返回值类型"</span> <span class="attr">parameterType</span>=<span class="string">"查询的参数类型"</span>&gt;</span></span><br><span class="line">	select * from user</span><br><span class="line">   <span class="tag">&lt;<span class="name">where</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"（条件1）"</span>&gt;</span></span><br><span class="line">           and username = #&#123;username&#125;</span><br><span class="line">       <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"（条件2）"</span>&gt;</span></span><br><span class="line">           and sex = #&#123;sex&#125;</span><br><span class="line">       <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"（条件3）"</span>&gt;</span></span><br><span class="line">           and age = #&#123;age&#125; <span class="comment">&lt;!-- 注意属性名和字段名对应问题 --&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">       ...    </span><br><span class="line">    <span class="tag">&lt;/<span class="name">where</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>根据可能提供的条件，进行组合查询(这些条件可能存在也可能不存在)，例如：</p>
+<p>主查询代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findUserByCondition</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">       User user = <span class="keyword">new</span> User();</span><br><span class="line">       user.setUsername(<span class="string">"Tom"</span>); <span class="comment">// 查询出所有叫Tom的记录，提供的查询条件只有"Tom"</span></span><br><span class="line">       List&lt;User&gt; users = userDao.findUserByCondition(user);</span><br><span class="line">       <span class="keyword">for</span> (User u : users) &#123;</span><br><span class="line">           System.out.println(u);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>对应表的配置文件查询:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findUserByCondition"</span> <span class="attr">parameterType</span>=<span class="string">"cn.lizhi.mybatis_01.domain.User"</span> <span class="attr">resultType</span>=<span class="string">"cn.lizhi.mybatis_01.domain.User"</span>&gt;</span></span><br><span class="line">        select * from user</span><br><span class="line">        <span class="tag">&lt;<span class="name">where</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"username != null"</span>&gt;</span></span><br><span class="line">                and username=#&#123;username&#125;</span><br><span class="line">            <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"sex != null"</span>&gt;</span></span><br><span class="line">                and sex=#&#123;sex&#125;</span><br><span class="line">            <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"address != null"</span>&gt;</span></span><br><span class="line">                and address=#&#123;address&#125;</span><br><span class="line">            <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"address != null"</span>&gt;</span></span><br><span class="line">                and address=#&#123;address&#125;</span><br><span class="line">            <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"birthday != null"</span>&gt;</span></span><br><span class="line">                and birthday=#&#123;birthday&#125;</span><br><span class="line">            <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">where</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="9-2-子查询"><a href="#9-2-子查询" class="headerlink" title="9.2 子查询"></a>9.2 子查询</h3><p><strong>子查询</strong>：根据被封装对象(例如queryvo)的<code>id</code>集合，查询用户信息</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 根据queryvo中的Id集合实现查询用户列表 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findUserInIds"</span> <span class="attr">resultMap</span>=<span class="string">"userMap"</span> <span class="attr">parameterType</span>=<span class="string">"queryvo"</span>&gt;</span></span><br><span class="line">	select * from user</span><br><span class="line">    <span class="tag">&lt;<span class="name">where</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"ids !=null and ids.size()&gt;0"</span>&gt;</span></span><br><span class="line">        	<span class="tag">&lt;<span class="name">foreach</span> <span class="attr">collection</span>(代表一个集合)=<span class="string">"ids"</span> <span class="attr">open</span>=<span class="string">"and id in ("</span> <span class="attr">close</span>=<span class="string">")"</span> <span class="attr">item</span>=<span class="string">"uid(集合中每个元素的代称)"</span> <span class="attr">separator</span>(每一项的分隔符)=<span class="string">","</span>&gt;</span> <span class="comment">&lt;!-- 查询出id在集合中的全部条目 --&gt;</span> </span><br><span class="line">            	#&#123;uid&#125;</span><br><span class="line">            <span class="tag">&lt;/<span class="name">foreach</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">where</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 属性解释 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">foreach</span>&gt;</span>:标签用于遍历集合，它的属性：</span><br><span class="line">collection:代表要遍历的集合元素，注意编写时不要写#&#123;&#125;</span><br><span class="line">open:代表语句的开始部分</span><br><span class="line">close:代表结束部分</span><br><span class="line">item:代表遍历集合的每个元素，生成的变量名</span><br><span class="line">sperator:代表分隔符</span><br></pre></td></tr></table></figure>
+
+<h2 id="十、Mybatis中的多表查询"><a href="#十、Mybatis中的多表查询" class="headerlink" title="十、Mybatis中的多表查询"></a>十、Mybatis中的多表查询</h2><p>示例：用户和账户</p>
+<ul>
+<li>一个用户可以有多个账户(一对多)</li>
+<li>一个账户只能属于一个用户 (多个账户也可以属于同一个用户；一对一或者多对一)</li>
+</ul>
+<p>步骤：</p>
+<ol>
+<li><p>建立两张表：用户表、账户表</p>
+<p>让用户表和账户表之间具备一对多的关系：需要使用外键在账户表中添加</p>
+</li>
+<li><p>建立两个实体类：用户实体类和账户实体类</p>
+<p>让用户和账户的实体类能体现出一对多的关系</p>
+</li>
+<li><p>建立<strong>两个配置文件</strong></p>
+<ul>
+<li>用户的配置文件</li>
+<li>账户的配置文件</li>
+</ul>
+<p><strong>注意:</strong>一张数据库表对应一个实体类且对应一个配置文件，并在相应的配置文件中进行配置操作。</p>
+</li>
+<li><p>实现配置</p>
+<ul>
+<li>当我们查询用户时，可以同时得到用户下所包含的账户信息</li>
+<li>当我们查询账户时，可以同时得到账户的所属用户信息</li>
+</ul>
+</li>
+<li><p>一的一方是主表；多的一方是主表。</p>
+</li>
+</ol>
+<h3 id="10-1-Mybatis一对一的查询"><a href="#10-1-Mybatis一对一的查询" class="headerlink" title="10.1 Mybatis一对一的查询"></a>10.1 Mybatis一对一的查询</h3><p><strong>查询所有账户同时包含用户名和地址信息</strong></p>
+<p>方式一:新建子类对象<code>accountUser</code>继承<code>account</code></p>
+<p><code>accountUser</code>实体类中包含需要展示的<code>User</code>实体类中的信息，例如需要展示<code>username</code>，<code>address</code>。那么<code>accountUser</code>定义如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccountUser</span> <span class="keyword">extends</span> <span class="title">Account</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line">    <span class="keyword">private</span> String address;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/*</span></span><br><span class="line"><span class="comment">   		省略了getter与setter方法</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.toString()+<span class="string">"AccountUser&#123;"</span> +</span><br><span class="line">                <span class="string">"username='"</span> + username + <span class="string">'\''</span> +</span><br><span class="line">                <span class="string">", address='"</span> + address + <span class="string">'\''</span> +</span><br><span class="line">                <span class="string">'&#125;'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>mapper</code>中配置的查询信息 </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 新建子类对象accountUsr继承account --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findAllAccount"</span> <span class="attr">resultType</span>=<span class="string">"accountUser"</span>&gt;</span></span><br><span class="line">	select 所要查询的字段 from 表1，表2 where 表1.字段 = 表2.字段   <span class="comment">&lt;!-- 组合查询 --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>具体使用，创建<code>AccountMap.xml</code>配置文件。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">mapper</span></span></span><br><span class="line"><span class="meta">        <span class="meta-keyword">PUBLIC</span> <span class="meta-string">"-//mybatis.org//DTD Mapper 3.0//EN"</span></span></span><br><span class="line"><span class="meta">        <span class="meta-string">"http://mybatis.org/dtd/mybatis-3-mapper.dtd"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mapper</span> <span class="attr">namespace</span>=<span class="string">"cn.lizhi.dao.AccountDao"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 配置查询所有，resultType的作用就是返回封装的位置。这里是对User对象进行封装 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findAllAccount"</span> <span class="attr">resultType</span>=<span class="string">"cn.lizhi.domain.AccountUser"</span>&gt;</span></span><br><span class="line">        SELECT u.*,a.* from user u,account a where u.id=a.UID;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>测试方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findAllAccount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    List&lt;AccountUser&gt; allAccount = accountDao.findAllAccount();</span><br><span class="line">    <span class="keyword">for</span> (AccountUser accountUser : allAccount) &#123;</span><br><span class="line">        System.out.println(accountUser);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Account&#123;id&#x3D;41, uid&#x3D;41, money&#x3D;1000.0, user&#x3D;null&#125;AccountUser&#123;username&#x3D;&#39;老王&#39;, address&#x3D;&#39;北京&#39;&#125;</span><br><span class="line">Account&#123;id&#x3D;45, uid&#x3D;45, money&#x3D;1000.0, user&#x3D;null&#125;AccountUser&#123;username&#x3D;&#39;传智播客&#39;, address&#x3D;&#39;北京金燕龙&#39;&#125;</span><br><span class="line">Account&#123;id&#x3D;41, uid&#x3D;41, money&#x3D;2000.0, user&#x3D;null&#125;AccountUser&#123;username&#x3D;&#39;老王&#39;, address&#x3D;&#39;北京&#39;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>方式二:定义封装<code>account</code>和<code>user</code>的<code>resultMap</code></strong></p>
+<p>例如在从表<code>domain</code>中<code>Account</code>的实体类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Account</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Integer id;</span><br><span class="line">    <span class="keyword">private</span> Integer uid;</span><br><span class="line">    <span class="keyword">private</span> Double money;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> User user; <span class="comment">// 这里从表中包含了主表实体的对象引用</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">/*</span></span><br><span class="line"><span class="comment">   		省略了getter与setter方法   </span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Account&#123;"</span> +</span><br><span class="line">                <span class="string">"id="</span> + id +</span><br><span class="line">                <span class="string">", uid="</span> + uid +</span><br><span class="line">                <span class="string">", money="</span> + money +</span><br><span class="line">                <span class="string">'&#125;'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在<code>Mybatis</code>中<strong>多对一</strong>或<strong>一对一</strong>中，从表的实体类和主表的实体类关系：<strong>从表实体应该包含主表实体的对象应用</strong>。</p>
+<p>定义封装<code>account</code>和<code>user</code>的<code>resultMap</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 定义封装account和user的resultMap --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resultMap</span> <span class="attr">id</span>=<span class="string">"accountUserMap"</span> <span class="attr">type</span>=<span class="string">"account"</span>&gt;</span> <span class="comment">&lt;!-- type表明从表封装的对象 --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 先写从表的信息 配置account信息的封装--&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 主键信息 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span> <span class="attr">property</span>=<span class="string">"id"</span> <span class="attr">column</span>=<span class="string">"aid"</span>&gt;</span><span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 非主键信息 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"uid"</span> <span class="attr">column</span>=<span class="string">"uid"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"money"</span> <span class="attr">column</span>=<span class="string">"money"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 主表信息 一对一的关系映射:配置封装user的内容 --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--多对一的关系, property: 指的是属性的值(account中),column:指通过哪一个字段进行获取属性值，这里选择uid(外键), javaType：指的是属性的类型 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">association</span> <span class="attr">property</span>=<span class="string">"user"</span> <span class="attr">column</span>=<span class="string">"uid"</span> <span class="attr">javaType</span>=<span class="string">"user"</span>&gt;</span> <span class="comment">&lt;!-- javaType表明从表中主表实体需要封装的对象(因为配置了别名，所以这里没有写全类名) --&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 主键信息 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">id</span> <span class="attr">property</span>=<span class="string">'id'</span> <span class="attr">column</span>=<span class="string">'id'</span>&gt;</span><span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 非主键字段 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"username"</span> <span class="attr">property</span>=<span class="string">"username"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"address"</span> <span class="attr">property</span>=<span class="string">"address"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"sex"</span> <span class="attr">property</span>=<span class="string">"sex"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"birthday"</span> <span class="attr">property</span>=<span class="string">"birthday"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">association</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>查询所有，一对一的查询(在查询账户时，也会查询出用户信息)</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findAll"</span> <span class="attr">resultMap</span>=<span class="string">"accountUserMap"</span>&gt;</span></span><br><span class="line">	select 所要查询的字段 from 表1，表2 where 表1.字段 = 表2.字段   <span class="comment">&lt;!-- 组合查询 --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>使用左外连接的查询语句，通过此种方式，其输出结果：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findAll"</span> <span class="attr">resultMap</span>=<span class="string">"accountUserMap"</span>&gt;</span></span><br><span class="line">    SELECT * from account left outer join user on user.id=account.uid;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="10-2-Mybatis一对多的查询"><a href="#10-2-Mybatis一对多的查询" class="headerlink" title="10.2 Mybatis一对多的查询"></a>10.2 Mybatis一对多的查询</h3><p><strong>一对多映射:主表实体应该包含从表实体的集合引用。</strong></p>
+<p><code>Domain</code>中<code>User</code>加入从表实体的集合引用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Integer id;</span><br><span class="line">   <span class="keyword">private</span> String Username;</span><br><span class="line">   <span class="keyword">private</span> Date birthday;</span><br><span class="line">   <span class="keyword">private</span> String sex;</span><br><span class="line">   <span class="keyword">private</span> String address;</span><br><span class="line">   <span class="keyword">private</span> List&lt;Account&gt; accounts; <span class="comment">// 加入的从表实体集合</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> List&lt;Account&gt; <span class="title">getAccounts</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> accounts;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAccounts</span><span class="params">(List&lt;Account&gt; accounts)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">this</span>.accounts = accounts;</span><br><span class="line">   &#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">	其余属性的getter与setter方法省略，以及toString()方法的省略</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>对应的<code>mapper</code>配置文件：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 定义封装User的resultMap --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resultMap</span> <span class="attr">id</span>=<span class="string">"userAccountMap"</span> <span class="attr">type</span>=<span class="string">"user"</span>&gt;</span> <span class="comment">&lt;!-- type表明主表封装的对象 --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 主键信息 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span> <span class="attr">property</span>=<span class="string">'id'</span> <span class="attr">column</span>=<span class="string">'id'</span>&gt;</span><span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 非主键字段 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"username"</span> <span class="attr">property</span>=<span class="string">"username"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"address"</span> <span class="attr">property</span>=<span class="string">"address"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"sex"</span> <span class="attr">property</span>=<span class="string">"sex"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"birthday"</span> <span class="attr">property</span>=<span class="string">"birthday"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 配置user对象中accounts集合的映射 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">collection</span> <span class="attr">property</span>=<span class="string">"accounts"</span> <span class="attr">ofType</span>=<span class="string">"account"</span>&gt;</span> <span class="comment">&lt;!-- ofType写集合中元素的对象类型(因为配置了别名，所以这里没有写全类名) --&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 主键信息 以下property是java domain的属性，column是数据库列名(可以用别名代替) --&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">id</span> <span class="attr">property</span>=<span class="string">"id"</span> <span class="attr">column</span>=<span class="string">"aid"</span>&gt;</span><span class="tag">&lt;/<span class="name">id</span>&gt;</span> </span><br><span class="line">        <span class="comment">&lt;!-- 非主键信息 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"uid"</span> <span class="attr">column</span>=<span class="string">"uid"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"money"</span> <span class="attr">column</span>=<span class="string">"money"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">collection</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findAll"</span> <span class="attr">resultMap</span>=<span class="string">"userAccountMap"</span>&gt;</span></span><br><span class="line">	数据库中的查询语句   <span class="comment">&lt;!-- 组合查询 --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在<code>resultMap</code>中，需要注意两个<code>id</code>中是否存在<code>column</code>重名的情况，如果相同将其中一个进行修改(查询数据库时起别名)。查询时，建议将所有字段内容都查询出，便于对对象的封装(对象的封装的内容就是来源于查询的内容返回的内容,<code>property</code>与<code>column</code>对应)。</p>
+<h3 id="10-3-Mybatis-多对多查询"><a href="#10-3-Mybatis-多对多查询" class="headerlink" title="10.3 Mybatis 多对多查询"></a>10.3 Mybatis 多对多查询</h3><p>实例：用户和角色</p>
+<ul>
+<li>一个用户可以有多个角色</li>
+<li>一个角色可以赋予多个用户</li>
+</ul>
+<p><strong>步骤:</strong></p>
+<ol>
+<li><p>建立两张表：用户表、角色表</p>
+<p>让用户表和角色表之间具备多对多的关系：需要使用中间表，中间表包含各自的主键，在中间表中是外键。</p>
+</li>
+<li><p>建立两个实体类：用户实体类和角色实体类</p>
+<p>让用户和角色的实体类能体现出多对多的关系</p>
+<p><strong>各自包含对方一个集合引用</strong></p>
+</li>
+<li><p>建立<strong>两个配置文件</strong></p>
+<ul>
+<li>用户的配置文件</li>
+<li>角色的配置文件</li>
+</ul>
+</li>
+<li><p>实现配置</p>
+<ul>
+<li>当我们查询用户时，可以同时得到用户下所包含的角色信息</li>
+<li>当我们查询角色时，可以同时得到角色的所赋予的用户信息</li>
+</ul>
+</li>
+</ol>
+<p>两个实体类中各自加入多对多的实体关系映射。</p>
+<p><strong>第一种：</strong>查询所有角色，同时获取角色的所赋予的用户。即：在查询角色时，同时获取到它的全部用户信息。</p>
+<p>以中间表作为连接的媒介。确定出查询角色时，同时获取角色下的全部用户信息(可以简单的看成一对多的查询关系)。这里角色表作为主表(用左外连接，保存主表的全部信息)</p>
+<p><code>Mapper</code>配置同一对多。</p>
+<p><strong>第二种：</strong>查询所有的用户，同时获取用户的所拥有的角色。</p>
+<ul>
+<li>思路同第一种</li>
+</ul>
+<h3 id="10-4-JNDI补充"><a href="#10-4-JNDI补充" class="headerlink" title="10.4 JNDI补充"></a>10.4 JNDI补充</h3><p>模仿<code>windows</code>的注册表。</p>
+<p>插图</p>
+<ol>
+<li><p>创建<code>Maven</code>的<code>war</code>工程。</p>
+</li>
+<li><p>在<code>webapp</code>下创建<code>META-INF</code>,将<code>context.xml</code>方入此目录下。</p>
+</li>
+<li><p>替换原有的<code>SqlMapConfig</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 导入约束 --&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">configuration</span>  </span></span><br><span class="line"><span class="meta">  <span class="meta-keyword">PUBLIC</span> <span class="meta-string">"-//mybatis.org//DTD Config 3.0//EN"</span>  </span></span><br><span class="line"><span class="meta">  <span class="meta-string">"http://mybatis.org/dtd/mybatis-3-config.dtd"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">typeAliases</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">"com.itheima.domain"</span>&gt;</span><span class="tag">&lt;/<span class="name">package</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">typeAliases</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 配置mybatis的环境 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">environments</span> <span class="attr">default</span>=<span class="string">"mysql"</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!-- 配置mysql的环境 --&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">environment</span> <span class="attr">id</span>=<span class="string">"mysql"</span>&gt;</span></span><br><span class="line">			<span class="comment">&lt;!-- 配置事务控制的方式 --&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">transactionManager</span> <span class="attr">type</span>=<span class="string">"JDBC"</span>&gt;</span><span class="tag">&lt;/<span class="name">transactionManager</span>&gt;</span></span><br><span class="line">			<span class="comment">&lt;!-- 配置连接数据库的必备信息  type属性表示是否使用数据源（连接池）--&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">dataSource</span> <span class="attr">type</span>=<span class="string">"JNDI"</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"data_source"</span> <span class="attr">value</span>=<span class="string">"java:comp/env/jdbc/eesy_mybatis"</span>/&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">dataSource</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">environment</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">environments</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">&lt;!-- 指定mapper配置文件的位置 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">mappers</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">mapper</span> <span class="attr">resource</span>=<span class="string">"com/itheima/dao/IUserDao.xml"</span>/&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">mappers</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将之前的测试方法写在<code>jsp</code>的java代码块中。</p>
+<p>原因是有<code>tomcat</code>服务器进行，将<code>.jsp</code>翻译成.<code>java</code>再进行编译，运行字节码文件，进而使用<code>tomcat</code>服务器内部的资源连接池再通过<code>Mybatis</code>访问数据库。</p>
+</li>
+</ol>
+<h2 id="十一、Mybatis缓存相关"><a href="#十一、Mybatis缓存相关" class="headerlink" title="十一、Mybatis缓存相关"></a>十一、Mybatis缓存相关</h2><h3 id="11-1-Mybatis中的延迟加载"><a href="#11-1-Mybatis中的延迟加载" class="headerlink" title="11.1 Mybatis中的延迟加载"></a>11.1 Mybatis中的延迟加载</h3><p><strong>问题:</strong></p>
+<p>在一对多中，当我们有一个用户，它有100个账户。(用户对象-user;accounts(集合,size=100))</p>
+<p><strong>问：</strong>在查询用户的时候，要不要把关联的账户查询出来？</p>
+<p><strong>答：</strong>在查询用户时，用户下的账户信息应该是，什么时候使用，什么时候查询的。</p>
+<p><strong>问：</strong>在查询账户的时候，要不要把关联的用户查询出来？</p>
+<p><strong>答：</strong>在查询用户时，账户的所属用户信息应该是随着账户查询时一起查询出来。</p>
+<p><strong>延迟加载：</strong>在真正使用数据时才发起查询，不用的时候不查询。按需加载(懒加载)。</p>
+<p><strong>立即加载：</strong>无论是否使用，只要一调用方法，马上发起查询。</p>
+<p>在对应的四种表关系中：一对多，多对一，一对一，多对多</p>
+<ul>
+<li>一对多，多对多：通常情况下都采用延迟加载。</li>
+<li>多对一，一对一：通常情况下采用立即加载。</li>
+</ul>
+<h4 id="11-1-1-一对一-association"><a href="#11-1-1-一对一-association" class="headerlink" title="11.1.1 一对一(association)"></a>11.1.1 一对一(association)</h4><p>延迟加载：</p>
+<p>全局配置文件需设置</p>
+<ul>
+<li><code>lazyLoadingEnabled</code>:<code>true</code></li>
+<li><code>aggressiveLazyLoading</code>:<code>false</code></li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">settings</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- Mybatis全局延迟加载的开关，true表示打开--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"lazyLoadingEnabled"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"aggressiveLazyLoading"</span> <span class="attr">value</span>=<span class="string">"false"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">settings</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>mapper</code>的配置文件：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 一对一的查询 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resultMap</span> <span class="attr">id</span>=<span class="string">"accountUserMap"</span> <span class="attr">type</span>=<span class="string">"account"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span> <span class="attr">property</span>=<span class="string">"id"</span> <span class="attr">column</span>=<span class="string">"id"</span>&gt;</span><span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">proerty</span>=<span class="string">"uid"</span> <span class="attr">column</span>=<span class="string">"uid"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"money"</span> <span class="attr">column</span>=<span class="string">"money"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">association</span> <span class="attr">property</span>=<span class="string">"user"</span> <span class="attr">column</span>=<span class="string">"uid"</span> <span class="attr">javaType</span>=<span class="string">"user"</span> <span class="attr">select</span>=<span class="string">"cn.lizhi.mybatis_01.dao.UserDao.findById"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">association</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>select属性</code>:查询用户的唯一标识，这个例子中是关联信息的主键<code>id</code>。例如这里<code>account</code>表中的<code>uid</code>对应着<code>user</code>表中的<code>id</code>。所以我们要使得<code>uid</code>和<code>id</code>进行匹配，故在user中的唯一标识就是<code>id</code>。反之，如果我们通过查询<code>user</code>表同时将其关联的<code>account</code>表的信息一并查出，此时<code>user</code>表中的<code>id</code>对应着<code>account</code>表中的<code>uid</code>，那么<code>uid</code>便是所要查询的关联表的唯一标识。</p>
+<p>这里对唯一标识的理解是两个表之间相关联的字段。</p>
+<p><code>column属性</code>:查询用户是根据id查询，而id对应的是<code>account</code>表中的<code>uid</code>，所需要的参数的值(外键）- 根据当前表中的uid去查询user表的记录(对应到user表中的主键)。即，拿着当前表的uid(外键),去user表中匹配主键，查询出记录。</p>
+<p><code>cn.lizhi.mybatis_01.dao.UserDao.findById</code>:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findById"</span> <span class="attr">parameterType</span>=<span class="string">"Integer"</span> <span class="attr">resultType</span>=<span class="string">"cn.lizhi.mybatis_01.domain.User"</span>&gt;</span></span><br><span class="line">        select * from user where id=#&#123;uid&#125;;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>cn.lizhi.mybatis_01.dao.AccountDao.findAllByCount</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findAllByCount"</span> <span class="attr">resultMap</span>=<span class="string">"accountUserMap"</span>&gt;</span></span><br><span class="line">        select * from account</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>以上可以实现懒加载。</p>
+<h4 id="11-1-2-一对多-Collection"><a href="#11-1-2-一对多-Collection" class="headerlink" title="11.1.2 一对多(Collection)"></a>11.1.2 一对多(Collection)</h4><p>使用方法同上:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 一对多的查询 --&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">resultMap</span> <span class="attr">id</span>=<span class="string">"userAccountMap"</span> <span class="attr">type</span>=<span class="string">"user"</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">id</span> <span class="attr">property</span>=<span class="string">'id'</span> <span class="attr">column</span>=<span class="string">'id'</span>&gt;</span><span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"username"</span> <span class="attr">property</span>=<span class="string">"username"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"address"</span> <span class="attr">property</span>=<span class="string">"address"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"sex"</span> <span class="attr">property</span>=<span class="string">"sex"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"birthday"</span> <span class="attr">property</span>=<span class="string">"birthday"</span>&gt;</span><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">collection</span> <span class="attr">property</span>=<span class="string">"accounts"</span> <span class="attr">ofType</span>=<span class="string">"account"</span> <span class="attr">select</span>=<span class="string">"cn.lizhi.mybatis_01.dao.AccountDao.findAccountByUid"</span> <span class="attr">column</span>=<span class="string">"id"</span>&gt;</span> </span><br><span class="line">           <span class="comment">&lt;!-- select中uid是唯一标识(因为user中的id对应这account中的uid)。这里column写id是因为通过用户的id去查询Account表中的信息(对应account表中的uid) --&gt;</span>        </span><br><span class="line">       <span class="tag">&lt;/<span class="name">collection</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>延迟加载的两点:</p>
+<ul>
+<li><code>mapper</code>中内容的填写。即<code>sql</code>语句的写法,<code>resultMap</code>中标签的写法。</li>
+<li>开启全局配置文件的懒加载</li>
+</ul>
+<h3 id="11-2-Mybatis中的一级缓存"><a href="#11-2-Mybatis中的一级缓存" class="headerlink" title="11.2 Mybatis中的一级缓存"></a>11.2 Mybatis中的一级缓存</h3><p>指的是<code>Mybatis</code>中<code>SqlSession</code>对象的缓存。当我们执行查询之后，查询的结果会同时存入到<code>SqlSession</code>为我们提供一块区域中。该区域的结构是一个<code>Map</code>。当我们再次查询同样的数据，<code>Mybatis</code>会先去<code>SqlSession</code>中查询是否有，有的话直接拿出来用。当<code>SqlSession</code>对象消失时，<code>Mybatis</code>的一级缓存也就消失了。</p>
+<p>默认开启了一级缓存。当<code>SqlSession</code>关闭(<code>sqlSession.close()</code>)时，缓存会自动消失。</p>
+<p>同时<code>sqlSession.clearCache()</code>,也可以清楚缓存。</p>
+<p>当数据库中的内容和缓存中数据不同时，<code>Mybatis</code>的做法：</p>
+<p>一级缓存是<code>SqlSession</code>范围的缓存，当调用<code>SqlSession</code>的修改，添加，修改，<code>commit()</code>，<code>close()</code>等方法时，就会清空一级缓存，直接从数据库中查询，并将查询的记录添加入缓存当中。</p>
+<h3 id="11-3-Mybatis中的二级缓存"><a href="#11-3-Mybatis中的二级缓存" class="headerlink" title="11.3 Mybatis中的二级缓存"></a>11.3 Mybatis中的二级缓存</h3><p>指的是<code>Mybatis</code>中<code>SqlSessionFactory</code>对象的缓存。由同一个<code>SqlSessionFactory</code>对象创建的<code>SqlSession</code>共享其缓存。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/09/06/wel6de.png" alt="二级缓存"></p>
+<p>二级缓存的使用步骤：</p>
+<p>第一步：让<code>Mybatis</code>框架支持二级缓存(在<code>SqlMapConfig.xml</code>中配置，可以不用配置，默认是开启状态)</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">settings</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"cacheEnabled"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">settings</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>第二步：让当前的映射文件支持二级缓存(在<code>UserDao.xml</code>中配置)</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 开启user支持二级缓存--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">cache</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>第三部：让当前的操作支持二级缓存(在<code>select</code>标签中配置，配置<code>userCache</code>值为<code>true</code>)</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findById"</span> <span class="attr">parameterType</span>=<span class="string">"Integer"</span> <span class="attr">resultType</span>=<span class="string">"cn.lizhi.mybatis_01.domain.User"</span> <span class="attr">useCache</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">        select * from user where id=#&#123;uid&#125;;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>二级缓存中存放的内容是数据(<code>json</code>数据)，而不是对象。当发起查询时，创建一个新的对象，然后将二级缓存中的数据填充到对象当中，所以前后两次查询中对象不同。</p>
+<h2 id="十二、Mybatis的注解开发"><a href="#十二、Mybatis的注解开发" class="headerlink" title="十二、Mybatis的注解开发"></a>十二、Mybatis的注解开发</h2><p><code>&lt;packaging&gt;jar&lt;/packaging&gt;</code></p>
+<p>在<code>Mybatis</code>中针对<code>CRUD</code>的四个注解：</p>
+<p><code>@Select</code>、<code>@Insert</code>、<code>@Update</code>、<code>@Delete</code></p>
+<p>在对应的<code>Dao</code>方法中直接写上对应的注解，注解中(<code>@Select)</code>写入操作数据库的语句即可。</p>
+<p>注意：<code>dao.XML</code>配置文件会和注解产生冲突。故不能混用(<code>dao.xml</code>配置文件存放到其他地方或者不用)</p>
+<h3 id="12-1-Mybatis中的属性与字段不一致解决办法"><a href="#12-1-Mybatis中的属性与字段不一致解决办法" class="headerlink" title="12.1 Mybatis中的属性与字段不一致解决办法"></a>12.1 Mybatis中的属性与字段不一致解决办法</h3><p>使用注解<code>@Results</code></p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Results</span>(id=<span class="string">"userMap"</span>,value=&#123;</span><br><span class="line">		<span class="meta">@Result</span>(id=<span class="keyword">true</span>,cloumn=<span class="string">"id"</span>,property=<span class="string">"userId"</span>),</span><br><span class="line">    	<span class="meta">@Result</span>(cloumn=<span class="string">"username"</span>,property=<span class="string">"userName"</span>),</span><br><span class="line">    	<span class="meta">@Result</span>(cloumn=<span class="string">"address"</span>,property=<span class="string">"userAddress"</span>),</span><br><span class="line">    	<span class="meta">@Result</span>(cloumn=<span class="string">"sex"</span>,property=<span class="string">"userSex"</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><code>id</code>用于表示是否是主键,默认值是<code>false</code>。外部的<code>id=&quot;userMap&quot;</code>，用于指定唯一标识，可以让其他的注解进行复用。</p>
+<p>如果需要让当前<code>dao</code>下其他的方法也能使用，指定注解<code>@ResultMap</code>.即:<code>@ResultMap(&quot;userMap&quot;)</code>,其中为数组类型，可以指定多个,例如：<code>@ResultMap(value={&quot;userMap&quot;,...})</code>。可以理解为对应在<code>dao.xml</code>配置文件中的<code>resultMap</code>。</p>
+<h3 id="12-2-Mybatis中的多表查询-–-注解方式"><a href="#12-2-Mybatis中的多表查询-–-注解方式" class="headerlink" title="12.2 Mybatis中的多表查询 – 注解方式"></a>12.2 Mybatis中的多表查询 – 注解方式</h3><h4 id="12-2-1-一对一"><a href="#12-2-1-一对一" class="headerlink" title="12.2.1 一对一"></a>12.2.1 一对一</h4><p>思想同<code>dao.xml</code>一样。通过配置<code>@Results</code>注解实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Select</span>(<span class="string">"select * from account"</span>) </span><br><span class="line"><span class="meta">@Results</span>(id=<span class="string">"accountMap"</span>,value=&#123;</span><br><span class="line">		<span class="meta">@Result</span>(id=<span class="keyword">true</span>,cloumn=<span class="string">"id"</span>,property=<span class="string">"Id"</span>),</span><br><span class="line">    	<span class="meta">@Result</span>(cloumn=<span class="string">"uid"</span>,property=<span class="string">"uid"</span>),</span><br><span class="line">    	<span class="meta">@Result</span>(cloumn=<span class="string">"money"</span>,property=<span class="string">"money"</span>),</span><br><span class="line">    	<span class="comment">// 以上完成了对account类对象的封装,下面是完成对User类对象的封装</span></span><br><span class="line">    	<span class="meta">@Result</span>(property=<span class="string">"user"</span>,column=<span class="string">"uid"</span>,one=<span class="meta">@One</span>(select=<span class="string">"全限定类名.方法名"</span>,fetchType = FetchType.EAGER(加载方式)))</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><code>select</code>是指向如何查询封装对象的唯一标识 – 全限定类名.方法名。由于<code>select</code>直接定位到方法名，查询到具体的对象，所以在<code>@Select</code>语句中只查询了<code>account</code>(<code>account</code>中包含了<code>user</code>的属性,且在下方的注解中指定了<code>uid</code>去查询对应的<code>user</code>对象，进行封装) ，<strong>注解的方式包含了加载的方式，故采用这种查询方式</strong>。</p>
+<h4 id="12-2-2-一对多"><a href="#12-2-2-一对多" class="headerlink" title="12.2.2 一对多"></a>12.2.2 一对多</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Select</span>(<span class="string">"select * from user"</span>)</span><br><span class="line"><span class="meta">@Results</span>(id=<span class="string">"userMap"</span>,value=&#123;</span><br><span class="line">		<span class="meta">@Result</span>(id=<span class="keyword">true</span>,cloumn=<span class="string">"id"</span>,property=<span class="string">"id"</span>),</span><br><span class="line">    	<span class="meta">@Result</span>(cloumn=<span class="string">"username"</span>,property=<span class="string">"name"</span>),</span><br><span class="line">    	<span class="meta">@Result</span>(cloumn=<span class="string">"address"</span>,property=<span class="string">"address"</span>),</span><br><span class="line">    	<span class="meta">@Result</span>(cloumn=<span class="string">"sex"</span>,property=<span class="string">"sex"</span>)</span><br><span class="line">    	<span class="comment">// 以上完成对user对象的封装，下方是account集合，继而封装account对象</span></span><br><span class="line">    	<span class="meta">@Result</span>(property=<span class="string">"accounts"</span>,column=<span class="string">"id"</span>,many=<span class="meta">@Many</span>(select=<span class="string">"全限定类名.方法名"</span>,fetchType = FetchType.LAZY(加载方式)))	</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>以懒加载的形式，去理解这个查询语句及配置语句。</p>
+<p>以上中，在<code>@Result</code>属性中需要关注的属性是<code>select</code>以及<code>fetchType</code>。</p>
+<h3 id="12-3-Mybatis中的二级缓存-–-注解方式"><a href="#12-3-Mybatis中的二级缓存-–-注解方式" class="headerlink" title="12.3 Mybatis中的二级缓存 – 注解方式"></a>12.3 Mybatis中的二级缓存 – 注解方式</h3><p>在<code>Mybaits</code>中一级缓存是默认打开的。</p>
+<p>注解使用二级缓存的步骤：</p>
+<ol>
+<li>二级缓存中，同样在全局配置中开启二级缓存。</li>
+<li>在对应的<code>Dao</code>接口上配置全局的注解 – <code>@CacheNamespace(blocking = true)</code></li>
+</ol>
+
+          
+            <br>
+            
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.chemlez.cn/2020/09/06/Mybatis%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/>https://www.chemlez.cn/2020/09/06/Mybatis%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget related_posts  desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-bookmark fa-fw" aria-hidden="true"></i><span class='name'>相关文章</span>
+    
+  </header>
+
+
+    <div class="content">
+      <ul class="popular-posts"><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="/2020/11/18/ssm框架的整合/" title="ssm框架的整合" rel="bookmark">ssm框架的整合</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="/2020/11/22/简化Mybatis的使用——通用Mapper/" title="简化Mybatis的使用——通用Mapper" rel="bookmark">简化Mybatis的使用——通用Mapper</a></h3></div></li></ul>
+    </div>
+  </section>
+
+
+  
+
+
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-18T15:31:17+08:00">
+  <a class='notlink'>
+    <i class="fas fa-save" aria-hidden="true"></i>
+    <p>更新于：Nov 18, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Mybatis/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i><p>Mybatis</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.chemlez.cn/2020/09/06/Mybatis%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/&title=Mybatis框架介绍与基本使用笔记 - Liz'blog&summary=Mybatis框架介绍与基本使用笔记注意:一般的一个Maven工程首先注入的依赖包含数据库驱动依赖，日志依赖，测试依赖
+domain中的实体类实现serizlizable接口序列化的原因:
+
+最重要的两个原因是：
+　　1、将对象的状态保存在存储媒体中以便可以在以后重新创建出完全相同的副本；
+　　2、按值将对象从一个应用程序域发送至另一个应用程序域。
+　　实现serializable接口的作用是就是可以把对象存到字节流，然后可以恢复。所以你想如果你的对象没实现序列化怎么才能进行网络传输呢，要网络传输就得转为字节流，所以在分布式应用中，你就得实现序列化，如果你不需要分布式应用，那就没那个必要实现序列.
+
+namespace:名称空间；写接口的全类名；相当于告诉Mybatis这个配置文件是实现哪个接口的;"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.chemlez.cn/2020/09/06/Mybatis%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/&title=Mybatis框架介绍与基本使用笔记 - Liz'blog&summary=Mybatis框架介绍与基本使用笔记注意:一般的一个Maven工程首先注入的依赖包含数据库驱动依赖，日志依赖，测试依赖
+domain中的实体类实现serizlizable接口序列化的原因:
+
+最重要的两个原因是：
+　　1、将对象的状态保存在存储媒体中以便可以在以后重新创建出完全相同的副本；
+　　2、按值将对象从一个应用程序域发送至另一个应用程序域。
+　　实现serializable接口的作用是就是可以把对象存到字节流，然后可以恢复。所以你想如果你的对象没实现序列化怎么才能进行网络传输呢，要网络传输就得转为字节流，所以在分布式应用中，你就得实现序列化，如果你不需要分布式应用，那就没那个必要实现序列.
+
+namespace:名称空间；写接口的全类名；相当于告诉Mybatis这个配置文件是实现哪个接口的;"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.chemlez.cn/2020/09/06/Mybatis%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/&title=Mybatis框架介绍与基本使用笔记 - Liz'blog&summary=Mybatis框架介绍与基本使用笔记注意:一般的一个Maven工程首先注入的依赖包含数据库驱动依赖，日志依赖，测试依赖
+domain中的实体类实现serizlizable接口序列化的原因:
+
+最重要的两个原因是：
+　　1、将对象的状态保存在存储媒体中以便可以在以后重新创建出完全相同的副本；
+　　2、按值将对象从一个应用程序域发送至另一个应用程序域。
+　　实现serializable接口的作用是就是可以把对象存到字节流，然后可以恢复。所以你想如果你的对象没实现序列化怎么才能进行网络传输呢，要网络传输就得转为字节流，所以在分布式应用中，你就得实现序列化，如果你不需要分布式应用，那就没那个必要实现序列.
+
+namespace:名称空间；写接口的全类名；相当于告诉Mybatis这个配置文件是实现哪个接口的;"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZgAAAGYCAAAAABaUKuJAAAF9klEQVR42u3dwW4USRAE0Pn/n4b7rqzOjMi2Qby6GcY9VfnqEooWfH5Zf+T6GAEYCwwYCwwYC4z1CPMJ1+MX/Odz2+ek+0l/nj4vPed4/2DAgAEDBgwYMGDAgBnDjAPQw0beGuw1xNNF2F6Us3mCAQMGDBgwYMCAAQNmDdMOYgv2tNHtAVPw6/PF+wIDBgwYMGDAgAEDBsyPwWyDWTvw7QW4DsJgwIABAwYMGDBgwID5e2CuQD7Ha7qv9EK0LwCCAQMGDBgwYMCAAQPmDmb7xS3MdEDp57ef2xZjbdEHBgwYMGDAgAEDBgyYHOaqMPJzOU8wYMCAAQMCDBgwYMA8wrRrC3ZVnF0XVddBN54nGDBgwIABAwYMGDBgHmHqYmdZOLVFWhuE0/NuL1D8OTBgwIABAwYMGDBgwIxh0iDXbiiFSC/KNkimATaeKxgwYMCAAQMGDBgwYOqiLC242oNsA3B6Ubbn3V7Y6RzAgAEDBgwYMGDAgAEzh0mLru0abywEagNuGizP5wIGDBgwYMCAAQMGDJhHmDTIXUN+ytUG4m1gfu35YMCAAQMGDBgwYMCAGQfMtBi6GvD2uemFeGugaVH2v98HAwYMGDBgwIABAwbMGib9gqvCqX0R760L1RZr4+IODBgwYMCAAQMGDBgwjzBXASn9Ob0ALew1yDa4jhtMMGDAgAEDBgwYMGDAfBkw22Lp7dUGy+1FuC4Sx8EUDBgwYMCAAQMGDBgwY5irQNUOpg2c7bm2n7sK6GDAgAEDBgwYMGDAgJnDPBU5bcBLA2xbgKXnevvvH88JBgwYMGDAgAEDBgyYR5ht8JsevC2WpkFuO6C0EEwLse1cwYABAwYMGDBgwIABk/8HpdtC6zpotgXaFDIN1luw8fPAgAEDBgwYMGDAgAEzDphpAdQWUtdFWvu59Pe3gfzLCwIGDBgwYMCAAQMGDJgxzDZgvV2spQVcGzDTQJvuBwwYMGDAgAEDBgwYMD3M9ME/HTTT/bQXK53P+MKAAQMGDBgwYMCAAQPmEebqRblryDaApvtNA3X7AiIYMGDAgAEDBgwYMGDmMNsAdD3QNOC1+2n30QZjMGDAgAEDBgwYMGDA9DDbgNUGrrSgu9rXFPRqjcHAgAEDBgwYMGDAgAHzCLMteNoDXX1fO+j0xbx18bW9QGDAgAEDBgwYMGDAgIkD5tULfemG0xfmrs+RFn0pKBgwYMCAAQMGDBgwYJ5h0o1tB59CvRU03wqe6UUCAwYMGDBgwIABAwZMDtO+wNYGw6vBTOHSQPlWQQgGDBgwYMCAAQMGDJhnmDSAbYFakHYQ28IrDappkQcGDBgwYMCAAQMGDJg5TDqQtwJjOpjpRbrabxu8v3wuGDBgwIABAwYMGDBgHmHa4msdoI4GnAbkq6C6Pe/4PGDAgAEDBgwYMGDAgHmEmW5w+yJdG/C2B32ryGsvzrqABAMGDBgwYMCAAQMGzLiPaQ96Vai1QXAbaLfPeft7wYABAwYMGDBgwIABs/8PStMNbT+XAl0H0LY4OwcEAwYMGDBgwIABAwbMI8zVgNIBtrDt4Nv9XIGAAQMGDBgwYMCAAQNmD9N+8XRDbw3oraJuG0DrfYIBAwYMGDBgwIABA2YNcz3g1w9SwrYQV7BgwIABAwYMGDBgwIDZ/7vLaSGU/vn1INv9v33hpvsFAwYMGDBgwIABAwbMPGCmqw1mU7C00LuGuX5O/CYmGDBgwIABAwYMGDD/MMx1odX+3ttF2TXA1f7AgAEDBgwYMGDAgAGzh9kGymmgSgu1bSBti7/tua+fDwYMGDBgwIABAwYMmBymLba2g98WY/GLdN8UkLfnHAdMMGDAgAEDBgwYMGDAfBvMT/3+NnBuP3cdxMGAAQMGDBgwYMCAAfP9MNMBTX9ui7s0sKYXZlugfVtRBgYMGDBgwIABAwbMPwDz3YNIg1xajKWDbucz/TwYMGDAgAEDBgwYMGDmMNcv0n2OVhp8231vA+k2uIIBAwYMGDBgwIABAyaHsf6sBQaMBQaMBQaMBcb6cv0GVTRH1wVvwo8AAAAASUVORK5CYII=">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/2020/09/22/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(%E5%85%A8)/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Spring学习笔记(全)</p>
+                <p class='content'>0、基本介绍Spring是对业务层的操作,同时可以整合Mybatis框架和Spring MVC框架。下图是MVC结构：
+
+
+
+耦合:简单理解为程序间的依赖关系
+
+类之间的依赖
+方法间的依赖
+
+解...</p>
+              </a>
+            
+            
+              <a class='next' href='/2020/09/05/Java%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%8F%8D%E5%B0%84%E5%88%9D%E6%AD%A5%E7%90%86%E8%A7%A3/'>
+                <p class='title'>Java基础之反射初步理解<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>由于在学习框架时，经常会遇到反射，故此篇文章用于对反射的基本学习。
+一、概述基本定义:JAVA反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box comments shadow floatable">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> Comment</p>
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-spinner fa-spin fa-fw"></i>
+          </div>
+        </section>
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Mybatis框架介绍与基本使用笔记',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+    
+    
+
+<section class="widget blogger shadow floatable desktop">
+  <div class='content'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='https://s1.ax1x.com/2020/03/13/8mvbCj.jpg'/>
+      </div>
+    
+    
+      <div class='text'>
+        
+        
+        
+          <p><span id="jinrishici-sentence">Liz'blog</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="https://github.com/Chemlez"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://weibo.com/u/5653780011?nick=Sane_z&is_all=1"
+              class="social fab fa-weibo flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="mailto:liz_1106@163.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget category shadow floatable desktop">
+    
+  <header>
+    
+      <a href='/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <ul class="entry navigation">
+        
+          <li><a class="flat-box"
+            title="/categories/Java/" href="/categories/Java/"
+            id="categoriesJava"
+            ><div class='name'>Java</div><div class='badge'>(17)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Java/%E6%A1%86%E6%9E%B6/" href="/categories/Java/%E6%A1%86%E6%9E%B6/"
+            id="categoriesJavaE6A186E69EB6"
+            ><div class='name'>框架</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Linux/" href="/categories/Linux/"
+            id="categoriesLinux"
+            ><div class='name'>Linux</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Machine-Learning/" href="/categories/Machine-Learning/"
+            id="categoriesMachine-Learning"
+            ><div class='name'>Machine Learning</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Machine-Learning/sklearn/" href="/categories/Machine-Learning/sklearn/"
+            id="categoriesMachine-Learningsklearn"
+            ><div class='name'>sklearn</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Mongodb/" href="/categories/Mongodb/"
+            id="categoriesMongodb"
+            ><div class='name'>Mongodb</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Nginx/" href="/categories/Nginx/"
+            id="categoriesNginx"
+            ><div class='name'>Nginx</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Python/" href="/categories/Python/"
+            id="categoriesPython"
+            ><div class='name'>Python</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Python/%E7%88%AC%E8%99%AB/" href="/categories/Python/%E7%88%AC%E8%99%AB/"
+            id="categoriesPythonE788ACE899AB"
+            ><div class='name'>爬虫</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/git/" href="/categories/git/"
+            id="categoriesgit"
+            ><div class='name'>git</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E5%89%8D%E7%AB%AF/" href="/categories/%E5%89%8D%E7%AB%AF/"
+            id="categoriesE5898DE7ABAF"
+            ><div class='name'>前端</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"
+            id="categoriesE5A49AE7BABFE7A88B"
+            ><div class='name'>多线程</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"
+            id="categoriesE695B0E68DAEE7BB93E69E84E4B88EE7AE97E6B395"
+            ><div class='name'>数据结构与算法</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"
+            id="categoriesE8AEBEE8AEA1E6A8A1E5BC8F"
+            ><div class='name'>设计模式</div><div class='badge'>(10)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget tagcloud shadow floatable desktop">
+    
+  <header>
+    
+      <a href='/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <a href="/tags/Beautifulsoup/" style="font-size: 17.33px; color: #828282">Beautifulsoup</a> <a href="/tags/Data-Preprocessing/" style="font-size: 14px; color: #999">Data Preprocessing</a> <a href="/tags/DecisionTree/" style="font-size: 14px; color: #999">DecisionTree</a> <a href="/tags/Feature-Engineering/" style="font-size: 14px; color: #999">Feature Engineering</a> <a href="/tags/Filter/" style="font-size: 14px; color: #999">Filter</a> <a href="/tags/IO%E6%B5%81/" style="font-size: 14px; color: #999">IO流</a> <a href="/tags/JDBC/" style="font-size: 17.33px; color: #828282">JDBC</a> <a href="/tags/JQuery/" style="font-size: 14px; color: #999">JQuery</a> <a href="/tags/Java/" style="font-size: 20.67px; color: #6c6c6c">Java</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/JavaWeb/" style="font-size: 17.33px; color: #828282">JavaWeb</a> <a href="/tags/Kaggle/" style="font-size: 14px; color: #999">Kaggle</a> <a href="/tags/Linux/" style="font-size: 17.33px; color: #828282">Linux</a> <a href="/tags/MBG/" style="font-size: 14px; color: #999">MBG</a> <a href="/tags/MVC/" style="font-size: 14px; color: #999">MVC</a> <a href="/tags/Mapper/" style="font-size: 14px; color: #999">Mapper</a> <a href="/tags/Mongodb/" style="font-size: 14px; color: #999">Mongodb</a> <a href="/tags/MySQL/" style="font-size: 20.67px; color: #6c6c6c">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 20.67px; color: #6c6c6c">Mybatis</a> <a href="/tags/Nginx/" style="font-size: 14px; color: #999">Nginx</a> <a href="/tags/Python/" style="font-size: 14px; color: #999">Python</a> <a href="/tags/Request/" style="font-size: 17.33px; color: #828282">Request</a> <a href="/tags/Servlet/" style="font-size: 20.67px; color: #6c6c6c">Servlet</a> <a href="/tags/Spring/" style="font-size: 17.33px; color: #828282">Spring</a> <a href="/tags/SpringMVC/" style="font-size: 17.33px; color: #828282">SpringMVC</a> <a href="/tags/Springboot-starter/" style="font-size: 14px; color: #999">Springboot-starter</a> <a href="/tags/ThreadLocal/" style="font-size: 14px; color: #999">ThreadLocal</a> <a href="/tags/VMware/" style="font-size: 14px; color: #999">VMware</a> <a href="/tags/conda/" style="font-size: 14px; color: #999">conda</a> <a href="/tags/git/" style="font-size: 14px; color: #999">git</a> <a href="/tags/hexo/" style="font-size: 14px; color: #999">hexo</a> <a href="/tags/redis/" style="font-size: 14px; color: #999">redis</a> <a href="/tags/servlet/" style="font-size: 14px; color: #999">servlet</a> <a href="/tags/sklearn/" style="font-size: 17.33px; color: #828282">sklearn</a> <a href="/tags/ssm/" style="font-size: 14px; color: #999">ssm</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">依赖倒置原则</a> <a href="/tags/%E5%89%8D%E7%BC%80%E6%A0%91/" style="font-size: 14px; color: #999">前缀树</a> <a href="/tags/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" style="font-size: 14px; color: #999">动态代理</a> <a href="/tags/%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">单一职责原则</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">单例模式</a> <a href="/tags/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">原型模式</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 17.33px; color: #828282">反射</a> <a href="/tags/%E5%A0%86%E6%8E%92%E5%BA%8F/" style="font-size: 14px; color: #999">堆排序</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 14px; color: #999">多线程</a> <a href="/tags/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">工厂模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 14px; color: #999">并查集</a> <a href="/tags/%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">建造者模式</a> <a href="/tags/%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">开闭原则</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E9%9A%94%E7%A6%BB%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">接口隔离原则</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 17.33px; color: #828282">正则表达式</a> <a href="/tags/%E6%BA%90%E7%A0%81/" style="font-size: 17.33px; color: #828282">源码</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 17.33px; color: #828282">爬虫</a> <a href="/tags/%E7%BB%84%E5%90%88%E4%BC%98%E4%BA%8E%E7%BB%A7%E6%89%BF%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">组合优于继承原则</a> <a href="/tags/%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81/" style="font-size: 14px; color: #999">表单验证</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 24px; color: #555">设计模式</a> <a href="/tags/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">适配器模式</a>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow floatable desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、Mybatis相关配置"><span class="toc-text">一、Mybatis相关配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-config-mybatis-config-xml-全局配置文件"><span class="toc-text">1.1 config(mybatis-config.xml)全局配置文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-1-通过properties标签引入外部配置信息-动态配置"><span class="toc-text">1.1.1 通过properties标签引入外部配置信息(动态配置)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-Mapper"><span class="toc-text">1.2 Mapper</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-log4j的日志配置文件-–-log4j-properties"><span class="toc-text">1.3 log4j的日志配置文件 – log4j.properties</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-表的初始创建"><span class="toc-text">1.4 表的初始创建</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、Mybatis的注意事项"><span class="toc-text">二、Mybatis的注意事项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、快速入门-–-实现user表中的全部用户信息的查询"><span class="toc-text">三、快速入门 – 实现user表中的全部用户信息的查询</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-实体类编写"><span class="toc-text">3.1 实体类编写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-dao层接口的编写"><span class="toc-text">3.2 dao层接口的编写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-UserMapper-xml配置文件的创建"><span class="toc-text">3.3 UserMapper.xml配置文件的创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-测试方法"><span class="toc-text">3.4 测试方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、路径问题与代理dao的方式解析"><span class="toc-text">四、路径问题与代理dao的方式解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#代理dao的方式解析"><span class="toc-text">代理dao的方式解析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、Mybatis的增删改查"><span class="toc-text">五、Mybatis的增删改查</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-findAll-–-查找全部用户的信息"><span class="toc-text">5.1 findAll() – 查找全部用户的信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-saveUser-–-保存用户信息-插入用户"><span class="toc-text">5.2 saveUser – 保存用户信息(插入用户)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-updateUser-–-更新用户"><span class="toc-text">5.3 updateUser – 更新用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-4-deleteUser-–-删除用户"><span class="toc-text">5.4 deleteUser – 删除用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-5-findById-–-根据用户id查询一条记录"><span class="toc-text">5.5 findById – 根据用户id查询一条记录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-6-findByName-–-模糊查询"><span class="toc-text">5.6 findByName – 模糊查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-7-findTotal-–-聚合函数的使用"><span class="toc-text">5.7 findTotal – 聚合函数的使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六、MyBatis的参数深入"><span class="toc-text">六、MyBatis的参数深入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-parameterType-查询参数的输入类型"><span class="toc-text">6.1 parameterType(查询参数的输入类型)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-resultType-输出类型"><span class="toc-text">6.2 resultType(输出类型)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6-3-配置别名文件"><span class="toc-text">6.3 配置别名文件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#七、Mybatis实现Dao层的开发"><span class="toc-text">七、Mybatis实现Dao层的开发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1-Dao实现类的使用"><span class="toc-text">7.1 Dao实现类的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-session中各种操作数据库语句"><span class="toc-text">7.2 session中各种操作数据库语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-3-源码分析"><span class="toc-text">7.3 源码分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#八、Mybatis连接池与事务相关"><span class="toc-text">八、Mybatis连接池与事务相关</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1-Mybatis连接池"><span class="toc-text">8.1 Mybatis连接池</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-2-事务"><span class="toc-text">8.2 事务</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#九、Mybatis动态sql"><span class="toc-text">九、Mybatis动态sql</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-1-动态查询"><span class="toc-text">9.1 动态查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-子查询"><span class="toc-text">9.2 子查询</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#十、Mybatis中的多表查询"><span class="toc-text">十、Mybatis中的多表查询</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#10-1-Mybatis一对一的查询"><span class="toc-text">10.1 Mybatis一对一的查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-2-Mybatis一对多的查询"><span class="toc-text">10.2 Mybatis一对多的查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-3-Mybatis-多对多查询"><span class="toc-text">10.3 Mybatis 多对多查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-4-JNDI补充"><span class="toc-text">10.4 JNDI补充</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#十一、Mybatis缓存相关"><span class="toc-text">十一、Mybatis缓存相关</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#11-1-Mybatis中的延迟加载"><span class="toc-text">11.1 Mybatis中的延迟加载</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#11-1-1-一对一-association"><span class="toc-text">11.1.1 一对一(association)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-1-2-一对多-Collection"><span class="toc-text">11.1.2 一对多(Collection)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-2-Mybatis中的一级缓存"><span class="toc-text">11.2 Mybatis中的一级缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-3-Mybatis中的二级缓存"><span class="toc-text">11.3 Mybatis中的二级缓存</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#十二、Mybatis的注解开发"><span class="toc-text">十二、Mybatis的注解开发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#12-1-Mybatis中的属性与字段不一致解决办法"><span class="toc-text">12.1 Mybatis中的属性与字段不一致解决办法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-2-Mybatis中的多表查询-–-注解方式"><span class="toc-text">12.2 Mybatis中的多表查询 – 注解方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#12-2-1-一对一"><span class="toc-text">12.2.1 一对一</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12-2-2-一对多"><span class="toc-text">12.2.2 一对多</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-3-Mybatis中的二级缓存-–-注解方式"><span class="toc-text">12.3 Mybatis中的二级缓存 – 注解方式</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="https://github.com/Chemlez"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="https://weibo.com/u/5653780011?nick=Sane_z&amp;is_all=1"
+                class="social fab fa-weibo flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="mailto:liz_1106@163.com"
+                class="social fas fa-envelope flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://chemlez.cn" target="_blank" rel="noopener">Copyright © 2019-2021 Chemlez</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.0/js/valine.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var notify = 'true' == true;
+  var verify = 'true' == true;
+  var valine = new Valine();
+  valine.init({
+    el: '#valine_container',
+    notify: notify,
+    verify: verify,
+    guest_info: guest_info,
+    
+    appId: "YSitK1ig1lRcy3jvrtTzT6fb-MdYXbMMI",
+    appKey: "e7hFf2zqvyWgNmDsClWcM7W3",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'wavatar',
+    lang:'zh-cn',
+    visitor: 'false',
+    highlight:'true'
+  })
+  </script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1.5/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copyed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-clipboard-check');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPYED';
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-exclamation-triangle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+
+  <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "[object Object]";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+<script>!function(e){var c=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){for(var r=0;r<c.length;r++)t=c[r],0<=(n=t.getBoundingClientRect()).bottom&&0<=n.left&&n.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=c[r];t=o,n=function(){c=c.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n&&n()},e.src=i}();var t,n}i(),e.addEventListener("scroll",function(){var t,n;t=i,n=e,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)})}(this);</script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script></body>
+</html>

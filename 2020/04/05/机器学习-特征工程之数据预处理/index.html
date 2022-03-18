@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>机器学习:特征工程之数据预处理 - Liz&#39;blog</title>
+  
+    <meta name="keywords" content="sklearn,Feature Engineering,Data Preprocessing">
+  
+  
+    <meta name="description" content="在上一节中的泰坦尼克号入门案例的数据预处理过程中，出现了数据不完整、数据的编码(数值转化)，即将非结构化文本转化为结构化文本。本文主要用来记录在sklearn中常用的数据预处理基本方法。
+数据预处理从数据中检测，纠正或删除损坏，不准确或不适用于模型的记录的过程。
+可能面对的问题有：数据类型不同，比如有的是文字，有...">
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css">
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+  <link rel="shortcut icon" type='image/x-icon' href="https://s1.ax1x.com/2020/03/15/81ZR5F.jpg">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1.5.2/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+
+  <div class='wrapper'>
+    <div class='nav-sub container--flex'>
+      <a class="logo flat-box"></a>
+      <ul class='switcher h-list'>
+        <li><a class="s-comment flat-btn fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc flat-btn fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main container container--flex">
+      
+        
+        <a class="logo flat-box" target="_self" href='/'>
+          
+          
+          
+          
+            CHEMLEZ <b><sup style='color:#3AA757'></sup></b>
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='h-list'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-home fa-fw'></i>
+                  
+                  主页
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" 
+                  
+                  
+                  >
+                  
+                    <i class='fas fa-list-alt fa-fw fa-fw'></i>
+                  
+                  索引
+                </a>
+                
+                  <ul class="submenu">
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  
+                    <i class='fas fa-tags fa-fw'></i>
+                  
+                  标签
+                </a>
+                
+              </li>
+            
+          
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  
+                    <i class='fas fa-folder-open fa-fw'></i>
+                  
+                  类别
+                </a>
+                
+              </li>
+            
+          
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  
+                    <i class='fas fa-archive fa-fw'></i>
+                  
+                  归档
+                </a>
+                
+              </li>
+            
+          
+                    
+                  </ul>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  
+                    <i class='fas fa-link fa-fw'></i>
+                  
+                  友链
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  
+                    <i class='fas fa-info-circle fa-fw'></i>
+                  
+                  关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      
+        <div class="m_search">
+          <form name="searchform" class="form u-search-form">
+            <i class="icon fas fa-search fa-fw"></i>
+            <input type="text" class="input u-search-input" placeholder="搜索" />
+          </form>
+        </div>
+      
+
+			<ul class='switcher h-list'>
+				
+					<li><a class="s-search flat-btn fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li><a class="s-menu flat-btn fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+	</div>
+</header>
+<ul class="menu-phone navigation white-box">
+  
+  
+    <li>
+      <a class="flat-box" href=/
+        
+        
+        
+          id="home"
+        >
+        
+          <i class='fas fa-clock fa-fw fa-fw'></i>
+        
+        近期文章
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/archives/
+        
+        
+        
+          id="archives"
+        >
+        
+          <i class='fas fa-list-alt fa-fw fa-fw'></i>
+        
+        文章归档
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/categories/
+        
+        
+        
+          id="categories"
+        >
+        
+          <i class='fas fa-folder-open fa-fw'></i>
+        
+        文章类别
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/tags/
+        
+        
+        
+          id="tags"
+        >
+        
+          <i class='fas fa-tags fa-fw'></i>
+        
+        文章标签
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/friends/
+        
+        
+        
+          id="friends"
+        >
+        
+          <i class='fas fa-link fa-fw'></i>
+        
+        我的友链
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/about/
+        
+        
+        
+          id="about"
+        >
+        
+          <i class='fas fa-info-circle fa-fw'></i>
+        
+        关于小站
+      </a>
+    </li>
+  
+</ul>
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box shadow floatable article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2020/04/05/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E4%B9%8B%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86/">
+        机器学习:特征工程之数据预处理
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+<div class='new-meta-item author'>
+  <a href="https://chemlez.cn" target="_blank" rel="nofollow noopener">
+    <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/03/13/8mvbCj.jpg">
+    <p>Chemlez</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Machine-Learning/sklearn/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>Machine Learning&nbsp;/&nbsp;sklearn</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-edit" aria-hidden="true"></i>
+    <p>发布于：Apr 5, 2020</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>在上一节中的<btn><a href="https://www.liizhi.cn/2020/02/09/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%86%B3%E7%AD%96%E6%A0%91%E5%85%A5%E9%97%A8%E4%B9%8B%E6%B3%B0%E5%9D%A6%E5%B0%BC%E5%85%8B%E5%8F%B7%E6%A1%88%E4%BE%8B/" target="_blank" rel="noopener">泰坦尼克号入门案例</a></btn>的数据预处理过程中，出现了数据不完整、数据的编码(数值转化)，即将非结构化文本转化为结构化文本。本文主要用来记录在<code>sklearn</code>中常用的数据预处理基本方法。</p>
+<h3 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h3><p>从数据中检测，纠正或删除损坏，不准确或不适用于模型的记录的过程。</p>
+<p>可能面对的问题有：数据类型不同，比如有的是文字，有的是数字，有的含时间序列，有的连续，有的间断。也可能，数据的质量不行，有噪声，有异常，有缺失，数据出错，量纲不一，有重复，数据是偏态，数据量太大或太小。</p>
+<p>目的：让数据适应模型，匹配模型的需求。</p>
+<a id="more"></a>
+
+<h4 id="1-数据无量纲化"><a href="#1-数据无量纲化" class="headerlink" title="1. 数据无量纲化"></a>1. 数据无量纲化</h4><p>在机器学习算法实践中，往往有着将不同规格的数据转换到同一规格，或不同分布的数据转换到某个特定分布的需求，这种需求统称为将数据“无量纲化”。 </p>
+<p>数据的无量纲化包括线性与非线性。其中线性的无量纲化包括：<strong>中心化</strong>(Zero-centered或Mean-subtraction)处理和<strong>缩放处理</strong>(Scale)。</p>
+<ol>
+<li><p><strong>中心化</strong></p>
+<p>让所有记录减去一个固定值，即让数据的样本数据平移到某个位置。</p>
+</li>
+<li><p><strong>缩放处理</strong></p>
+<p>通过除以一个固定值，将数据固定在某个范围之中，通常采用取对数的方式。</p>
+</li>
+</ol>
+<h5 id="1-1-数据归一化"><a href="#1-1-数据归一化" class="headerlink" title="1.1 数据归一化"></a>1.1 数据归一化</h5><p>当数据(x)按照最小值中心化后，再按极差（最大值-最小值）缩放，数据移动了最小值个单位，并且会被收敛到[0,1]之间，而这个过程，就叫做<strong>数据归一化</strong>(Normalization，又称Min-MaxScaling)。公式如下：</p>
+<p>​                                                                            $$x={x^*-min(x)\over max(x)-min(x)}$$</p>
+<p>在<code>sklearn</code>中通过<code>preprocessing.MinMaxScaler</code>实现此功能。其中，<code>feature_range</code>可以控制数据压缩的范围，默认为[0,1]。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> MinMaxScaler</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">data = [[<span class="number">-1</span>,<span class="number">2</span>],[<span class="number">-0.5</span>,<span class="number">6</span>],[<span class="number">0</span>,<span class="number">10</span>],[<span class="number">1</span>,<span class="number">18</span>]]</span><br><span class="line">pd.DataFrame(data)</span><br><span class="line"><span class="comment"># 实现归一化</span></span><br><span class="line">scaler = MinMaxScaler() <span class="comment"># 实例化</span></span><br><span class="line">scaler = scaler.fit(data) <span class="comment"># 生成min(x),max(x)</span></span><br><span class="line">result = scaler.transform(data) <span class="comment"># 导出结果</span></span><br></pre></td></tr></table></figure>
+
+<p>结果输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">array([[<span class="number">0.</span>  , <span class="number">0.</span>  ],</span><br><span class="line">       [<span class="number">0.25</span>, <span class="number">0.25</span>],</span><br><span class="line">	   [<span class="number">0.5</span> , <span class="number">0.5</span> ],</span><br><span class="line">       [<span class="number">1.</span>  , <span class="number">1.</span>  ]])</span><br></pre></td></tr></table></figure>
+
+<p>将所有的数据压缩至[0,1]之间。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">scaler.inverse_transform(result) <span class="comment">#逆转结果</span></span><br><span class="line">Out:</span><br><span class="line">	array([[<span class="number">-1.</span> ,  <span class="number">2.</span> ],</span><br><span class="line">       	   [<span class="number">-0.5</span>,  <span class="number">6.</span> ],</span><br><span class="line">           [ <span class="number">0.</span> , <span class="number">10.</span> ],</span><br><span class="line">           [ <span class="number">1.</span> , <span class="number">18.</span> ]])</span><br></pre></td></tr></table></figure>
+
+<p>采用<code>feature_range</code>将数据范围压缩至[0,5]之间。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用MinMaxScaler的参数feature_range实现将数据归一化到[0,1]以外的范围中</span></span><br><span class="line">data = [[<span class="number">-1</span>,<span class="number">2</span>],[<span class="number">-0.5</span>,<span class="number">6</span>],[<span class="number">0</span>,<span class="number">10</span>],[<span class="number">1</span>,<span class="number">18</span>]]</span><br><span class="line">scaler = MinMaxScaler(feature_range=[<span class="number">5</span>,<span class="number">10</span>]) <span class="comment"># 实例化归一化到5~10之间</span></span><br><span class="line">result = scaler.fit_transform(data)</span><br><span class="line">result</span><br><span class="line">Out：</span><br><span class="line">    array([[ <span class="number">5.</span>  ,  <span class="number">5.</span>  ],</span><br><span class="line">           [ <span class="number">6.25</span>,  <span class="number">6.25</span>],</span><br><span class="line">           [ <span class="number">7.5</span> ,  <span class="number">7.5</span> ],</span><br><span class="line">           [<span class="number">10.</span>  , <span class="number">10.</span>  ]])</span><br></pre></td></tr></table></figure>
+
+<p>采用<code>Numpy</code>实现归一化处理。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用numpy来实现归一化</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">X = np.array(data)</span><br><span class="line">X</span><br><span class="line">Out:</span><br><span class="line">    array([[<span class="number">-1.</span> ,  <span class="number">2.</span> ],</span><br><span class="line">           [<span class="number">-0.5</span>,  <span class="number">6.</span> ],</span><br><span class="line">           [ <span class="number">0.</span> , <span class="number">10.</span> ],</span><br><span class="line">           [ <span class="number">1.</span> , <span class="number">18.</span> ]])</span><br><span class="line">X_nor = (X - X.min(axis=<span class="number">0</span>))/(X.max(axis=<span class="number">0</span>) - X.min(axis=<span class="number">0</span>))</span><br><span class="line">X_nor</span><br><span class="line">Out:</span><br><span class="line">    array([[<span class="number">0.</span>  , <span class="number">0.</span>  ],</span><br><span class="line">           [<span class="number">0.25</span>, <span class="number">0.25</span>],</span><br><span class="line">           [<span class="number">0.5</span> , <span class="number">0.5</span> ],</span><br><span class="line">           [<span class="number">1.</span>  , <span class="number">1.</span>  ]])</span><br><span class="line"><span class="comment"># 还原,即：公式的还原</span></span><br><span class="line">X = X_nor * (X.max(axis=<span class="number">0</span>) - X.min(axis=<span class="number">0</span>)) + X.min(axis=<span class="number">0</span>)</span><br><span class="line">X</span><br><span class="line">Out:</span><br><span class="line">    array([[<span class="number">-1.</span> ,  <span class="number">2.</span> ],</span><br><span class="line">           [<span class="number">-0.5</span>,  <span class="number">6.</span> ],</span><br><span class="line">           [ <span class="number">0.</span> , <span class="number">10.</span> ],</span><br><span class="line">           [ <span class="number">1.</span> , <span class="number">18.</span> ]])</span><br></pre></td></tr></table></figure>
+
+<p>通过以上的实例，将数据压缩至统一的范围内。</p>
+<h5 id="1-2-数据标准化"><a href="#1-2-数据标准化" class="headerlink" title="1.2 数据标准化"></a>1.2 数据标准化</h5><p>当数据(x)按均值(μ)中心化后，再按标准差(σ)缩放，数据就会服从为均值为0，方差为1的正态分布（即标准正态分布），而这个过程，就叫做<strong>数据标准化</strong>(Standardization，又称Z-scorenormalization)，公式如下：</p>
+<p>​                                                                            $$x^*={x-u\over \sigma} $$</p>
+<p><code>sklearn</code>中提供了<code>preprocessing.StandarScaler</code>接口进行使用。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler</span><br><span class="line">scaler = StandardScaler() <span class="comment"># 实例化</span></span><br><span class="line">scaler.fit(data) <span class="comment"># fit,本质用于生成均值和方差</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 对每一列向量表示一个特征，故默认对列进行操作</span></span><br><span class="line">scaler.mean_ <span class="comment"># 查看均值的属性mean_</span></span><br><span class="line">scaler.var_  <span class="comment"># 查看方差的属性var_</span></span><br><span class="line">Out:</span><br><span class="line">	array([<span class="number">-0.125</span>,  <span class="number">9.</span>   ])</span><br></pre></td></tr></table></figure>
+
+<p>导出结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 导出结果</span></span><br><span class="line">x_std = scaler.transform(data)</span><br><span class="line">x_std</span><br><span class="line">Out:</span><br><span class="line">    array([[<span class="number">-1.18321596</span>, <span class="number">-1.18321596</span>],</span><br><span class="line">           [<span class="number">-0.50709255</span>, <span class="number">-0.50709255</span>],</span><br><span class="line">           [ <span class="number">0.16903085</span>,  <span class="number">0.16903085</span>],</span><br><span class="line">           [ <span class="number">1.52127766</span>,  <span class="number">1.52127766</span>]])</span><br></pre></td></tr></table></figure>
+
+<p>查看其方差与均值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 结果均值为0，方差为1的标准正态分布</span></span><br><span class="line">x_std.mean()</span><br><span class="line">x_std.std()</span><br></pre></td></tr></table></figure>
+
+<p>逆标准化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">scaler.inverse_transform(x_std) <span class="comment"># 使用inverse_transform逆标准化</span></span><br><span class="line">Out:</span><br><span class="line">    array([[<span class="number">-1.</span> ,  <span class="number">2.</span> ],</span><br><span class="line">           [<span class="number">-0.5</span>,  <span class="number">6.</span> ],</span><br><span class="line">           [ <span class="number">0.</span> , <span class="number">10.</span> ],</span><br><span class="line">           [ <span class="number">1.</span> , <span class="number">18.</span> ]])</span><br></pre></td></tr></table></figure>
+
+<h5 id="1-3-小结"><a href="#1-3-小结" class="headerlink" title="1.3 小结"></a>1.3 小结</h5><p><strong>目的：</strong>为了把不同来源的数据（不同特征）统一到同一数量级（一个参考坐标系）下，消除指标之间的量纲影响，解决数据指标简单可比性问题。</p>
+<p><strong>优点：</strong></p>
+<ul>
+<li>提高精度</li>
+<li>可提高梯度下降求最优解的速度</li>
+</ul>
+<h4 id="2-数据缺失值的处理"><a href="#2-数据缺失值的处理" class="headerlink" title="2. 数据缺失值的处理"></a>2. 数据缺失值的处理</h4><p>此小节记录对于<code>sklearn</code>中缺失值处理的基本方法。</p>
+<p>导入数据：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">data = pd.read_csv(<span class="string">r'/jupyter-notebook/sklearn/2- Feature Engineering/Narrativedata.csv'</span>,index_col=<span class="number">0</span>)</span><br><span class="line">data.head()</span><br><span class="line">data.info()</span><br><span class="line">Out:</span><br><span class="line">    &lt;<span class="class"><span class="keyword">class</span> '<span class="title">pandas</span>.<span class="title">core</span>.<span class="title">frame</span>.<span class="title">DataFrame</span>'&gt;</span></span><br><span class="line"><span class="class">    <span class="title">Int64Index</span>:</span> <span class="number">891</span> entries, <span class="number">0</span> to <span class="number">890</span></span><br><span class="line">    Data columns (total <span class="number">4</span> columns):</span><br><span class="line">    Age         <span class="number">714</span> non-null float64</span><br><span class="line">    Sex         <span class="number">891</span> non-null object</span><br><span class="line">    Embarked    <span class="number">889</span> non-null object</span><br><span class="line">    Survived    <span class="number">891</span> non-null object</span><br><span class="line">    dtypes: float64(<span class="number">1</span>), object(<span class="number">3</span>)</span><br><span class="line">    memory usage: <span class="number">34.8</span>+ KB</span><br></pre></td></tr></table></figure>
+
+<p>从以上结果中可以看出，共有891条数据，其中<code>Age</code>,<code>Embarked</code>皆存在缺失值。<code>sklearn</code>中提供了<code>sklearn.impute.SimpleImputer</code>接口处理缺失值。</p>
+<p>首先对Age缺失值处理方式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.impute <span class="keyword">import</span> SimpleImputer</span><br><span class="line">Age = data.loc[:,<span class="string">'Age'</span>].values.reshape(<span class="number">-1</span>,<span class="number">1</span>)</span><br><span class="line">imp_mean = SimpleImputer() <span class="comment"># 实例化,默认均值填补</span></span><br><span class="line">imp_median = SimpleImputer(strategy=<span class="string">'median'</span>) <span class="comment"># 采取中位数填补</span></span><br><span class="line">imp_0 = SimpleImputer(strategy=<span class="string">'constant'</span>,fill_value=<span class="number">0</span>) <span class="comment"># 给定常数，以0填补</span></span><br><span class="line">imp_most = SimpleImputer(strategy=<span class="string">'most_frequent'</span>)<span class="comment">#采用众数进行填补，可用于字符串</span></span><br><span class="line">imp_mean = imp_mean.fit(Age)</span><br><span class="line">imp_mean = imp_mean.transform(Age)</span><br><span class="line">imp_median = imp_median.fit_transform(Age)</span><br><span class="line">imp_most = imp_most.fit_transform(Age)</span><br></pre></td></tr></table></figure>
+
+<p>结果输出，取前5个数据。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">imp_mean[:<span class="number">5</span>]</span><br><span class="line">imp_median[:<span class="number">5</span>]</span><br><span class="line">imp_most[:<span class="number">5</span>]</span><br><span class="line">Out: <span class="comment"># 采用众数进行填补的结果</span></span><br><span class="line">    array([[<span class="number">22.</span>],</span><br><span class="line">           [<span class="number">38.</span>],</span><br><span class="line">           [<span class="number">26.</span>],</span><br><span class="line">           [<span class="number">35.</span>],</span><br><span class="line">           [<span class="number">35.</span>]])</span><br></pre></td></tr></table></figure>
+
+<p>将众数作为<code>Age</code>缺失值处理的方式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Age = imp_most</span><br><span class="line">data.loc[:,<span class="string">'Age'</span>] = Age</span><br></pre></td></tr></table></figure>
+
+<p>对<code>Embarked</code>处理的方式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 采用众数填补Embarked</span></span><br><span class="line">Embarked = data.loc[:,<span class="string">'Embarked'</span>].values.reshape(<span class="number">-1</span>,<span class="number">1</span>)</span><br><span class="line">imp_most = SimpleImputer(strategy=<span class="string">'most_frequent'</span>)</span><br><span class="line">imp_most = imp_most.fit_transform(Embarked)</span><br><span class="line">Embarked = imp_most</span><br><span class="line">data.loc[:,<span class="string">'Embarked'</span>] = Embarked</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong>众数的施加对象可以是非数值型。</p>
+<p><strong>补充：</strong></p>
+<p>采用<code>Pandas</code>和<code>Numpy</code>进行缺失值的填补</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 采用平均值填补年龄的缺失值,利用.fillna 在DataFrame里面进行填补</span></span><br><span class="line">data_.loc[:,<span class="string">'Age'</span>] = data_.loc[:,<span class="string">'Age'</span>].fillna(data.loc[:,<span class="string">'Age'</span>].mean())</span><br><span class="line"><span class="comment"># 删除Embarked缺失的两条记录,dropna(axis=0)删除所有有缺失值的行，.dropna(axis=1) 删除所有有缺失值的列</span></span><br><span class="line"><span class="comment"># 当采用删除操作时axis=0是对行操作，axis=1是对列操作；拼接，切片相反</span></span><br><span class="line">data_.dropna(axis=<span class="number">0</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">data_.info()</span><br><span class="line">Out:</span><br><span class="line">    &lt;<span class="class"><span class="keyword">class</span> '<span class="title">pandas</span>.<span class="title">core</span>.<span class="title">frame</span>.<span class="title">DataFrame</span>'&gt;</span></span><br><span class="line"><span class="class">    <span class="title">Int64Index</span>:</span> <span class="number">889</span> entries, <span class="number">0</span> to <span class="number">890</span></span><br><span class="line">    Data columns (total <span class="number">4</span> columns):</span><br><span class="line">    Age         <span class="number">889</span> non-null float64</span><br><span class="line">    Sex         <span class="number">889</span> non-null object</span><br><span class="line">    Embarked    <span class="number">889</span> non-null object</span><br><span class="line">    Survived    <span class="number">889</span> non-null object</span><br><span class="line">    dtypes: float64(<span class="number">1</span>), object(<span class="number">3</span>)</span><br><span class="line">    memory usage: <span class="number">34.7</span>+ KB</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-编码与哑变量"><a href="#3-编码与哑变量" class="headerlink" title="3. 编码与哑变量"></a>3. 编码与哑变量</h4><p>在机器学习中，大多数算法，譬如逻辑回归，支持向量机SVM，k近邻算法等都只能够处理数值型数据，不能处理文字，在sklearn当中，除了专用来处理文字的算法，其他算法在ﬁt的时候全部要求输入数组或矩阵，也不能够导入文字型数据（其实手写决策树和普斯贝叶斯可以处理文字，但是sklearn中规定必须导入数值型）。<br>然而在现实中，许多标签和特征在数据收集完毕的时候，都不是以数字来表现的。比如说，学历的取值可以是[“小学”，“初中”，“高中”，”大学”]，付费方式可能包含[“支付宝”，“现金”，“微信”]等等。在这种情况下，为了让数据适应算法和库，我们必须将数据进行编码，即是说，将文字型数据转换为数值型。</p>
+<h5 id="3-1-标签的编码"><a href="#3-1-标签的编码" class="headerlink" title="3.1 标签的编码"></a>3.1 标签的编码</h5><p><code>preprocessing.LabelEncoder</code>:标签专用，能够将分类转换为分类数值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> LabelEncoder <span class="comment"># 对标签进行编码</span></span><br><span class="line">y = data.iloc[:,<span class="number">-1</span>] <span class="comment"># 取出特征，最后一列，标签允许是一维</span></span><br><span class="line">le = LabelEncoder()  <span class="comment"># 实例化</span></span><br><span class="line">le = le.fit(y)</span><br><span class="line">label = le.transform(y)</span><br><span class="line">data.iloc[:,<span class="number">-1</span>] = label</span><br><span class="line">le.classes_ <span class="comment"># 查看标签中类别数量</span></span><br><span class="line">Out:</span><br><span class="line">	array([<span class="string">'No'</span>, <span class="string">'Unknown'</span>, <span class="string">'Yes'</span>], dtype=object)</span><br></pre></td></tr></table></figure>
+
+<p>查看标签<code>Survived</code>这一列：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 取前5条数据查看</span></span><br><span class="line">data[<span class="string">'Survived'</span>][:<span class="number">5</span>]</span><br><span class="line">Out:</span><br><span class="line">    <span class="number">0</span>    <span class="number">0</span></span><br><span class="line">    <span class="number">1</span>    <span class="number">2</span></span><br><span class="line">    <span class="number">2</span>    <span class="number">2</span></span><br><span class="line">    <span class="number">3</span>    <span class="number">2</span></span><br><span class="line">    <span class="number">4</span>    <span class="number">0</span></span><br><span class="line">    Name: Survived, dtype: int64</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-2-特征的编码"><a href="#3-2-特征的编码" class="headerlink" title="3.2 特征的编码"></a>3.2 特征的编码</h5><p><code>preprocessing.OrdinalEncoder</code>:特征专用，能够将分类特征转换为分类数值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">fromsklearn.preprocessingimportOrdinalEncoder </span><br><span class="line"><span class="comment">#接口categories_对应LabelEncoder的接口classes_，一模一样的功能</span></span><br><span class="line">data_=data.copy()</span><br><span class="line">data_.head()</span><br><span class="line">OrdinalEncoder().fit(data_.iloc[:,<span class="number">1</span>:<span class="number">-1</span>]).categories_</span><br><span class="line">data_.iloc[:,<span class="number">1</span>:<span class="number">-1</span>]=OrdinalEncoder().fit_transform(data_.iloc[:,<span class="number">1</span>:<span class="number">-1</span>])</span><br><span class="line">data_.head()</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-3-独热编码——创建哑变量"><a href="#3-3-独热编码——创建哑变量" class="headerlink" title="3.3 独热编码——创建哑变量"></a>3.3 独热编码——创建哑变量</h5><p>类别OrdinalEncoder可以用来处理有序变量，但对于名义变量，我们只有使用哑变量的方式来处理，才能够尽量向算法传达最准确的信息。</p>
+<ul>
+<li><p>名义变量</p>
+<p>判断两变量是否相同。例如：性别，邮编，身份证号等等</p>
+</li>
+<li><p>有序变量</p>
+<p>为数据的相对大小提供信息，但数据之间大小的间隔不是具有固定意义的，不能做加减运算。例如：学历。</p>
+</li>
+<li><p>有距变量</p>
+<p>有距变量之间的间隔是有固定意义的，可做加减运算。例如：日期</p>
+</li>
+</ul>
+<p>从以上定义看出，性别、舱门号等属于有序变量。在之前的编码中，性别简单采用的<code>0\1</code>区别<code>男\女</code>。但是，在编码的过程中，想要表达的是<code>男≠女</code>。当被我们转换为<code>[0,1]</code>时，存在着大小关系，即从名义变量的编码转化成为了有距变量的编码。</p>
+<p>故：我们采用独热编码(one-hot)的形式进行编码。男:[1,0],女:[0,1]。这样，便能够将男女的编码区别于一般的0、1编码，让算法明白这两取值是没有计算性质的，这种编码即为哑变量。</p>
+<p>在<code>sklearn</code>中提供了<code>sklearn.preprocessing.OneHotEncoder</code>接口进行哑变量处理。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> OneHotEncoder</span><br><span class="line">X = data.iloc[:,<span class="number">1</span>:<span class="number">-1</span>] <span class="comment">#取特征,即：Sex、Embarked</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># one-hot</span></span><br><span class="line">enc = OneHotEncoder() <span class="comment"># 实例化</span></span><br><span class="line">enc = enc.fit(X)</span><br><span class="line">result = enc.transform(X)</span><br><span class="line">result</span><br><span class="line">Out:</span><br><span class="line">    &lt;<span class="number">889</span>x5 sparse matrix of type <span class="string">'&lt;class '</span>numpy.float64<span class="string">'&gt;'</span></span><br><span class="line">        <span class="keyword">with</span> <span class="number">1778</span> stored elements <span class="keyword">in</span> Compressed Sparse Row format&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>result</code>中返回的是结果集对象地址。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">result.toarray()</span><br><span class="line">Out:</span><br><span class="line">    array([[<span class="number">0.</span>, <span class="number">1.</span>, <span class="number">0.</span>, <span class="number">0.</span>, <span class="number">1.</span>],</span><br><span class="line">           [<span class="number">1.</span>, <span class="number">0.</span>, <span class="number">1.</span>, <span class="number">0.</span>, <span class="number">0.</span>],</span><br><span class="line">           [<span class="number">1.</span>, <span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>, <span class="number">1.</span>],</span><br><span class="line">           ...,</span><br><span class="line">           [<span class="number">1.</span>, <span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>, <span class="number">1.</span>],</span><br><span class="line">           [<span class="number">0.</span>, <span class="number">1.</span>, <span class="number">1.</span>, <span class="number">0.</span>, <span class="number">0.</span>],</span><br><span class="line">           [<span class="number">0.</span>, <span class="number">1.</span>, <span class="number">0.</span>, <span class="number">1.</span>, <span class="number">0.</span>]])</span><br></pre></td></tr></table></figure>
+
+<p>从结果中，看出我们得到5列特征。其中，Sex包含男女两类，Embarked包含S、Q、C三类。故通过One-hot得到了5类特征。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">enc.get_feature_names() <span class="comment"># 用于查看特征默认的名称</span></span><br><span class="line">Out:</span><br><span class="line">    array([<span class="string">'x0_female'</span>, <span class="string">'x0_male'</span>, <span class="string">'x1_C'</span>, <span class="string">'x1_Q'</span>, <span class="string">'x1_S'</span>], dtype=object)</span><br></pre></td></tr></table></figure>
+
+<p>将新得到的特征表示，拼接至原有数据后：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">newdata = pd.concat([data,pd.DataFrame(result)],axis=<span class="number">1</span>)<span class="comment"># 将数据进行拼接</span></span><br><span class="line">newdata.drop([<span class="string">'Sex'</span>,<span class="string">'Embarked'</span>],inplace=<span class="literal">True</span>,axis=<span class="number">1</span>) <span class="comment"># 删除原来的特征</span></span><br><span class="line">newdata.columns = [<span class="string">'Age'</span>,<span class="string">'Survived'</span>,<span class="string">'Female'</span>,<span class="string">'Male'</span>,<span class="string">'Embarked_C'</span>,<span class="string">'Embarked_Q'</span>,<span class="string">'Embarked_S'</span>] <span class="comment"># 列名重命名</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="4-连续型特征处理：二值化与分段"><a href="#4-连续型特征处理：二值化与分段" class="headerlink" title="4. 连续型特征处理：二值化与分段"></a>4. 连续型特征处理：二值化与分段</h4><p>在上一小节的特征处理中，one-hot处理的是离散型变量。根据阈值将数据二值化（将特征值设置为0或1），用于处理连续型变量。大于阈值的值映射为1，而小于或等于阈值的值映射为0。默认阈值为0时，特征中所有的正值都映射到1。</p>
+<p>二值化是对文本计数数据的常见操作，分析人员可以决定仅考虑某种现象的存在与否。它还可以用作考虑布尔随机变量的估计器的预处理步骤（例如，使用贝叶斯设置中的伯努利分布建模）。</p>
+<p><code>sklearn</code>中提供了<code>sklearn.preprocessing.Binarizer</code>用于连续型数据的二值化处理。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> Binarizer <span class="comment"># 用于将根阈值将数据二值化，处理连续型变量的工具包</span></span><br><span class="line">data_2 = data.copy()</span><br><span class="line">X = data_2.iloc[:,<span class="number">0</span>].values.reshape(<span class="number">-1</span>,<span class="number">1</span>)</span><br><span class="line">transformer = Binarizer(threshold=<span class="number">30</span>).fit_transform(X) <span class="comment"># threshold=30，即以30作为二值化分段的界限</span></span><br><span class="line">transformer[:<span class="number">4</span>]</span><br><span class="line">Out:</span><br><span class="line">    array([[<span class="number">0</span>],</span><br><span class="line">           [<span class="number">1</span>],</span><br><span class="line">           [<span class="number">0</span>],</span><br><span class="line">           [<span class="number">1</span>]])</span><br></pre></td></tr></table></figure>
+
+<p>从年龄结果的前4条数据看出，年龄大于30的映射为1，小于等于30的映射为0。</p>
+<p><code>sklearn.preprocessing.KBinsDiscretizer</code>可用于设计连续型变量数据的n分类。</p>
+<p>参数解释：</p>
+<table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="left">含义&amp;输入</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">n_bins</td>
+<td align="left">每个特征中分箱的个数，默认5，一次会被运用到所有导入的特征</td>
+</tr>
+<tr>
+<td align="center">ncode</td>
+<td align="left">编码的方式，默认“onehot”<br/>“onehot”：做哑变量，之后返回一个稀疏矩阵，每一列是一个特征中的一个类别，含有该类别的样本表示为1，不含的表示为0 <br/>“ordinal”：每个特征的每个箱都被编码为一个整数，返回每一列是一个特征，每个特征下含有不同整数编码的箱的矩阵<br/>“onehot-dense”：做哑变量，之后返回一个密集数组。</td>
+</tr>
+<tr>
+<td align="center">strategy</td>
+<td align="left">用来定义箱宽的方式，默认”quantile”<br/>“uniform”：表示等宽分箱，即每个特征中的每个箱的最大值之间的差为(特征.max()-特征.min())/(n_bins)<br/>“quantile”：表示等位分箱，即每个特征中的每个箱内的样本数量都相同<br/>“kmeans”：表示按聚类分箱，每个箱中的值到最近的一维k均值聚类的簇心得距离都相同</td>
+</tr>
+</tbody></table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> KBinsDiscretizer</span><br><span class="line">X = data.iloc[:,<span class="number">0</span>].values.reshape(<span class="number">-1</span>,<span class="number">1</span>)</span><br><span class="line"><span class="comment"># n_bins 为划分的数量，即需要划分多少类。</span></span><br><span class="line">est = KBinsDiscretizer(n_bins=<span class="number">6</span>,encode=<span class="string">'ordinal'</span>,strategy=<span class="string">'uniform'</span>)</span><br><span class="line">t = est.fit_transform(X)</span><br><span class="line">t[:<span class="number">10</span>]</span><br><span class="line">Out:</span><br><span class="line">    array([[<span class="number">1.</span>],</span><br><span class="line">           [<span class="number">2.</span>],</span><br><span class="line">           [<span class="number">1.</span>],</span><br><span class="line">           [<span class="number">2.</span>],</span><br><span class="line">           [<span class="number">2.</span>],</span><br><span class="line">           [<span class="number">2.</span>],</span><br><span class="line">           [<span class="number">4.</span>],</span><br><span class="line">           [<span class="number">0.</span>],</span><br><span class="line">           [<span class="number">2.</span>],</span><br><span class="line">           [<span class="number">1.</span>]])</span><br><span class="line">set(t.ravel()) <span class="comment"># .ravel() 用于降维，set集合去重，查看类别的数量</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="5-源码下载"><a href="#5-源码下载" class="headerlink" title="5. 源码下载"></a>5. 源码下载</h4>
+
+<btns rounded grid5>
+
+<a href='https://github.com/ChemLez/ML-sklearn/' target="_blank" rel="noopener"><i class='fas fa-download'></i>下载源码</a>
+</a>
+
+</btns>
+
+
+
+
+          
+            <br>
+            
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.chemlez.cn/2020/04/05/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E4%B9%8B%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86/>https://www.chemlez.cn/2020/04/05/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E4%B9%8B%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget related_posts  desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-bookmark fa-fw" aria-hidden="true"></i><span class='name'>相关文章</span>
+    
+  </header>
+
+
+    <div class="content">
+      <ul class="popular-posts"><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="/2020/02/09/机器学习-决策树入门之泰坦尼克号案例/" title="机器学习:决策树入门之泰坦尼克号案例" rel="bookmark">机器学习:决策树入门之泰坦尼克号案例</a></h3></div></li></ul>
+    </div>
+  </section>
+
+
+  
+
+
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-05T21:57:37+08:00">
+  <a class='notlink'>
+    <i class="fas fa-save" aria-hidden="true"></i>
+    <p>更新于：Apr 5, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/sklearn/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i><p>sklearn</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Feature-Engineering/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i><p>Feature Engineering</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Data-Preprocessing/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i><p>Data Preprocessing</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.chemlez.cn/2020/04/05/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E4%B9%8B%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86/&title=机器学习:特征工程之数据预处理 - Liz'blog&summary=在上一节中的泰坦尼克号入门案例的数据预处理过程中，出现了数据不完整、数据的编码(数值转化)，即将非结构化文本转化为结构化文本。本文主要用来记录在sklearn中常用的数据预处理基本方法。
+数据预处理从数据中检测，纠正或删除损坏，不准确或不适用于模型的记录的过程。
+可能面对的问题有：数据类型不同，比如有的是文字，有的是数字，有的含时间序列，有的连续，有的间断。也可能，数据的质量不行，有噪声，有异常，有缺失，数据出错，量纲不一，有重复，数据是偏态，数据量太大或太小。
+目的：让数据适应模型，匹配模型的需求。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.chemlez.cn/2020/04/05/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E4%B9%8B%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86/&title=机器学习:特征工程之数据预处理 - Liz'blog&summary=在上一节中的泰坦尼克号入门案例的数据预处理过程中，出现了数据不完整、数据的编码(数值转化)，即将非结构化文本转化为结构化文本。本文主要用来记录在sklearn中常用的数据预处理基本方法。
+数据预处理从数据中检测，纠正或删除损坏，不准确或不适用于模型的记录的过程。
+可能面对的问题有：数据类型不同，比如有的是文字，有的是数字，有的含时间序列，有的连续，有的间断。也可能，数据的质量不行，有噪声，有异常，有缺失，数据出错，量纲不一，有重复，数据是偏态，数据量太大或太小。
+目的：让数据适应模型，匹配模型的需求。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.chemlez.cn/2020/04/05/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E4%B9%8B%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86/&title=机器学习:特征工程之数据预处理 - Liz'blog&summary=在上一节中的泰坦尼克号入门案例的数据预处理过程中，出现了数据不完整、数据的编码(数值转化)，即将非结构化文本转化为结构化文本。本文主要用来记录在sklearn中常用的数据预处理基本方法。
+数据预处理从数据中检测，纠正或删除损坏，不准确或不适用于模型的记录的过程。
+可能面对的问题有：数据类型不同，比如有的是文字，有的是数字，有的含时间序列，有的连续，有的间断。也可能，数据的质量不行，有噪声，有异常，有缺失，数据出错，量纲不一，有重复，数据是偏态，数据量太大或太小。
+目的：让数据适应模型，匹配模型的需求。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAbgAAAG4CAAAAAASoa1vAAAGy0lEQVR42u3aQXLcQAwDQP//08k9KZcJkLIrUetmZy2N2JMDBvvxy/VPXh9GAM4FzgUOnAucC9zr4T7K68+/n97vr4V8cd/2udvPfTnAL97nq7+r5w0OHDhw4MCBAwcOHDhwywVvoa+eu73PdMNM79/CfrlecODAgQMHDhw4cODAgVsG3/T3bWC//lz6viloOo/xAQI4cODAgQMHDhw4cODAHRWYbaHYBvk2wE/vkwbpdl7gwIEDBw4cOHDgwIED91MB/ApmG4ivwdugvp0LOHDgwIEDBw4cOHDgwE3hUpDp71uQtJjdrjcF2x48xP8BwIEDBw4cOHDgwIEDB+4oEPt5V5yO5w0OnJ/BgQMHDhw4P4N7PdxVwdgG7zYwXwXiduBpcD+bNzhw4MCBAwcOHDhw4F4PN11g+0XTpz53/cXYq8+3XygeO4ADBw4cOHDgwIEDB+71cO0Ar2Gmg5sOYnrfdqOmGyQtXD/9HDhw4MCBAwcOHDhw4F4P136Bs33xafFaB9Tl4LbFbFosx/cBBw4cOHDgwIEDBw7c6+GmwfV6kFfF5FUhnBbEVxsjfi9w4MCBAwcOHDhw4MCBOxrg00BPB9u2gN1u3PjAAxw4cODAgQMHDhw4cODKQaQF63dBbwfXHkykBXFbPIMDBw4cOHDgwIEDBw7c0wucDmr6d9tBp0VsWnhevwc4cODAgQMHDhw4cODA/Qm3fVAahNNAelV0boHqwDz83HgjggMHDhw4cODAgQMHDtyymHxqwO11BZluvO16xusFBw4cOHDgwIEDBw7c6+HGBV5b/JUbYwveDvZ60Nu51g04OHDgwIEDBw4cOHDg/nu4tkBsga4Kz6uitt1Y6RzT+30ZwMGBAwcOHDhw4MCBA/c6uLbIvC5Yt8VjW3huDwRawPQ/Bjhw4MCBAwcOHDhw4MBtg/f1QNKA24K1hWe6AR+bGzhw4MCBAwcOHDhw4F4Pty0ur6Db66robD/XFrnpfxxw4MCBAwcOHDhw4MCBuyo424W3L9KCTIvQbfBvDwrGBwjgwIEDBw4cOHDgwIF7PVwapNvicQvbPv96XduNuC2UwYEDBw4cOHDgwIEDBy59oTo4PhTgr9Z3vZ50neONBg4cOHDgwIEDBw4cOHBlsGwD7lXQbz9/FaCffp84gIMDBw4cOHDgwIEDB+41cG3Blw5yG1jbwvW7g/01MDhw4MCBAwcOHDhw4MBNA3gaINPgmX6hdfpi6YFCus52I6YHBHWRCg4cOHDgwIEDBw4cuP8ebhoYr4JmWlBOB9je77sPGtr5gQMHDhw4cODAgQMHDtxVYL4eWBrMrwrYp5633ZjgwIEDBw4cOHDgwIEDN4XbBsVrsLhwfBjgpwpdcODAgQMHDhw4cODAgUsHfgWyDaztgK/Ws31OvQHAgQMHDhw4cODAgQMHLgyI3x1A04C8LYjbDZ0G6nbd4MCBAwcOHDhw4MCBA9cG8BYyBdwWnO16W/h0A6bw4MCBAwcOHDhw4MCBA9c+qF1Y+0XQdgDXRe92TusDCXDgwIEDBw4cOHDgwIEbBtvt59oCdRvsU6i2eN0WtuODB3DgwIEDBw4cOHDgwIFbBua6EDwO/r+W108Vten7gAMHDhw4cODAgQMHDtx24VuAdoO0EG2Abtd/9Xtw4MCBAwcOHDhw4MCBa4GuA2n7Alv4FPLqIGJ7UAEOHDhw4MCBAwcOHDhwLVD6Ym1wvwrq6e+3het1oQwOHDhw4MCBAwcOHDhwbTBMF54G33QjXUG0wTx9j/V9wIEDBw4cOHDgwIED93q4baBug+t1MN0G4vbAof08OHDgwIEDBw4cOHDgwF0F8OuCcBpot4H9ulDdQl0fLIADBw4cOHDgwIEDBw5cO+inC8b237frb++73bjx88CBAwcOHDhw4MCBAwduWXxug2l7v+0XcbdfpL1azzqAgwMHDhw4cODAgQMHDtwyQLcFZjqQ7cZIDw6uCtlpUAcHDhw4cODAgQMHDhy4z+CeCrLTF66DaBmsrwrX9jnbgwBw4MCBAwcOHDhw4MCBa4vDbRB9qoCcAl9t3LR4Tv/ur7mBAwcOHDhw4MCBAwcOXDnw6QBa+HZjXIGnINfr+3Q94MCBAwcOHDhw4MCBA7eEuypA20LyasO0BwvbL96mAR0cOHDgwIEDBw4cOHDgnoJLi9nvDvzbYvMKPJ4XOHDgwIEDBw4cOHDgwIU3agvIpwvMq4C9ff71AQA4cODAgQMHDhw4cODAfQaXXleF43YA6d9Pi922+EyfExfN4MCBAwcOHDhw4MCBez2c69+6wIFzgXOBA+cC5wL32us3bTeGYp28K+oAAAAASUVORK5CYII=">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/2020/04/09/%E5%AF%B9%E5%B0%8F%E6%9C%A8%E8%99%AB%E8%80%83%E7%A0%94%E8%B0%83%E5%89%82%E4%BF%A1%E6%81%AF%E7%9A%84%E7%88%AC%E5%8F%96/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>对小木虫考研调剂信息的爬取</p>
+                <p class='content'>一、说明由于国家线快出了，故写了一份爬取小木虫网站调剂信息的爬虫代码，方便信息查看。此代码仅用于学习，不作为任何商业用途。
+
+
+二、代码–单线程
+
+单线程示例
+
+
+123456789101112...</p>
+              </a>
+            
+            
+              <a class='next' href='/2020/03/18/Python%E7%88%AC%E8%99%AB%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/'>
+                <p class='title'>Python爬虫基础入门<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>一、Requests库的7个主要方法
+
+
+方法
+说明
+
+
+
+requests.request()
+构造一个请求，支撑一下各方法的基础方法
+
+
+requests.get()
+获取HTML网页的主要...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box comments shadow floatable">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> Comment</p>
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-spinner fa-spin fa-fw"></i>
+          </div>
+        </section>
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+    processEscapes: true,
+    tags: "ams",
+    macros: {
+      href: "{}"
+    }
+  },
+  options: {
+    ignoreHtmlClass: "tex2jax_ignore|dno",
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  }
+};
+</script>
+
+
+
+
+  <script>
+    window.subData = {
+      title: '机器学习:特征工程之数据预处理',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+    
+    
+
+<section class="widget blogger shadow floatable desktop">
+  <div class='content'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='https://s1.ax1x.com/2020/03/13/8mvbCj.jpg'/>
+      </div>
+    
+    
+      <div class='text'>
+        
+        
+        
+          <p><span id="jinrishici-sentence">Liz'blog</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="https://github.com/Chemlez"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://weibo.com/u/5653780011?nick=Sane_z&is_all=1"
+              class="social fab fa-weibo flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="mailto:liz_1106@163.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget category shadow floatable desktop">
+    
+  <header>
+    
+      <a href='/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <ul class="entry navigation">
+        
+          <li><a class="flat-box"
+            title="/categories/Java/" href="/categories/Java/"
+            id="categoriesJava"
+            ><div class='name'>Java</div><div class='badge'>(17)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Java/%E6%A1%86%E6%9E%B6/" href="/categories/Java/%E6%A1%86%E6%9E%B6/"
+            id="categoriesJavaE6A186E69EB6"
+            ><div class='name'>框架</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Linux/" href="/categories/Linux/"
+            id="categoriesLinux"
+            ><div class='name'>Linux</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Machine-Learning/" href="/categories/Machine-Learning/"
+            id="categoriesMachine-Learning"
+            ><div class='name'>Machine Learning</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Machine-Learning/sklearn/" href="/categories/Machine-Learning/sklearn/"
+            id="categoriesMachine-Learningsklearn"
+            ><div class='name'>sklearn</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Mongodb/" href="/categories/Mongodb/"
+            id="categoriesMongodb"
+            ><div class='name'>Mongodb</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Nginx/" href="/categories/Nginx/"
+            id="categoriesNginx"
+            ><div class='name'>Nginx</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Python/" href="/categories/Python/"
+            id="categoriesPython"
+            ><div class='name'>Python</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Python/%E7%88%AC%E8%99%AB/" href="/categories/Python/%E7%88%AC%E8%99%AB/"
+            id="categoriesPythonE788ACE899AB"
+            ><div class='name'>爬虫</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/git/" href="/categories/git/"
+            id="categoriesgit"
+            ><div class='name'>git</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E5%89%8D%E7%AB%AF/" href="/categories/%E5%89%8D%E7%AB%AF/"
+            id="categoriesE5898DE7ABAF"
+            ><div class='name'>前端</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"
+            id="categoriesE5A49AE7BABFE7A88B"
+            ><div class='name'>多线程</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"
+            id="categoriesE695B0E68DAEE7BB93E69E84E4B88EE7AE97E6B395"
+            ><div class='name'>数据结构与算法</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"
+            id="categoriesE8AEBEE8AEA1E6A8A1E5BC8F"
+            ><div class='name'>设计模式</div><div class='badge'>(10)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget tagcloud shadow floatable desktop">
+    
+  <header>
+    
+      <a href='/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <a href="/tags/Beautifulsoup/" style="font-size: 17.33px; color: #828282">Beautifulsoup</a> <a href="/tags/Data-Preprocessing/" style="font-size: 14px; color: #999">Data Preprocessing</a> <a href="/tags/DecisionTree/" style="font-size: 14px; color: #999">DecisionTree</a> <a href="/tags/Feature-Engineering/" style="font-size: 14px; color: #999">Feature Engineering</a> <a href="/tags/Filter/" style="font-size: 14px; color: #999">Filter</a> <a href="/tags/IO%E6%B5%81/" style="font-size: 14px; color: #999">IO流</a> <a href="/tags/JDBC/" style="font-size: 17.33px; color: #828282">JDBC</a> <a href="/tags/JQuery/" style="font-size: 14px; color: #999">JQuery</a> <a href="/tags/Java/" style="font-size: 20.67px; color: #6c6c6c">Java</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/JavaWeb/" style="font-size: 17.33px; color: #828282">JavaWeb</a> <a href="/tags/Kaggle/" style="font-size: 14px; color: #999">Kaggle</a> <a href="/tags/Linux/" style="font-size: 17.33px; color: #828282">Linux</a> <a href="/tags/MBG/" style="font-size: 14px; color: #999">MBG</a> <a href="/tags/MVC/" style="font-size: 14px; color: #999">MVC</a> <a href="/tags/Mapper/" style="font-size: 14px; color: #999">Mapper</a> <a href="/tags/Mongodb/" style="font-size: 14px; color: #999">Mongodb</a> <a href="/tags/MySQL/" style="font-size: 20.67px; color: #6c6c6c">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 20.67px; color: #6c6c6c">Mybatis</a> <a href="/tags/Nginx/" style="font-size: 14px; color: #999">Nginx</a> <a href="/tags/Python/" style="font-size: 14px; color: #999">Python</a> <a href="/tags/Request/" style="font-size: 17.33px; color: #828282">Request</a> <a href="/tags/Servlet/" style="font-size: 20.67px; color: #6c6c6c">Servlet</a> <a href="/tags/Spring/" style="font-size: 17.33px; color: #828282">Spring</a> <a href="/tags/SpringMVC/" style="font-size: 17.33px; color: #828282">SpringMVC</a> <a href="/tags/Springboot-starter/" style="font-size: 14px; color: #999">Springboot-starter</a> <a href="/tags/ThreadLocal/" style="font-size: 14px; color: #999">ThreadLocal</a> <a href="/tags/VMware/" style="font-size: 14px; color: #999">VMware</a> <a href="/tags/conda/" style="font-size: 14px; color: #999">conda</a> <a href="/tags/git/" style="font-size: 14px; color: #999">git</a> <a href="/tags/hexo/" style="font-size: 14px; color: #999">hexo</a> <a href="/tags/redis/" style="font-size: 14px; color: #999">redis</a> <a href="/tags/servlet/" style="font-size: 14px; color: #999">servlet</a> <a href="/tags/sklearn/" style="font-size: 17.33px; color: #828282">sklearn</a> <a href="/tags/ssm/" style="font-size: 14px; color: #999">ssm</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">依赖倒置原则</a> <a href="/tags/%E5%89%8D%E7%BC%80%E6%A0%91/" style="font-size: 14px; color: #999">前缀树</a> <a href="/tags/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" style="font-size: 14px; color: #999">动态代理</a> <a href="/tags/%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">单一职责原则</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">单例模式</a> <a href="/tags/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">原型模式</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 17.33px; color: #828282">反射</a> <a href="/tags/%E5%A0%86%E6%8E%92%E5%BA%8F/" style="font-size: 14px; color: #999">堆排序</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 14px; color: #999">多线程</a> <a href="/tags/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">工厂模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 14px; color: #999">并查集</a> <a href="/tags/%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">建造者模式</a> <a href="/tags/%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">开闭原则</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E9%9A%94%E7%A6%BB%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">接口隔离原则</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 17.33px; color: #828282">正则表达式</a> <a href="/tags/%E6%BA%90%E7%A0%81/" style="font-size: 17.33px; color: #828282">源码</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 17.33px; color: #828282">爬虫</a> <a href="/tags/%E7%BB%84%E5%90%88%E4%BC%98%E4%BA%8E%E7%BB%A7%E6%89%BF%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">组合优于继承原则</a> <a href="/tags/%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81/" style="font-size: 14px; color: #999">表单验证</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 24px; color: #555">设计模式</a> <a href="/tags/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">适配器模式</a>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow floatable desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据预处理"><span class="toc-text">数据预处理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-数据无量纲化"><span class="toc-text">1. 数据无量纲化</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-1-数据归一化"><span class="toc-text">1.1 数据归一化</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-2-数据标准化"><span class="toc-text">1.2 数据标准化</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-3-小结"><span class="toc-text">1.3 小结</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-数据缺失值的处理"><span class="toc-text">2. 数据缺失值的处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-编码与哑变量"><span class="toc-text">3. 编码与哑变量</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-1-标签的编码"><span class="toc-text">3.1 标签的编码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-2-特征的编码"><span class="toc-text">3.2 特征的编码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-3-独热编码——创建哑变量"><span class="toc-text">3.3 独热编码——创建哑变量</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-连续型特征处理：二值化与分段"><span class="toc-text">4. 连续型特征处理：二值化与分段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-源码下载"><span class="toc-text">5. 源码下载</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="https://github.com/Chemlez"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="https://weibo.com/u/5653780011?nick=Sane_z&amp;is_all=1"
+                class="social fab fa-weibo flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="mailto:liz_1106@163.com"
+                class="social fas fa-envelope flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://chemlez.cn" target="_blank" rel="noopener">Copyright © 2019-2021 Chemlez</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.0/js/valine.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var notify = 'true' == true;
+  var verify = 'true' == true;
+  var valine = new Valine();
+  valine.init({
+    el: '#valine_container',
+    notify: notify,
+    verify: verify,
+    guest_info: guest_info,
+    
+    appId: "YSitK1ig1lRcy3jvrtTzT6fb-MdYXbMMI",
+    appKey: "e7hFf2zqvyWgNmDsClWcM7W3",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'wavatar',
+    lang:'zh-cn',
+    visitor: 'false',
+    highlight:'true'
+  })
+  </script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1.5/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copyed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-clipboard-check');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPYED';
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-exclamation-triangle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+
+  <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "[object Object]";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+<script>!function(e){var c=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){for(var r=0;r<c.length;r++)t=c[r],0<=(n=t.getBoundingClientRect()).bottom&&0<=n.left&&n.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=c[r];t=o,n=function(){c=c.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n&&n()},e.src=i}();var t,n}i(),e.addEventListener("scroll",function(){var t,n;t=i,n=e,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)})}(this);</script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script></body>
+</html>

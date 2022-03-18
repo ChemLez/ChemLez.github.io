@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>前端之表单验证 - Liz&#39;blog</title>
+  
+    <meta name="keywords" content="表单验证,JavaScript,JQuery">
+  
+  
+    <meta name="description" content="一、简概因为，前端经常涉及到表单验证，故此篇博客用于记录前端JS对表单验证的方法。
+通过表单验证，当对form表单提交时，可以防止不合法的数据传递至后台(以及判空操作)。这里我们先定义一个表单，作为示例，其它的情况都可以此类推。
+
+
+
+前端表单代码
+
+
+123456789101112131415161718192...">
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css">
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+  <link rel="shortcut icon" type='image/x-icon' href="https://s1.ax1x.com/2020/03/15/81ZR5F.jpg">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1.5.2/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+
+  <div class='wrapper'>
+    <div class='nav-sub container--flex'>
+      <a class="logo flat-box"></a>
+      <ul class='switcher h-list'>
+        <li><a class="s-comment flat-btn fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc flat-btn fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main container container--flex">
+      
+        
+        <a class="logo flat-box" target="_self" href='/'>
+          
+          
+          
+          
+            CHEMLEZ <b><sup style='color:#3AA757'></sup></b>
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='h-list'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-home fa-fw'></i>
+                  
+                  主页
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" 
+                  
+                  
+                  >
+                  
+                    <i class='fas fa-list-alt fa-fw fa-fw'></i>
+                  
+                  索引
+                </a>
+                
+                  <ul class="submenu">
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  
+                    <i class='fas fa-tags fa-fw'></i>
+                  
+                  标签
+                </a>
+                
+              </li>
+            
+          
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  
+                    <i class='fas fa-folder-open fa-fw'></i>
+                  
+                  类别
+                </a>
+                
+              </li>
+            
+          
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  
+                    <i class='fas fa-archive fa-fw'></i>
+                  
+                  归档
+                </a>
+                
+              </li>
+            
+          
+                    
+                  </ul>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  
+                    <i class='fas fa-link fa-fw'></i>
+                  
+                  友链
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  
+                    <i class='fas fa-info-circle fa-fw'></i>
+                  
+                  关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      
+        <div class="m_search">
+          <form name="searchform" class="form u-search-form">
+            <i class="icon fas fa-search fa-fw"></i>
+            <input type="text" class="input u-search-input" placeholder="搜索" />
+          </form>
+        </div>
+      
+
+			<ul class='switcher h-list'>
+				
+					<li><a class="s-search flat-btn fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li><a class="s-menu flat-btn fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+	</div>
+</header>
+<ul class="menu-phone navigation white-box">
+  
+  
+    <li>
+      <a class="flat-box" href=/
+        
+        
+        
+          id="home"
+        >
+        
+          <i class='fas fa-clock fa-fw fa-fw'></i>
+        
+        近期文章
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/archives/
+        
+        
+        
+          id="archives"
+        >
+        
+          <i class='fas fa-list-alt fa-fw fa-fw'></i>
+        
+        文章归档
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/categories/
+        
+        
+        
+          id="categories"
+        >
+        
+          <i class='fas fa-folder-open fa-fw'></i>
+        
+        文章类别
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/tags/
+        
+        
+        
+          id="tags"
+        >
+        
+          <i class='fas fa-tags fa-fw'></i>
+        
+        文章标签
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/friends/
+        
+        
+        
+          id="friends"
+        >
+        
+          <i class='fas fa-link fa-fw'></i>
+        
+        我的友链
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/about/
+        
+        
+        
+          id="about"
+        >
+        
+          <i class='fas fa-info-circle fa-fw'></i>
+        
+        关于小站
+      </a>
+    </li>
+  
+</ul>
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box shadow floatable article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2020/08/27/%E5%89%8D%E7%AB%AF%E4%B9%8B%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81/">
+        前端之表单验证
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+<div class='new-meta-item author'>
+  <a href="https://chemlez.cn" target="_blank" rel="nofollow noopener">
+    <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/03/13/8mvbCj.jpg">
+    <p>Chemlez</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/%E5%89%8D%E7%AB%AF/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>前端</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-edit" aria-hidden="true"></i>
+    <p>发布于：Aug 27, 2020</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <h3 id="一、简概"><a href="#一、简概" class="headerlink" title="一、简概"></a>一、简概</h3><p>因为，前端经常涉及到表单验证，故此篇博客用于记录前端<code>JS</code>对表单验证的方法。</p>
+<p>通过表单验证，当对<code>form</code>表单提交时，可以防止不合法的数据传递至后台(以及判空操作)。这里我们先定义一个表单，作为示例，其它的情况都可以此类推。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/08/30/dqw44H.png" alt="示例表单"></p>
+<details>
+<summary>
+前端表单代码
+</summary>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">form</span> <span class="attr">method</span>=<span class="string">"get"</span> <span class="attr">action</span>=<span class="string">"https://www.baidu.com"</span> <span class="attr">id</span>=<span class="string">"form"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">table</span> <span class="attr">align</span>=<span class="string">"center"</span> <span class="attr">style</span>=<span class="string">"margin: 0 auto;"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">label</span>&gt;</span>用户名<span class="tag">&lt;/<span class="name">label</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">placeholder</span>=<span class="string">"请输入用户名"</span> <span class="attr">style</span>=<span class="string">"width: 150px"</span> <span class="attr">id</span>=<span class="string">"username"</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">label</span>&gt;</span>邮箱<span class="tag">&lt;/<span class="name">label</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"email"</span> <span class="attr">name</span>=<span class="string">"email"</span> <span class="attr">placeholder</span>=<span class="string">"请输入邮箱"</span> <span class="attr">style</span>=<span class="string">"width: 150px"</span> <span class="attr">id</span>=<span class="string">"email"</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">label</span>&gt;</span>性别<span class="tag">&lt;/<span class="name">label</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">td</span> <span class="attr">align</span>=<span class="string">"left"</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"radio"</span> <span class="attr">name</span>=<span class="string">"male"</span> <span class="attr">value</span>=<span class="string">"male"</span> <span class="attr">checked</span>&gt;</span>男</span><br><span class="line">                    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"radio"</span> <span class="attr">name</span>=<span class="string">"female"</span> <span class="attr">value</span>=<span class="string">"female"</span>&gt;</span>女</span><br><span class="line">                <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">label</span>&gt;</span>出生日期<span class="tag">&lt;/<span class="name">label</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"date"</span> <span class="attr">name</span>=<span class="string">"birthday"</span> <span class="attr">style</span>=<span class="string">"width: 150px"</span> <span class="attr">id</span>=<span class="string">"birthday"</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">td</span> <span class="attr">align</span>=<span class="string">"center"</span> <span class="attr">colspan</span>=<span class="string">"2"</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">name</span>=<span class="string">"register"</span> <span class="attr">value</span>=<span class="string">"注册"</span> <span class="attr">style</span>=<span class="string">"margin-top: 5px"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+</details>
+
+<p>前端进行表单验证只需作用在两个地方即可：</p>
+<ol>
+<li><p>绑定当前需要验证的<code>input</code>标签的离焦事件。</p>
+</li>
+<li><p>对<code>form</code>表单的<code>submit</code>进行全部的<code>input</code>标签判定</p>
+<p>当结果全部返回<code>true</code>才能进行提交，否则无法提交。</p>
+</li>
+</ol>
+<a id="more"></a>
+
+<h3 id="二、代码"><a href="#二、代码" class="headerlink" title="二、代码"></a>二、代码</h3><h4 id="2-1-单个标签的离焦事件"><a href="#2-1-单个标签的离焦事件" class="headerlink" title="2.1 单个标签的离焦事件"></a>2.1 单个标签的离焦事件</h4><ul>
+<li>用户名：限制用户名的长度为3~10位。</li>
+<li>邮箱：符合邮箱的规则(xxx+@xx+.xx+)其中的+号代表正则的通配符。</li>
+<li>出生日期：非空即可。</li>
+</ul>
+<h5 id="1-用户名"><a href="#1-用户名" class="headerlink" title="1.用户名"></a>1.用户名</h5><p>对<code>username</code>绑定离焦事件 – 采用<code>JS</code>的方式</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkusername</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> username = $(<span class="string">'#username'</span>);</span><br><span class="line">        <span class="keyword">var</span> value = username.val();</span><br><span class="line">        <span class="keyword">var</span> regex = <span class="regexp">/^\w&#123;3,10&#125;$/</span>; <span class="comment">//用户名长度3-10</span></span><br><span class="line">        <span class="keyword">var</span> flag = regex.test(value);</span><br><span class="line">        <span class="keyword">if</span> (flag) &#123;  <span class="comment">// 如果验证通过</span></span><br><span class="line">            username.css(<span class="string">'border'</span>, <span class="string">''</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 如果验证不通过</span></span><br><span class="line">            username.css(<span class="string">'border'</span>, <span class="string">'2px solid red'</span>); <span class="comment">// 验证不通过输入框显示红色</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> flag; </span><br><span class="line">    &#125;</span><br><span class="line">$(<span class="string">'#username'</span>).blur(checkusername); <span class="comment">// 对username绑定离焦事件，触发checkusername函数</span></span><br></pre></td></tr></table></figure>
+
+<p>示例：</p>
+<p>当对用户名输入不合法时，输入框会报红：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/08/31/dL3O8f.png" alt="报错信息"></p>
+<p>符合规定时：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/08/31/dL8FP0.png" alt=""></p>
+<h5 id="2-邮箱"><a href="#2-邮箱" class="headerlink" title="2.邮箱"></a>2.邮箱</h5><p>同理，只要写出正确的正则表达式即可。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">checkemail</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> val = $(<span class="string">'#email'</span>).val();</span><br><span class="line">        <span class="keyword">var</span> regx = <span class="regexp">/^\w+@\w+\.\w+$/</span>; <span class="comment">// 邮箱的验证规则</span></span><br><span class="line">        <span class="keyword">var</span> flag = regx.test(val);</span><br><span class="line">        <span class="keyword">if</span> (flag) &#123;</span><br><span class="line">            $(<span class="string">'#email'</span>).css(<span class="string">'border'</span>, <span class="string">''</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $(<span class="string">'#email'</span>).css(<span class="string">'border'</span>, <span class="string">'2px solid red'</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> flag</span><br><span class="line">    &#125;</span><br><span class="line">$(<span class="string">'#email'</span>).blur(checkemail);</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-出生日期-非空"><a href="#3-出生日期-非空" class="headerlink" title="3.出生日期 非空"></a>3.出生日期 非空</h5><p>非空的正则表达式：<code>var regex = /\S/;</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">checkbirthday</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> birthday = $(<span class="string">'#birthday'</span>);</span><br><span class="line">        <span class="keyword">var</span> value = birthday.val();</span><br><span class="line">        <span class="keyword">var</span> regex = <span class="regexp">/\S/</span>; <span class="comment">// 非空验证</span></span><br><span class="line">        <span class="keyword">var</span> flag = regex.test(value);</span><br><span class="line">        <span class="keyword">if</span> (flag) &#123;  <span class="comment">// 如果验证通过</span></span><br><span class="line">            birthday.css(<span class="string">'border'</span>, <span class="string">''</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 如果验证不通过</span></span><br><span class="line">            birthday.css(<span class="string">'border'</span>, <span class="string">'2px solid red'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> flag;</span><br><span class="line">    &#125;</span><br><span class="line">$(<span class="string">'#birthday'</span>).blur(checkbirthday);</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意:</strong>以上所有的函数返回<code>flag</code>标记，是最后对表单<code>form</code>的<code>submit</code>事件进行判定，只有当以上三个全部返回<code>true</code>时，那么表单才能够进行提交。</p>
+<h4 id="2-2-表单提交的验证"><a href="#2-2-表单提交的验证" class="headerlink" title="2.2 表单提交的验证"></a>2.2 表单提交的验证</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 当submit接收false时不提交，接收true时才进行提交</span></span><br><span class="line">$(<span class="string">'#form'</span>).submit(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> checkemail() &amp;&amp; checkusername() &amp;&amp; checkbirthday(); </span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-3-全部代码"><a href="#2-3-全部代码" class="headerlink" title="2.3 全部代码"></a>2.3 全部代码</h4><details>
+<summary>
+前端全部代码
+</summary>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"en"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">"UTF-8"</span>&gt;</span><br><span class="line">    &lt;title&gt;form表单验证&lt;<span class="regexp">/title&gt;</span></span><br><span class="line"><span class="regexp">    &lt;script src="js/</span>jquery<span class="number">-3.2</span><span class="number">.1</span>.min.js<span class="string">"&gt;&lt;/script&gt;</span></span><br><span class="line"><span class="string">    &lt;link rel="</span>stylesheet<span class="string">" href="</span>css/注册样式.css<span class="string">"/&gt;</span></span><br><span class="line"><span class="string">    &lt;style&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        div &#123;</span></span><br><span class="line"><span class="string">            padding-top: 200px;</span></span><br><span class="line"><span class="string">            margin: 0 auto;</span></span><br><span class="line"><span class="string">            text-align: center;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    &lt;/style&gt;</span></span><br><span class="line"><span class="string">&lt;/head&gt;</span></span><br><span class="line"><span class="string">&lt;body&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&lt;div&gt;</span></span><br><span class="line"><span class="string">    &lt;form method="</span><span class="keyword">get</span>" action="https://www.baidu.com" id="form"&gt;</span><br><span class="line">        &lt;table align="center" style="margin: 0 auto;"&gt;</span><br><span class="line">            &lt;tr&gt;</span><br><span class="line">                &lt;td&gt;&lt;label&gt;用户名&lt;/label&gt;&lt;/td&gt;</span><br><span class="line">                &lt;td&gt;&lt;input type="text" name="username" placeholder="请输入用户名" style="width: 150px" id="username"&gt;&lt;/td&gt;</span><br><span class="line">            &lt;/tr&gt;</span><br><span class="line">            &lt;tr&gt;</span><br><span class="line">                &lt;td&gt;&lt;label&gt;邮箱&lt;/label&gt;&lt;/td&gt;</span><br><span class="line">                &lt;td&gt;&lt;input type="email" name="email" placeholder="请输入邮箱" style="width: 150px" id="email"&gt;&lt;/td&gt;</span><br><span class="line">            &lt;/tr&gt;</span><br><span class="line">            &lt;tr&gt;</span><br><span class="line">                &lt;td&gt;&lt;label&gt;性别&lt;/label&gt;&lt;/td&gt;</span><br><span class="line">                &lt;td align="left"&gt;</span><br><span class="line">                    &lt;input type="radio" name="male" value="male" checked&gt;男</span><br><span class="line">                    &lt;input type="radio" name="female" value="female"&gt;女</span><br><span class="line">                &lt;/td&gt;</span><br><span class="line">            &lt;/tr&gt;</span><br><span class="line">            &lt;tr&gt;</span><br><span class="line">                &lt;td&gt;&lt;label&gt;出生日期&lt;/label&gt;&lt;/td&gt;</span><br><span class="line">                &lt;td&gt;&lt;input type="date" name="birthday" style="width: 150px" id="birthday"&gt;&lt;/td&gt;</span><br><span class="line">            &lt;/tr&gt;</span><br><span class="line">            &lt;tr&gt;</span><br><span class="line">                &lt;td align="center" colspan="2"&gt;</span><br><span class="line">                    &lt;input type="submit" name="register" value="注册" style="margin-top: 5px"&gt;</span><br><span class="line">                &lt;/td&gt;</span><br><span class="line">            &lt;/tr&gt;</span><br><span class="line">        &lt;/table&gt;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line"></span><br><span class="line">    function checkusername() &#123;</span><br><span class="line">        <span class="keyword">var</span> username = $(<span class="string">'#username'</span>);</span><br><span class="line">        <span class="keyword">var</span> value = username.val();</span><br><span class="line">        <span class="keyword">var</span> regex = <span class="regexp">/^\w&#123;3,10&#125;$/</span>; <span class="comment">//用户名长度3-10</span></span><br><span class="line">        <span class="keyword">var</span> flag = regex.test(value);</span><br><span class="line">        <span class="keyword">if</span> (flag) &#123;  <span class="comment">// 如果验证通过</span></span><br><span class="line">            username.css(<span class="string">'border'</span>, <span class="string">''</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 如果验证不通过</span></span><br><span class="line">            username.css(<span class="string">'border'</span>, <span class="string">'2px solid red'</span>); <span class="comment">// 验证不通过输入框显示红色</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> flag;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">checkemail</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> val = $(<span class="string">'#email'</span>).val();</span><br><span class="line">        <span class="keyword">var</span> regx = <span class="regexp">/^\w+@\w+\.\w+$/</span>;</span><br><span class="line">        <span class="keyword">var</span> flag = regx.test(val);</span><br><span class="line">        <span class="keyword">if</span> (flag) &#123;</span><br><span class="line">            $(<span class="string">'#email'</span>).css(<span class="string">'border'</span>, <span class="string">''</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $(<span class="string">'#email'</span>).css(<span class="string">'border'</span>, <span class="string">'2px solid red'</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> flag</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">checkbirthday</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> birthday = $(<span class="string">'#birthday'</span>);</span><br><span class="line">        <span class="keyword">var</span> value = birthday.val();</span><br><span class="line">        <span class="keyword">var</span> regex = <span class="regexp">/\S/</span>; <span class="comment">// 非空验证</span></span><br><span class="line">        <span class="keyword">var</span> flag = regex.test(value);</span><br><span class="line">        <span class="keyword">if</span> (flag) &#123;  <span class="comment">// 如果验证通过</span></span><br><span class="line">            birthday.css(<span class="string">'border'</span>, <span class="string">''</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// 如果验证不通过</span></span><br><span class="line">            birthday.css(<span class="string">'border'</span>, <span class="string">'2px solid red'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> flag;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    $(<span class="string">'#email'</span>).blur(checkemail);</span><br><span class="line">    $(<span class="string">'#birthday'</span>).blur(checkbirthday);</span><br><span class="line">    $(<span class="string">'#username'</span>).blur(checkusername);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    $(<span class="string">'#form'</span>).submit(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> checkemail() &amp;&amp; checkusername() &amp;&amp; checkbirthday();</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>body&gt;</span><br><span class="line">&lt;<span class="regexp">/html&gt;</span></span><br></pre></td></tr></table></figure>
+
+</details>
+
+<h3 id="三、附-常用表单验证的正则表达式"><a href="#三、附-常用表单验证的正则表达式" class="headerlink" title="三、附 常用表单验证的正则表达式"></a>三、附 常用表单验证的正则表达式</h3><blockquote>
+<p>待续</p>
+</blockquote>
+
+          
+            <br>
+            
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.chemlez.cn/2020/08/27/%E5%89%8D%E7%AB%AF%E4%B9%8B%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81/>https://www.chemlez.cn/2020/08/27/%E5%89%8D%E7%AB%AF%E4%B9%8B%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget related_posts  desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-bookmark fa-fw" aria-hidden="true"></i><span class='name'>相关文章</span>
+    
+  </header>
+
+
+    <div class="content">
+      
+    </div>
+  </section>
+
+
+  
+
+
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-31T09:36:06+08:00">
+  <a class='notlink'>
+    <i class="fas fa-save" aria-hidden="true"></i>
+    <p>更新于：Aug 31, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i><p>表单验证</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/JavaScript/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i><p>JavaScript</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/JQuery/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i><p>JQuery</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.chemlez.cn/2020/08/27/%E5%89%8D%E7%AB%AF%E4%B9%8B%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81/&title=前端之表单验证 - Liz'blog&summary=一、简概因为，前端经常涉及到表单验证，故此篇博客用于记录前端JS对表单验证的方法。
+通过表单验证，当对form表单提交时，可以防止不合法的数据传递至后台(以及判空操作)。这里我们先定义一个表单，作为示例，其它的情况都可以此类推。
+
+
+
+前端表单代码
+
+
+123456789101112131415161718192021222324252627282930&lt;div&gt;    &lt;form method="get" action="https://www.baidu.com" id="form"&gt;        &lt;table align="center" style="margin: 0 auto;"&gt;            &lt;tr&gt;                &lt;td&gt;&lt;label&gt;用户名&lt;/label&gt;&lt;/td&gt;                &lt;td&gt;&lt;input type="text" name="username" placeholder="请输入用户名" style="width: 150px" id="username"&gt;&lt;/td&gt;            &lt;/tr&gt;            &lt;tr&gt;                &lt;td&gt;&lt;label&gt;邮箱&lt;/label&gt;&lt;/td&gt;                &lt;td&gt;&lt;input type="email" name="email" placeholder="请输入邮箱" style="width: 150px" id="email"&gt;&lt;/td&gt;            &lt;/tr&gt;            &lt;tr&gt;                &lt;td&gt;&lt;label&gt;性别&lt;/label&gt;&lt;/td&gt;                &lt;td align="left"&gt;                    &lt;input type="radio" name="male" value="male" checked&gt;男                    &lt;input type="radio" name="female" value="female"&gt;女                &lt;/td&gt;            &lt;/tr&gt;            &lt;tr&gt;                &lt;td&gt;&lt;label&gt;出生日期&lt;/label&gt;&lt;/td&gt;                &lt;td&gt;&lt;input type="date" name="birthday" style="width: 150px" id="birthday"&gt;&lt;/td&gt;            &lt;/tr&gt;            &lt;tr&gt;                &lt;td align="center" colspan="2"&gt;                    &lt;input type="submit" name="register" value="注册" style="margin-top: 5px"&gt;                &lt;/td&gt;            &lt;/tr&gt;        &lt;/table&gt;    &lt;/form&gt;&lt;/div&gt;
+
+
+
+前端进行表单验证只需作用在两个地方即可：
+
+绑定当前需要验证的input标签的离焦事件。
+
+对form表单的submit进行全部的input标签判定
+当结果全部返回true才能进行提交，否则无法提交。
+
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.chemlez.cn/2020/08/27/%E5%89%8D%E7%AB%AF%E4%B9%8B%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81/&title=前端之表单验证 - Liz'blog&summary=一、简概因为，前端经常涉及到表单验证，故此篇博客用于记录前端JS对表单验证的方法。
+通过表单验证，当对form表单提交时，可以防止不合法的数据传递至后台(以及判空操作)。这里我们先定义一个表单，作为示例，其它的情况都可以此类推。
+
+
+
+前端表单代码
+
+
+123456789101112131415161718192021222324252627282930&lt;div&gt;    &lt;form method="get" action="https://www.baidu.com" id="form"&gt;        &lt;table align="center" style="margin: 0 auto;"&gt;            &lt;tr&gt;                &lt;td&gt;&lt;label&gt;用户名&lt;/label&gt;&lt;/td&gt;                &lt;td&gt;&lt;input type="text" name="username" placeholder="请输入用户名" style="width: 150px" id="username"&gt;&lt;/td&gt;            &lt;/tr&gt;            &lt;tr&gt;                &lt;td&gt;&lt;label&gt;邮箱&lt;/label&gt;&lt;/td&gt;                &lt;td&gt;&lt;input type="email" name="email" placeholder="请输入邮箱" style="width: 150px" id="email"&gt;&lt;/td&gt;            &lt;/tr&gt;            &lt;tr&gt;                &lt;td&gt;&lt;label&gt;性别&lt;/label&gt;&lt;/td&gt;                &lt;td align="left"&gt;                    &lt;input type="radio" name="male" value="male" checked&gt;男                    &lt;input type="radio" name="female" value="female"&gt;女                &lt;/td&gt;            &lt;/tr&gt;            &lt;tr&gt;                &lt;td&gt;&lt;label&gt;出生日期&lt;/label&gt;&lt;/td&gt;                &lt;td&gt;&lt;input type="date" name="birthday" style="width: 150px" id="birthday"&gt;&lt;/td&gt;            &lt;/tr&gt;            &lt;tr&gt;                &lt;td align="center" colspan="2"&gt;                    &lt;input type="submit" name="register" value="注册" style="margin-top: 5px"&gt;                &lt;/td&gt;            &lt;/tr&gt;        &lt;/table&gt;    &lt;/form&gt;&lt;/div&gt;
+
+
+
+前端进行表单验证只需作用在两个地方即可：
+
+绑定当前需要验证的input标签的离焦事件。
+
+对form表单的submit进行全部的input标签判定
+当结果全部返回true才能进行提交，否则无法提交。
+
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.chemlez.cn/2020/08/27/%E5%89%8D%E7%AB%AF%E4%B9%8B%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81/&title=前端之表单验证 - Liz'blog&summary=一、简概因为，前端经常涉及到表单验证，故此篇博客用于记录前端JS对表单验证的方法。
+通过表单验证，当对form表单提交时，可以防止不合法的数据传递至后台(以及判空操作)。这里我们先定义一个表单，作为示例，其它的情况都可以此类推。
+
+
+
+前端表单代码
+
+
+123456789101112131415161718192021222324252627282930&lt;div&gt;    &lt;form method="get" action="https://www.baidu.com" id="form"&gt;        &lt;table align="center" style="margin: 0 auto;"&gt;            &lt;tr&gt;                &lt;td&gt;&lt;label&gt;用户名&lt;/label&gt;&lt;/td&gt;                &lt;td&gt;&lt;input type="text" name="username" placeholder="请输入用户名" style="width: 150px" id="username"&gt;&lt;/td&gt;            &lt;/tr&gt;            &lt;tr&gt;                &lt;td&gt;&lt;label&gt;邮箱&lt;/label&gt;&lt;/td&gt;                &lt;td&gt;&lt;input type="email" name="email" placeholder="请输入邮箱" style="width: 150px" id="email"&gt;&lt;/td&gt;            &lt;/tr&gt;            &lt;tr&gt;                &lt;td&gt;&lt;label&gt;性别&lt;/label&gt;&lt;/td&gt;                &lt;td align="left"&gt;                    &lt;input type="radio" name="male" value="male" checked&gt;男                    &lt;input type="radio" name="female" value="female"&gt;女                &lt;/td&gt;            &lt;/tr&gt;            &lt;tr&gt;                &lt;td&gt;&lt;label&gt;出生日期&lt;/label&gt;&lt;/td&gt;                &lt;td&gt;&lt;input type="date" name="birthday" style="width: 150px" id="birthday"&gt;&lt;/td&gt;            &lt;/tr&gt;            &lt;tr&gt;                &lt;td align="center" colspan="2"&gt;                    &lt;input type="submit" name="register" value="注册" style="margin-top: 5px"&gt;                &lt;/td&gt;            &lt;/tr&gt;        &lt;/table&gt;    &lt;/form&gt;&lt;/div&gt;
+
+
+
+前端进行表单验证只需作用在两个地方即可：
+
+绑定当前需要验证的input标签的离焦事件。
+
+对form表单的submit进行全部的input标签判定
+当结果全部返回true才能进行提交，否则无法提交。
+
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXgAAAF4CAAAAAB79r16AAAFKElEQVR42u3bQZLbMAwEQP//08k9KZeIwdDeVJo3xZJINXmZAPv6ZXxlvBCAB2+AB2+AB28U4F/hePviP35/99zT9en6pvefznv6PeP5wIMHDx48ePDgwYMvwh8HgEPAdKPSebcbuH3/8brBgwcPHjx48ODBg78Af2tBr+VoB54pWMsLPHjw4MGDBw8ePPifCD8NTtvCxrXGo2EBBzx48ODBgwcPHjz4fwk+hWg1NLXX33oePHjw4MGDBw8ePPhPwqcFgmlAagex7fq3BZKPd5KBBw8ePHjw4MGDB19sMPpfrmMv8ODBgwcPHjx48OAL8LcagdJCyGnQSgsTaRCq+YAHDx48ePDgwYMHX4DfBorWBm2DynZj0u+abix48ODBgwcPHjx48A34dw+kf5Aw/cOFW0EnbaiaHrjp+sGDBw8ePHjw4MGDb8BPCwenv6fv2zZUtQs46cGIO8nAgwcPHjx48ODBgx/Apx9yHByWoLcDz/bgHM8PHjx48ODBgwcPHnwBPi10pHCnz20Btg1SqcfjQQUPHjx48ODBgwcPvgC/DS7bQsm33jMNYLVgCR48ePDgwYMHDx78Bfgp8K2N2hZATp/b3jcOYuDBgwcPHjx48ODBF+DTD44DxLDQsX3vtwPfYwUKPHjw4MGDBw8ePPhFX822Uel0Qa3GpOn6v9XQ9JhcwYMHDx48ePDgwYMP4OMXDO+/VRCZBpjtOtcBEjx48ODBgwcPHjz4Avw2EE2DUBuqtd64sDENkODBgwcPHjx48ODBF+G3C0ihtgWX041Pg1G63rfvAw8ePHjw4MGDBw++AH86QSsYnRZQbs+XNjKdzv8YoMCDBw8ePHjw4MGDX8BvG5PSgkEbNgVNCx1xAAMPHjx48ODBgwcPvgC/LUi0G5jS+VsFlJYHePDgwYMHDx48ePA34dsBoT1ahZXp+9MAN06u4MGDBw8ePHjw4MEXCiGthp52AJquI73vaQO2hRbw4MGDBw8ePHjw4D8Bf6twkAavbz839YkDFHjw4MGDBw8ePHjwA/g0yKQb0pr3NPhMf0+DJHjw4MGDBw8ePHjwN+G3H5g2Ak03oB2IWuucBi3w4MGDBw8ePHjw4Bvwp408W9jWfO35W+89/R08ePDgwYMHDx48+Ab86UJPP6C2wEOQaWFke71eL3jw4MGDBw8ePHjwBfhWA1K6sG2gScG/FcjAgwcPHjx48ODBg2/ATwPNNFCkz6fztA7KNCAdvwc8ePDgwYMHDx48+AL8NjCNJ14GqXZD1DYATg8MePDgwYMHDx48ePA34dNxuiHbQDbd8DQQpfOCBw8ePHjw4MGDB38TPoVMA8n0eltgSQs1rfnAgwcPHjx48ODBg78JnxYG0gajtLFoG9xahZY0gIEHDx48ePDgwYMH34BPG4RaoK0P3o5WYHw8EODBgwcPHjx48ODBF+DbDUzpfacQ041LG5rSwkytoQk8ePDgwYMHDx48+IP/j98GhVPANLDcun97EMbX4MGDBw8ePHjw4MEX4VuBqRVkpkC3D1IaoP76d/DgwYMHDx48ePDgL8CngeT0w7cFkul7T7/n9gaCBw8ePHjw4MGDB/+T4NOCwxbsdP40CLXXDx48ePDgwYMHDx78T4I/XUAaiNoHYQqbBijw4MGDBw8ePHjw4D8J32poSgPMtFCRNhpNN2Lq8nZ+8ODBgwcPHjx48OCL8O2gkAa0VsHkUwdkvMHgwYMHDx48ePDgwRfgjc8O8ODBG+DBG+DBG4vxGweDJjeNdhpuAAAAAElFTkSuQmCC">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/2020/08/31/Servlet%E4%BC%98%E5%8C%96%E4%B9%8B%E5%8A%9F%E8%83%BD%E9%87%8D%E7%BB%84%E6%88%90%E6%A8%A1%E5%9D%97/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Servlet优化之功能重组成模块</p>
+                <p class='content'>在之前的总结Java初试MVC及三层架构中，查看其目录结构仅仅对于User对象的操作就写了6，7个servlet，而每一个servlet只对应一个功能，但随着以后项目的扩大，业务逻辑的复杂化，我...</p>
+              </a>
+            
+            
+              <a class='next' href='/2020/08/26/Redis%E5%9F%BA%E7%A1%80%E6%A1%88%E4%BE%8B/'>
+                <p class='title'>Redis思考及基础案例实战<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>一、简单介绍redis是一款高性能的NOSQL系列的非关系型数据库。主要用于缓存，可提升数据访问的性能。这里用于做缓存的数据是不经常做改变的数据。核心思想见下图：
+
+使用缓存机制，可以加快我们数...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box comments shadow floatable">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> Comment</p>
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-spinner fa-spin fa-fw"></i>
+          </div>
+        </section>
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '前端之表单验证',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+    
+    
+
+<section class="widget blogger shadow floatable desktop">
+  <div class='content'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='https://s1.ax1x.com/2020/03/13/8mvbCj.jpg'/>
+      </div>
+    
+    
+      <div class='text'>
+        
+        
+        
+          <p><span id="jinrishici-sentence">Liz'blog</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="https://github.com/Chemlez"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://weibo.com/u/5653780011?nick=Sane_z&is_all=1"
+              class="social fab fa-weibo flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="mailto:liz_1106@163.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget category shadow floatable desktop">
+    
+  <header>
+    
+      <a href='/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <ul class="entry navigation">
+        
+          <li><a class="flat-box"
+            title="/categories/Java/" href="/categories/Java/"
+            id="categoriesJava"
+            ><div class='name'>Java</div><div class='badge'>(17)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Java/%E6%A1%86%E6%9E%B6/" href="/categories/Java/%E6%A1%86%E6%9E%B6/"
+            id="categoriesJavaE6A186E69EB6"
+            ><div class='name'>框架</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Linux/" href="/categories/Linux/"
+            id="categoriesLinux"
+            ><div class='name'>Linux</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Machine-Learning/" href="/categories/Machine-Learning/"
+            id="categoriesMachine-Learning"
+            ><div class='name'>Machine Learning</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Machine-Learning/sklearn/" href="/categories/Machine-Learning/sklearn/"
+            id="categoriesMachine-Learningsklearn"
+            ><div class='name'>sklearn</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Mongodb/" href="/categories/Mongodb/"
+            id="categoriesMongodb"
+            ><div class='name'>Mongodb</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Nginx/" href="/categories/Nginx/"
+            id="categoriesNginx"
+            ><div class='name'>Nginx</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Python/" href="/categories/Python/"
+            id="categoriesPython"
+            ><div class='name'>Python</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Python/%E7%88%AC%E8%99%AB/" href="/categories/Python/%E7%88%AC%E8%99%AB/"
+            id="categoriesPythonE788ACE899AB"
+            ><div class='name'>爬虫</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/git/" href="/categories/git/"
+            id="categoriesgit"
+            ><div class='name'>git</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E5%89%8D%E7%AB%AF/" href="/categories/%E5%89%8D%E7%AB%AF/"
+            id="categoriesE5898DE7ABAF"
+            ><div class='name'>前端</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"
+            id="categoriesE5A49AE7BABFE7A88B"
+            ><div class='name'>多线程</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"
+            id="categoriesE695B0E68DAEE7BB93E69E84E4B88EE7AE97E6B395"
+            ><div class='name'>数据结构与算法</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"
+            id="categoriesE8AEBEE8AEA1E6A8A1E5BC8F"
+            ><div class='name'>设计模式</div><div class='badge'>(10)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget tagcloud shadow floatable desktop">
+    
+  <header>
+    
+      <a href='/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <a href="/tags/Beautifulsoup/" style="font-size: 17.33px; color: #828282">Beautifulsoup</a> <a href="/tags/Data-Preprocessing/" style="font-size: 14px; color: #999">Data Preprocessing</a> <a href="/tags/DecisionTree/" style="font-size: 14px; color: #999">DecisionTree</a> <a href="/tags/Feature-Engineering/" style="font-size: 14px; color: #999">Feature Engineering</a> <a href="/tags/Filter/" style="font-size: 14px; color: #999">Filter</a> <a href="/tags/IO%E6%B5%81/" style="font-size: 14px; color: #999">IO流</a> <a href="/tags/JDBC/" style="font-size: 17.33px; color: #828282">JDBC</a> <a href="/tags/JQuery/" style="font-size: 14px; color: #999">JQuery</a> <a href="/tags/Java/" style="font-size: 20.67px; color: #6c6c6c">Java</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/JavaWeb/" style="font-size: 17.33px; color: #828282">JavaWeb</a> <a href="/tags/Kaggle/" style="font-size: 14px; color: #999">Kaggle</a> <a href="/tags/Linux/" style="font-size: 17.33px; color: #828282">Linux</a> <a href="/tags/MBG/" style="font-size: 14px; color: #999">MBG</a> <a href="/tags/MVC/" style="font-size: 14px; color: #999">MVC</a> <a href="/tags/Mapper/" style="font-size: 14px; color: #999">Mapper</a> <a href="/tags/Mongodb/" style="font-size: 14px; color: #999">Mongodb</a> <a href="/tags/MySQL/" style="font-size: 20.67px; color: #6c6c6c">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 20.67px; color: #6c6c6c">Mybatis</a> <a href="/tags/Nginx/" style="font-size: 14px; color: #999">Nginx</a> <a href="/tags/Python/" style="font-size: 14px; color: #999">Python</a> <a href="/tags/Request/" style="font-size: 17.33px; color: #828282">Request</a> <a href="/tags/Servlet/" style="font-size: 20.67px; color: #6c6c6c">Servlet</a> <a href="/tags/Spring/" style="font-size: 17.33px; color: #828282">Spring</a> <a href="/tags/SpringMVC/" style="font-size: 17.33px; color: #828282">SpringMVC</a> <a href="/tags/Springboot-starter/" style="font-size: 14px; color: #999">Springboot-starter</a> <a href="/tags/ThreadLocal/" style="font-size: 14px; color: #999">ThreadLocal</a> <a href="/tags/VMware/" style="font-size: 14px; color: #999">VMware</a> <a href="/tags/conda/" style="font-size: 14px; color: #999">conda</a> <a href="/tags/git/" style="font-size: 14px; color: #999">git</a> <a href="/tags/hexo/" style="font-size: 14px; color: #999">hexo</a> <a href="/tags/redis/" style="font-size: 14px; color: #999">redis</a> <a href="/tags/servlet/" style="font-size: 14px; color: #999">servlet</a> <a href="/tags/sklearn/" style="font-size: 17.33px; color: #828282">sklearn</a> <a href="/tags/ssm/" style="font-size: 14px; color: #999">ssm</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">依赖倒置原则</a> <a href="/tags/%E5%89%8D%E7%BC%80%E6%A0%91/" style="font-size: 14px; color: #999">前缀树</a> <a href="/tags/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" style="font-size: 14px; color: #999">动态代理</a> <a href="/tags/%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">单一职责原则</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">单例模式</a> <a href="/tags/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">原型模式</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 17.33px; color: #828282">反射</a> <a href="/tags/%E5%A0%86%E6%8E%92%E5%BA%8F/" style="font-size: 14px; color: #999">堆排序</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 14px; color: #999">多线程</a> <a href="/tags/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">工厂模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 14px; color: #999">并查集</a> <a href="/tags/%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">建造者模式</a> <a href="/tags/%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">开闭原则</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E9%9A%94%E7%A6%BB%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">接口隔离原则</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 17.33px; color: #828282">正则表达式</a> <a href="/tags/%E6%BA%90%E7%A0%81/" style="font-size: 17.33px; color: #828282">源码</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 17.33px; color: #828282">爬虫</a> <a href="/tags/%E7%BB%84%E5%90%88%E4%BC%98%E4%BA%8E%E7%BB%A7%E6%89%BF%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">组合优于继承原则</a> <a href="/tags/%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81/" style="font-size: 14px; color: #999">表单验证</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 24px; color: #555">设计模式</a> <a href="/tags/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">适配器模式</a>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow floatable desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、简概"><span class="toc-text">一、简概</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、代码"><span class="toc-text">二、代码</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-单个标签的离焦事件"><span class="toc-text">2.1 单个标签的离焦事件</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-用户名"><span class="toc-text">1.用户名</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-邮箱"><span class="toc-text">2.邮箱</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-出生日期-非空"><span class="toc-text">3.出生日期 非空</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-表单提交的验证"><span class="toc-text">2.2 表单提交的验证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-全部代码"><span class="toc-text">2.3 全部代码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、附-常用表单验证的正则表达式"><span class="toc-text">三、附 常用表单验证的正则表达式</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="https://github.com/Chemlez"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="https://weibo.com/u/5653780011?nick=Sane_z&amp;is_all=1"
+                class="social fab fa-weibo flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="mailto:liz_1106@163.com"
+                class="social fas fa-envelope flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://chemlez.cn" target="_blank" rel="noopener">Copyright © 2019-2021 Chemlez</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.0/js/valine.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var notify = 'true' == true;
+  var verify = 'true' == true;
+  var valine = new Valine();
+  valine.init({
+    el: '#valine_container',
+    notify: notify,
+    verify: verify,
+    guest_info: guest_info,
+    
+    appId: "YSitK1ig1lRcy3jvrtTzT6fb-MdYXbMMI",
+    appKey: "e7hFf2zqvyWgNmDsClWcM7W3",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'wavatar',
+    lang:'zh-cn',
+    visitor: 'false',
+    highlight:'true'
+  })
+  </script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1.5/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copyed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-clipboard-check');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPYED';
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-exclamation-triangle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+
+  <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "[object Object]";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+<script>!function(e){var c=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){for(var r=0;r<c.length;r++)t=c[r],0<=(n=t.getBoundingClientRect()).bottom&&0<=n.left&&n.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=c[r];t=o,n=function(){c=c.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n&&n()},e.src=i}();var t,n}i(),e.addEventListener("scroll",function(){var t,n;t=i,n=e,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)})}(this);</script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script></body>
+</html>

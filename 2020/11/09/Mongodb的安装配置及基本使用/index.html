@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Mongodb的安装配置及基本使用 - Liz&#39;blog</title>
+  
+    <meta name="keywords" content="Mongodb">
+  
+  
+    <meta name="description" content="本文记载一次在阿里云服务器装载Mongodb并远程连接成功使用的过程记录。
+基本安装环境：本次安装环境：CentOS7、Mongodb版本为4.2.10
+一、安装通过Mongodb官网，安装Mongodb的社区版本，选择自己需要安装的版本以及依赖的环境。如下图：
+
+
+在服务器打开终端，应用centos中网络下载的...">
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css">
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+  <link rel="shortcut icon" type='image/x-icon' href="https://s1.ax1x.com/2020/03/15/81ZR5F.jpg">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1.5.2/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+
+  <div class='wrapper'>
+    <div class='nav-sub container--flex'>
+      <a class="logo flat-box"></a>
+      <ul class='switcher h-list'>
+        <li><a class="s-comment flat-btn fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc flat-btn fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main container container--flex">
+      
+        
+        <a class="logo flat-box" target="_self" href='/'>
+          
+          
+          
+          
+            CHEMLEZ <b><sup style='color:#3AA757'></sup></b>
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='h-list'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-home fa-fw'></i>
+                  
+                  主页
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" 
+                  
+                  
+                  >
+                  
+                    <i class='fas fa-list-alt fa-fw fa-fw'></i>
+                  
+                  索引
+                </a>
+                
+                  <ul class="submenu">
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  
+                    <i class='fas fa-tags fa-fw'></i>
+                  
+                  标签
+                </a>
+                
+              </li>
+            
+          
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  
+                    <i class='fas fa-folder-open fa-fw'></i>
+                  
+                  类别
+                </a>
+                
+              </li>
+            
+          
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  
+                    <i class='fas fa-archive fa-fw'></i>
+                  
+                  归档
+                </a>
+                
+              </li>
+            
+          
+                    
+                  </ul>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  
+                    <i class='fas fa-link fa-fw'></i>
+                  
+                  友链
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  
+                    <i class='fas fa-info-circle fa-fw'></i>
+                  
+                  关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      
+        <div class="m_search">
+          <form name="searchform" class="form u-search-form">
+            <i class="icon fas fa-search fa-fw"></i>
+            <input type="text" class="input u-search-input" placeholder="搜索" />
+          </form>
+        </div>
+      
+
+			<ul class='switcher h-list'>
+				
+					<li><a class="s-search flat-btn fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li><a class="s-menu flat-btn fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+	</div>
+</header>
+<ul class="menu-phone navigation white-box">
+  
+  
+    <li>
+      <a class="flat-box" href=/
+        
+        
+        
+          id="home"
+        >
+        
+          <i class='fas fa-clock fa-fw fa-fw'></i>
+        
+        近期文章
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/archives/
+        
+        
+        
+          id="archives"
+        >
+        
+          <i class='fas fa-list-alt fa-fw fa-fw'></i>
+        
+        文章归档
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/categories/
+        
+        
+        
+          id="categories"
+        >
+        
+          <i class='fas fa-folder-open fa-fw'></i>
+        
+        文章类别
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/tags/
+        
+        
+        
+          id="tags"
+        >
+        
+          <i class='fas fa-tags fa-fw'></i>
+        
+        文章标签
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/friends/
+        
+        
+        
+          id="friends"
+        >
+        
+          <i class='fas fa-link fa-fw'></i>
+        
+        我的友链
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/about/
+        
+        
+        
+          id="about"
+        >
+        
+          <i class='fas fa-info-circle fa-fw'></i>
+        
+        关于小站
+      </a>
+    </li>
+  
+</ul>
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box shadow floatable article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2020/11/09/Mongodb%E7%9A%84%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/">
+        Mongodb的安装配置及基本使用
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+<div class='new-meta-item author'>
+  <a href="https://chemlez.cn" target="_blank" rel="nofollow noopener">
+    <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/03/13/8mvbCj.jpg">
+    <p>Chemlez</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Mongodb/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>Mongodb</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-edit" aria-hidden="true"></i>
+    <p>发布于：Nov 9, 2020</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>本文记载一次在阿里云服务器装载<code>Mongodb</code>并远程连接成功使用的过程记录。</p>
+<p>基本安装环境：<code>本次安装环境：CentOS7、Mongodb版本为4.2.10</code></p>
+<h3 id="一、安装"><a href="#一、安装" class="headerlink" title="一、安装"></a>一、安装</h3><p>通过<code>Mongodb</code>官网，安装<code>Mongodb</code>的<a href="https://www.mongodb.com/try/download/community" target="_blank" rel="noopener">社区版本</a>，选择自己需要安装的版本以及依赖的环境。如下图：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/11/09/B7TE6O.png" alt="mongodb"></p>
+<ol>
+<li>在服务器打开终端，应用centos中网络下载的方式下载<code>Mongodb</code>的安装包。</li>
+</ol>
+<p>首先，进入服务器端的<code>usr/local</code>，在其路径下创建文件夹：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir mongodb4</span><br><span class="line">cd mongodb4</span><br></pre></td></tr></table></figure>
+
+<p>在此文件夹下远程网络下载<code>Mongodb</code>的安装包：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wegt https://fastdl.mongodb.org/linux/mongodb-shell-linux-x86_64-rhel70-4.4.1.tgz</span><br></pre></td></tr></table></figure>
+
+<p>解压文件夹：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf mongodb-linux-x86_64-rhel70-4.2.10.tgz</span><br></pre></td></tr></table></figure>
+
+<p>修改压缩包名称：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv mongodb-linux-x86_64-rhel70-4.2.10 mongodb4.2</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h3 id="二、环境配置"><a href="#二、环境配置" class="headerlink" title="二、环境配置"></a>二、环境配置</h3><ol>
+<li>全局配置</li>
+</ol>
+<p>配置系统环境变量：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/profile</span><br></pre></td></tr></table></figure>
+
+<p>写入配置文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Mongodb</span></span><br><span class="line">export PATH="/usr/local/mongodb4/mongodb4.2/bin:$PATH"</span><br></pre></td></tr></table></figure>
+
+<p>退出保存后，输入以下命令使环境变量生效。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>创建<code>Mongodb</code>数据存放文件夹和日志记录文件夹。</li>
+</ol>
+<p>在<code>root</code>的根目录下创建以下文件夹：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /data/db</span><br><span class="line">mkdir -p /logs</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>创建<code>Mongodb</code>运行时使用的配置文件。</li>
+</ol>
+<p>进入<code>mongodb4</code>文件夹下的<code>bin</code>目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local//mongodb4/mongodb4.2/bin/</span><br></pre></td></tr></table></figure>
+
+<p>此时所在的路径为：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/mongodb4/mongodb4.2/bin</span><br></pre></td></tr></table></figure>
+
+<p>创建<code>MongoDB.conf</code>配置文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim mongodb.conf</span><br></pre></td></tr></table></figure>
+
+<p>输入以下内容：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dbpath = /data/db #数据文件存放目录</span><br><span class="line">logpath = /logs/mongodb.log #日志文件存放目录</span><br><span class="line">port = 27017 #端口</span><br><span class="line">fork = true #以守护程序的方式启用，即在后台运行</span><br><span class="line"><span class="meta">#</span><span class="bash"> auth=<span class="literal">true</span> <span class="comment">#需要认证。如果放开注释，就必须创建MongoDB的账号，使用账号与密码才可远程访问，第一次安装建议注释</span></span></span><br><span class="line">bind_ip=0.0.0.0 #允许远程访问，或者直接注释，127.0.0.1是只允许本地访问</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>加载配置文件，并启动<code>MongoDB</code>服务。</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./mongod  -f  mongodb.conf</span><br></pre></td></tr></table></figure>
+
+<p>通过以下命令查看端口是否映射成功：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">netstat -nltp|grep mongod</span><br><span class="line">或者：</span><br><span class="line">netstat -nltp|grep 27017</span><br><span class="line">或者</span><br><span class="line">ps -ef | grep mongo</span><br></pre></td></tr></table></figure>
+
+<p>以上命令查看<code>MongoDB</code>是否已经启动以及端口是否成功开启。</p>
+<h3 id="三、Mongodb启动及账号创建"><a href="#三、Mongodb启动及账号创建" class="headerlink" title="三、Mongodb启动及账号创建"></a>三、Mongodb启动及账号创建</h3><p>查看<code>bin</code>目录下的问文件目录,通过<code>ls</code>命令。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/11/09/B7Tifx.png" alt="image-20201109101402352"></p>
+<p>目录下存在<code>mongo</code>，启动<code>mongo</code>命令。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongo</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/11/09/B7Tn7d.png" alt="image-20201109110713339"></p>
+<p>以上界面是<code>MongoDB</code>启动时，采用的超级权限(即关闭了认证，不需要认证即能登录<code>MongoDB</code>)。</p>
+<p>由于第一次使用<code>MongoDB</code>时，<code>MongoDB</code>默认不存在任何用户，所以我们在前面的配置文件中关闭了认证的权限(<code># auth=true</code>)，以方便我们后续自己能够创建一个用户使用。</p>
+<ol>
+<li>使用<code>admin</code>数据库(<code>admin</code>数据库用来管理用户权限)</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">show dbs # 展示目前的所有数据库</span><br><span class="line">-----</span><br><span class="line">admin   0.000GB</span><br><span class="line">config  0.000GB</span><br><span class="line">huaJT   0.013GB</span><br><span class="line">local   0.000GB</span><br><span class="line">test    0.026GB</span><br></pre></td></tr></table></figure>
+
+<p>进入<code>admin</code>数据库:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use admin</span><br><span class="line">----</span><br><span class="line">switched to db admin</span><br></pre></td></tr></table></figure>
+
+<p>创建管理员用户：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt; use admin</span><br><span class="line">&gt; db.createUser(</span><br><span class="line">     &#123;</span><br><span class="line">       user:&quot;root&quot;,</span><br><span class="line">       pwd:&quot;123456&quot;,</span><br><span class="line">       roles:[&#123;role:&quot;root&quot;,db:&quot;admin&quot;&#125;]</span><br><span class="line">     &#125;</span><br><span class="line">  )</span><br></pre></td></tr></table></figure>
+
+<p>以上字段的含义，创建一个用户，用户名是:<code>root</code>;密码是:<code>123456</code>;赋予的权限是<code>root</code>权限，可以操控的数据库有<code>admin</code>数据库，这种用户的权限较高。</p>
+<p>下面创建一个普通用户，供我们后续的实验测试。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">use admin</span><br><span class="line">db.createUser(</span><br><span class="line">        &quot;user&quot; : &quot;user&quot;,</span><br><span class="line">        &quot;pwd&quot; : &quot;123456&quot;,</span><br><span class="line">        &quot;roles&quot; : [</span><br><span class="line">                &#123;</span><br><span class="line">                        &quot;role&quot; : &quot;dbOwner&quot;,</span><br><span class="line">                        &quot;db&quot; : &quot;test1&quot;</span><br><span class="line">                &#125;,</span><br><span class="line">                &#123;</span><br><span class="line">                        &quot;role&quot; : &quot;dbOwner&quot;,</span><br><span class="line">                        &quot;db&quot; : &quot;test2&quot;</span><br><span class="line">                &#125;</span><br><span class="line">        ]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>此次创建的用户名是：<code>user</code>，密码是：<code>123456</code>；用户角色是：<code>dbOwner</code>，是<code>test1</code>和<code>test2</code>数据库的用户管理者。</p>
+<ol start="2">
+<li>给创建的用户赋予权限</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.auth("用户名","密码")</span><br></pre></td></tr></table></figure>
+
+<p>即：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">db.auth("user","123456")</span><br><span class="line">&gt; 1</span><br><span class="line">db.auth("root","123456")</span><br><span class="line">&gt; 1</span><br></pre></td></tr></table></figure>
+
+<p>出现<code>1</code>表明操作操作成功。</p>
+<h3 id="四、远端连接配置"><a href="#四、远端连接配置" class="headerlink" title="四、远端连接配置"></a>四、远端连接配置</h3><p>通过以上三步，我们已经安装了<code>Mongodb</code>并配置了<code>Mongodb</code>相关配置文件以及创建了</p>
+<p><code>Mongodb</code>用户。接下来，就需要对<code>Mongodb</code>进行远程连接的配置。</p>
+<ol>
+<li>首先开启认证，关闭<code>MongoDB</code>服务端，重新启动，刷新配置文件使其生效。</li>
+</ol>
+<p>进入<code>bin</code>目录下，修改<code>mongodb.conf</code>,此时的路径为：<code>/usr/local/mongodb4/mongodb4.2/bin</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim mongodb.conf</span><br></pre></td></tr></table></figure>
+
+<p>开启用户认证(以下的全部配置)：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dbpath = /data/db <span class="comment">#数据文件存放目录</span></span><br><span class="line">logpath = /logs/mongodb.log <span class="comment">#日志文件存放目录</span></span><br><span class="line">port = 27017 <span class="comment">#端口</span></span><br><span class="line">fork = true <span class="comment">#以守护程序的方式启用，即在后台运行</span></span><br><span class="line">auth = true <span class="comment">#需要认证。如果放开注释，就必须创建MongoDB的账号，使用账号与密码才可远程访问，第一次安装建议注释</span></span><br><span class="line">bind_ip=0.0.0.0 <span class="comment">#允许远程访问，或者直接注释，127.0.0.1是只允许本地访问</span></span><br></pre></td></tr></table></figure>
+
+<p>关闭<code>Mongodb</code>服务端</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./mongod  --shutdown</span><br></pre></td></tr></table></figure>
+
+<p>重新启动服务器端并刷新配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;mongod  -f  mongodb.conf</span><br></pre></td></tr></table></figure>
+
+<p>此时，关于认证的配置已经全部结束，下面我们对<code>Mongodb</code>进行服务器端的使用测试。</p>
+<p>登录<code>Mongodb</code>类似于<code>MySQL</code>，采用以下命令。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongo -uroot -proot</span><br></pre></td></tr></table></figure>
+
+<p>登录我们之前的创建的<code>user</code>账户：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongo -uuser -p123456</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/11/09/B7Tkp6.png" alt="image-20201109132946205"></p>
+<p>由于之前，我们创建<code>user</code>账户时，给予了它对<code>test1</code>、<code>test2</code>数据库的权限；所以我们此时可以创建<code>test1</code>、<code>test2</code>并使用。</p>
+<p>首先明确以下概念：</p>
+<p><code>Mongodb</code>中的<code>collection</code>对应着<code>Mysql</code>中的表；</p>
+<p><code>Mongodb</code>中的<code>document</code>对应着<code>Mysql</code>中的记录。</p>
+<p>在<code>Mongodb</code>中创建数据库就直接使用<code>use 数据库名称</code>;例如创建<code>test1</code>数据库，则<code>use test1</code>；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; use test1</span><br><span class="line">switched to db test1</span><br></pre></td></tr></table></figure>
+
+<p>此时系统创建了<code>test1</code>，但只是预创建。如果，我们没有对其进行任何操作，即数据库中不存在任何信息，那么当我们切出这个数据库时，系统就会释放这个数据库的内存信息，就不再存在这个数据库。</p>
+<p>向<code>test1</code>数据库中插入<code>collection</code>，并创建<code>document</code>。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.firstCollection.save(&#123;"name":"Tom","age":"18"&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>这里创建了一个<code>collection</code>-<code>firstCollection</code>。存入了姓名和年龄信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">show collections # 展示数据库中的所有collection</span><br><span class="line">db.firstCollection.find() # 展示firstCollection集合的全部文档信息</span><br></pre></td></tr></table></figure>
+
+<p>至此，<code>Mongodb</code>本地使用的配置已经全部配置完毕，下面是开启远程连接的操作。</p>
+<ol start="2">
+<li>登录阿里云，开启服务器端的安全组；因为<code>Mongodb</code>服务器端监听的端口是<code>27017</code>，故需要配置安全组，端口号为<code>27017</code>。</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/11/09/B7TA1K.png" alt="image-20201109135100424"></p>
+<p>同时配置内网入方向规则和内网出方向规则。</p>
+<ol start="3">
+<li>阿里云服务器端开启防火墙，并放行<code>27017</code>端口。</li>
+</ol>
+<p>查看防火墙状态：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl status firewalld</span><br></pre></td></tr></table></figure>
+
+<p>开启防火墙：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start firewalld</span><br></pre></td></tr></table></figure>
+
+<p>关闭防火墙：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld</span><br></pre></td></tr></table></figure>
+
+<p>确认<code>firewalld</code>状态:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl status firewalld</span><br></pre></td></tr></table></figure>
+
+<p>开放<code>27017</code>端口：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --permanent --zone=public --add-port=27017/tcp</span><br></pre></td></tr></table></figure>
+
+<p>至此，通过以上的步骤，我们配置了阿里云的内网规则；服务器端放行了<code>27017</code>端口，允许远程可以访问。</p>
+<ol start="4">
+<li>测试连接</li>
+</ol>
+<p>打开浏览器，访问自己服务器端的<code>IP地址:端口号</code>。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IP地址:27017</span><br></pre></td></tr></table></figure>
+
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">106.65.34.210:27017</span><br></pre></td></tr></table></figure>
+
+<p>若出现以下画面，则说明远程连接访问配置成功。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/11/09/B7TVXD.png" alt="image-20201109140130873"></p>
+<h3 id="五、本地通过Pycharm连接Mongodb"><a href="#五、本地通过Pycharm连接Mongodb" class="headerlink" title="五、本地通过Pycharm连接Mongodb"></a>五、本地通过Pycharm连接Mongodb</h3><p>我们在远程服务器端的一系列配置，就是为了能够在客户端操作<code>Mongodb</code>数据库。我们采用最简单的方式，那就是利用<code>Pycharm</code>的插件<code>Mongo Explorer</code>来帮助我们进行可视化操作。</p>
+<p>在<code>Pycharm</code>中的插件下载等工作就不再赘述。下面即对<code>Mongodb</code>的连接的操作：</p>
+<p>进入<code>Mongo Explorer</code>的配置，<code>General</code>项的配置为：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/11/09/B7Tene.png" alt="image-20201109140820301"></p>
+<p><code>Label</code>:随便填写，用于标识数据库。</p>
+<p><code>Server url(s)</code>：<code>IP地址:端口号</code>。</p>
+<p><code>User Database</code>：连接的数据库名称。</p>
+<p>接下来进入第二项<code>Authentication</code>，进行配置。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/11/09/B7TX4I.png" alt="image-20201109141100431"></p>
+<p>同<code>Mysql</code>一样，填上<code>Username</code>和<code>Password</code>即可，下方的<code>Auth.mechanism</code>选择第一项。</p>
+<p>点击<code>Test Connection</code>进行测试。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/11/09/B7Tm0H.png" alt="image-20201109141505712"></p>
+<p>大功告成！</p>
+<p>至此，我们完成了<code>Mongodb</code>的下载安装以及相关配置，最后到客户端对服务器端的远程连接，完成了可视化操作。</p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><blockquote>
+<p>[1] <a href="https://blog.csdn.net/yzh_1346983557/article/details/81735755" target="_blank" rel="noopener">Linux安装、运行MongoDB</a></p>
+<p>[2] <a href="https://www.cnblogs.com/whiteBear/p/12722151.html" target="_blank" rel="noopener">MongoDB用户创建</a></p>
+<p>[3] <a href="https://www.cnblogs.com/wayneliu007/p/10372601.html" target="_blank" rel="noopener">解决FirewallD is not running问题</a></p>
+</blockquote>
+
+          
+            <br>
+            
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.chemlez.cn/2020/11/09/Mongodb%E7%9A%84%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/>https://www.chemlez.cn/2020/11/09/Mongodb%E7%9A%84%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget related_posts  desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-bookmark fa-fw" aria-hidden="true"></i><span class='name'>相关文章</span>
+    
+  </header>
+
+
+    <div class="content">
+      
+    </div>
+  </section>
+
+
+  
+
+
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-09T14:25:45+08:00">
+  <a class='notlink'>
+    <i class="fas fa-save" aria-hidden="true"></i>
+    <p>更新于：Nov 9, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Mongodb/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i><p>Mongodb</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.chemlez.cn/2020/11/09/Mongodb%E7%9A%84%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/&title=Mongodb的安装配置及基本使用 - Liz'blog&summary=本文记载一次在阿里云服务器装载Mongodb并远程连接成功使用的过程记录。
+基本安装环境：本次安装环境：CentOS7、Mongodb版本为4.2.10
+一、安装通过Mongodb官网，安装Mongodb的社区版本，选择自己需要安装的版本以及依赖的环境。如下图：
+
+
+在服务器打开终端，应用centos中网络下载的方式下载Mongodb的安装包。
+
+首先，进入服务器端的usr/local，在其路径下创建文件夹：
+12mkdir mongodb4cd mongodb4
+
+在此文件夹下远程网络下载Mongodb的安装包：
+1wegt https://fastdl.mongodb.org/linux/mongodb-shell-linux-x86_64-rhel70-4.4.1.tgz
+
+解压文件夹：
+1tar -zxvf mongodb-linux-x86_64-rhel70-4.2.10.tgz
+
+修改压缩包名称：
+1mv mongodb-linux-x86_64-rhel70-4.2.10 mongodb4.2"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.chemlez.cn/2020/11/09/Mongodb%E7%9A%84%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/&title=Mongodb的安装配置及基本使用 - Liz'blog&summary=本文记载一次在阿里云服务器装载Mongodb并远程连接成功使用的过程记录。
+基本安装环境：本次安装环境：CentOS7、Mongodb版本为4.2.10
+一、安装通过Mongodb官网，安装Mongodb的社区版本，选择自己需要安装的版本以及依赖的环境。如下图：
+
+
+在服务器打开终端，应用centos中网络下载的方式下载Mongodb的安装包。
+
+首先，进入服务器端的usr/local，在其路径下创建文件夹：
+12mkdir mongodb4cd mongodb4
+
+在此文件夹下远程网络下载Mongodb的安装包：
+1wegt https://fastdl.mongodb.org/linux/mongodb-shell-linux-x86_64-rhel70-4.4.1.tgz
+
+解压文件夹：
+1tar -zxvf mongodb-linux-x86_64-rhel70-4.2.10.tgz
+
+修改压缩包名称：
+1mv mongodb-linux-x86_64-rhel70-4.2.10 mongodb4.2"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.chemlez.cn/2020/11/09/Mongodb%E7%9A%84%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/&title=Mongodb的安装配置及基本使用 - Liz'blog&summary=本文记载一次在阿里云服务器装载Mongodb并远程连接成功使用的过程记录。
+基本安装环境：本次安装环境：CentOS7、Mongodb版本为4.2.10
+一、安装通过Mongodb官网，安装Mongodb的社区版本，选择自己需要安装的版本以及依赖的环境。如下图：
+
+
+在服务器打开终端，应用centos中网络下载的方式下载Mongodb的安装包。
+
+首先，进入服务器端的usr/local，在其路径下创建文件夹：
+12mkdir mongodb4cd mongodb4
+
+在此文件夹下远程网络下载Mongodb的安装包：
+1wegt https://fastdl.mongodb.org/linux/mongodb-shell-linux-x86_64-rhel70-4.4.1.tgz
+
+解压文件夹：
+1tar -zxvf mongodb-linux-x86_64-rhel70-4.2.10.tgz
+
+修改压缩包名称：
+1mv mongodb-linux-x86_64-rhel70-4.2.10 mongodb4.2"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZgAAAGYCAAAAABaUKuJAAAGAUlEQVR42u3bwY7cOAwE0P7/n07uuxiYVaQbA+Tp1oltSXy6FKj5/DF+5fgoARgDDBgDDBgDjPEI8ynHf9//3wTD96bv/7iRh3mevnc1/1k9wYABAwYMGDBgwIABM4YZB6CHjdTBKgRoC9EeoPb5dN9gwIABAwYMGDBgwIDJYbaBMg2C1wcjDbZX+7mqJxgwYMCAAQMGDBgwYN6HuQbZNrxaiPTgpc+BAQMGDBgwYMCAAQPm98J8G+B6vdsGIBgwYMCAAQMGDBgwYL4P0068bURtn3trP20DrZ4fDBgwYMCAAQMGDBgwY5h0pFD/2u+6nmDAgAEDBgQYMGDAgHmE2Y62ofVWgJvO0xZ2Gygf1wMGDBgwYMCAAQMGDJhHmLQQ7YW+LVAb2LbruQqQ4++DAQMGDBgwYMCAAQNmfa8sDVJpYdoDcFWgq4Ccfn8cMMGAAQMGDBgwYMCAATMOmG2h2sZaC3IVIK8L3wKBAQMGDBgwYMCAAQNmDrMNgE/PbS/ItcHxWxf+trBgwIABAwYMGDBgwICZw1w1vNoNbJ+fglw36NIDNQ7YYMCAAQMGDBgwYMCAeYRJG0DbxlcazLbzTA/c9QFMDwQYMGDAgAEDBgwYMGDmMGmDqw1Y6Ua2B2Rb0OvG2ngfYMCAAQMGDBgwYMCAGcOkC42D0zKAtutr59kemPqAgAEDBgwYMGDAgAEDpoaZNrTSwLkFuwa9arxtG2RgwIABAwYMGDBgwIDJYa4u4F033NLGVBv80oB4FWzBgAEDBgwYMGDAgAGTw7QNrzZYtcGxbZBdB+X0oMT7BwMGDBgwYMCAAQMGTA1zNbYBswW/auy1hV43ysCAAQMGDBgwYMCAAfPYKEsDXBoA3wqYbcPuOrCmjbYf1w0GDBgwYMCAAQMGDJgYZrvgNqi1wa4t6FvBtT2wYMCAAQMGDBgwYMCAyWE+y7FtlE1/bxtj377wF9cLDBgwYMCAAQMGDBgwjzBXQa4NYldBrS1wC9uu53F/YMCAAQMGDBgwYMCAGcOkhZs+3xY2bXSljbfpuq8C7Xj/YMCAAQMGDBgwYMCAiRtl24DZXgBsIVrYNghfrwcMGDBgwIABAwYMGDA5zHaB6Xir0bYNgFfrXEOCAQMGDBgwYMCAAQNmHDDTcd0omgbcdKPTfVxfBEznAwMGDBgwYMCAAQMGzBymLdS2QbaF3AbE7b+/1WAEAwYMGDBgwIABAwZMD3NV6KuLeel728JdBeZ4PjBgwIABAwYMGDBgwDzCTD9UT3R08a4Furrgl/7/FBoMGDBgwIABAwYMGDA5TNrYaQt7taFtA+8qIL4VPMGAAQMGDBgwYMCAAfMMM/1Q+ly7wKsCtwH46oJfetDBgAEDBgwYMGDAgAGzh0k3dhUQvxVsr4Pmdl1gwIABAwYMGDBgwICZw0yDUBvA0oWmQa4NkO16pu/X84ABAwYMGDBgwIABA+YRpm34tMGr3eh1wysNrC1EGsjBgAEDBgwYMGDAgAHT/51/usHte22j7apxNz1A2wD7CAwGDBgwYMCAAQMGDJgxTNrguYa7asy1v7f72wZbMGDAgAEDBgwYMGDAzGHagl4tfLzgo/eugm46z7hOYMCAAQMGDBgwYMCAiWHaArYFSAPgthH2VnBuAysYMGDAgAEDBgwYMGBymBbkrQZZ28BrL/BNC9k+lx40MGDAgAEDBgwYMGDAPMNsRwuaNti+dQC2AbWtDxgwYMCAAQMGDBgwYOYw2+DWNtSmBdk26K72sZ1/XC8wYMCAAQMGDBgwYMCMYdJAuW1AvR3o0gZf2tBqA2/cwQQDBgwYMGDAgAEDBswjTFrYq4Km86fzbJ/fBvLxvGDAgAEDBgwYMGDAgHkdZtsQu77Il8K0Dbc0iI4bb2DAgAEDBgwYMGDAgPkazNXFuTTQtftov79dz+N+wYABAwYMGDBgwIABE8NsL/y1F++uAlsaUNsgnB7Y8XxgwIABAwYMGDBgwIAZw6TjrQZUCvJWodvnt409MGDAgAEDBgwYMGDAPMMYv2uAAWOAAWOAAWOAMX4cfwFCdoLiNktHngAAAABJRU5ErkJggg==">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/2020/11/15/Springboot%E8%87%AA%E5%AE%9A%E4%B9%89starter/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Springboot自定义starter</p>
+                <p class='content'>一、介绍与定义本章用于记录自定义Springboot-starter的学习过程。
+在我们自定义starter之前，我们首先观察一下SpringBoot自身的starter的形式都是什么样的。我们...</p>
+              </a>
+            
+            
+              <a class='next' href='/2020/10/14/Java%E5%9F%BA%E7%A1%80%E4%B9%8BIO%E6%B5%81/'>
+                <p class='title'>Java基础之IO流<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>一、字节流与字符流
+输入流：用于读取数据 – 将数据写入内存进行展示，即将数据从其他设备读取到内存中的流。
+输出流：用于数据保存 – 将数据写入磁盘，可持久化存储，即将数据从内存中写出到其他设备...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box comments shadow floatable">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> Comment</p>
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-spinner fa-spin fa-fw"></i>
+          </div>
+        </section>
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Mongodb的安装配置及基本使用',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+    
+    
+
+<section class="widget blogger shadow floatable desktop">
+  <div class='content'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='https://s1.ax1x.com/2020/03/13/8mvbCj.jpg'/>
+      </div>
+    
+    
+      <div class='text'>
+        
+        
+        
+          <p><span id="jinrishici-sentence">Liz'blog</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="https://github.com/Chemlez"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://weibo.com/u/5653780011?nick=Sane_z&is_all=1"
+              class="social fab fa-weibo flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="mailto:liz_1106@163.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget category shadow floatable desktop">
+    
+  <header>
+    
+      <a href='/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <ul class="entry navigation">
+        
+          <li><a class="flat-box"
+            title="/categories/Java/" href="/categories/Java/"
+            id="categoriesJava"
+            ><div class='name'>Java</div><div class='badge'>(17)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Java/%E6%A1%86%E6%9E%B6/" href="/categories/Java/%E6%A1%86%E6%9E%B6/"
+            id="categoriesJavaE6A186E69EB6"
+            ><div class='name'>框架</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Linux/" href="/categories/Linux/"
+            id="categoriesLinux"
+            ><div class='name'>Linux</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Machine-Learning/" href="/categories/Machine-Learning/"
+            id="categoriesMachine-Learning"
+            ><div class='name'>Machine Learning</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Machine-Learning/sklearn/" href="/categories/Machine-Learning/sklearn/"
+            id="categoriesMachine-Learningsklearn"
+            ><div class='name'>sklearn</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Mongodb/" href="/categories/Mongodb/"
+            id="categoriesMongodb"
+            ><div class='name'>Mongodb</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Nginx/" href="/categories/Nginx/"
+            id="categoriesNginx"
+            ><div class='name'>Nginx</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Python/" href="/categories/Python/"
+            id="categoriesPython"
+            ><div class='name'>Python</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Python/%E7%88%AC%E8%99%AB/" href="/categories/Python/%E7%88%AC%E8%99%AB/"
+            id="categoriesPythonE788ACE899AB"
+            ><div class='name'>爬虫</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/git/" href="/categories/git/"
+            id="categoriesgit"
+            ><div class='name'>git</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E5%89%8D%E7%AB%AF/" href="/categories/%E5%89%8D%E7%AB%AF/"
+            id="categoriesE5898DE7ABAF"
+            ><div class='name'>前端</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"
+            id="categoriesE5A49AE7BABFE7A88B"
+            ><div class='name'>多线程</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"
+            id="categoriesE695B0E68DAEE7BB93E69E84E4B88EE7AE97E6B395"
+            ><div class='name'>数据结构与算法</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"
+            id="categoriesE8AEBEE8AEA1E6A8A1E5BC8F"
+            ><div class='name'>设计模式</div><div class='badge'>(10)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget tagcloud shadow floatable desktop">
+    
+  <header>
+    
+      <a href='/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <a href="/tags/Beautifulsoup/" style="font-size: 17.33px; color: #828282">Beautifulsoup</a> <a href="/tags/Data-Preprocessing/" style="font-size: 14px; color: #999">Data Preprocessing</a> <a href="/tags/DecisionTree/" style="font-size: 14px; color: #999">DecisionTree</a> <a href="/tags/Feature-Engineering/" style="font-size: 14px; color: #999">Feature Engineering</a> <a href="/tags/Filter/" style="font-size: 14px; color: #999">Filter</a> <a href="/tags/IO%E6%B5%81/" style="font-size: 14px; color: #999">IO流</a> <a href="/tags/JDBC/" style="font-size: 17.33px; color: #828282">JDBC</a> <a href="/tags/JQuery/" style="font-size: 14px; color: #999">JQuery</a> <a href="/tags/Java/" style="font-size: 20.67px; color: #6c6c6c">Java</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/JavaWeb/" style="font-size: 17.33px; color: #828282">JavaWeb</a> <a href="/tags/Kaggle/" style="font-size: 14px; color: #999">Kaggle</a> <a href="/tags/Linux/" style="font-size: 17.33px; color: #828282">Linux</a> <a href="/tags/MBG/" style="font-size: 14px; color: #999">MBG</a> <a href="/tags/MVC/" style="font-size: 14px; color: #999">MVC</a> <a href="/tags/Mapper/" style="font-size: 14px; color: #999">Mapper</a> <a href="/tags/Mongodb/" style="font-size: 14px; color: #999">Mongodb</a> <a href="/tags/MySQL/" style="font-size: 20.67px; color: #6c6c6c">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 20.67px; color: #6c6c6c">Mybatis</a> <a href="/tags/Nginx/" style="font-size: 14px; color: #999">Nginx</a> <a href="/tags/Python/" style="font-size: 14px; color: #999">Python</a> <a href="/tags/Request/" style="font-size: 17.33px; color: #828282">Request</a> <a href="/tags/Servlet/" style="font-size: 20.67px; color: #6c6c6c">Servlet</a> <a href="/tags/Spring/" style="font-size: 17.33px; color: #828282">Spring</a> <a href="/tags/SpringMVC/" style="font-size: 17.33px; color: #828282">SpringMVC</a> <a href="/tags/Springboot-starter/" style="font-size: 14px; color: #999">Springboot-starter</a> <a href="/tags/ThreadLocal/" style="font-size: 14px; color: #999">ThreadLocal</a> <a href="/tags/VMware/" style="font-size: 14px; color: #999">VMware</a> <a href="/tags/conda/" style="font-size: 14px; color: #999">conda</a> <a href="/tags/git/" style="font-size: 14px; color: #999">git</a> <a href="/tags/hexo/" style="font-size: 14px; color: #999">hexo</a> <a href="/tags/redis/" style="font-size: 14px; color: #999">redis</a> <a href="/tags/servlet/" style="font-size: 14px; color: #999">servlet</a> <a href="/tags/sklearn/" style="font-size: 17.33px; color: #828282">sklearn</a> <a href="/tags/ssm/" style="font-size: 14px; color: #999">ssm</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">依赖倒置原则</a> <a href="/tags/%E5%89%8D%E7%BC%80%E6%A0%91/" style="font-size: 14px; color: #999">前缀树</a> <a href="/tags/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" style="font-size: 14px; color: #999">动态代理</a> <a href="/tags/%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">单一职责原则</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">单例模式</a> <a href="/tags/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">原型模式</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 17.33px; color: #828282">反射</a> <a href="/tags/%E5%A0%86%E6%8E%92%E5%BA%8F/" style="font-size: 14px; color: #999">堆排序</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 14px; color: #999">多线程</a> <a href="/tags/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">工厂模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 14px; color: #999">并查集</a> <a href="/tags/%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">建造者模式</a> <a href="/tags/%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">开闭原则</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E9%9A%94%E7%A6%BB%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">接口隔离原则</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 17.33px; color: #828282">正则表达式</a> <a href="/tags/%E6%BA%90%E7%A0%81/" style="font-size: 17.33px; color: #828282">源码</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 17.33px; color: #828282">爬虫</a> <a href="/tags/%E7%BB%84%E5%90%88%E4%BC%98%E4%BA%8E%E7%BB%A7%E6%89%BF%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">组合优于继承原则</a> <a href="/tags/%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81/" style="font-size: 14px; color: #999">表单验证</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 24px; color: #555">设计模式</a> <a href="/tags/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">适配器模式</a>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow floatable desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、安装"><span class="toc-text">一、安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、环境配置"><span class="toc-text">二、环境配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、Mongodb启动及账号创建"><span class="toc-text">三、Mongodb启动及账号创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四、远端连接配置"><span class="toc-text">四、远端连接配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#五、本地通过Pycharm连接Mongodb"><span class="toc-text">五、本地通过Pycharm连接Mongodb</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考文献"><span class="toc-text">参考文献</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="https://github.com/Chemlez"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="https://weibo.com/u/5653780011?nick=Sane_z&amp;is_all=1"
+                class="social fab fa-weibo flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="mailto:liz_1106@163.com"
+                class="social fas fa-envelope flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://chemlez.cn" target="_blank" rel="noopener">Copyright © 2019-2021 Chemlez</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.0/js/valine.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var notify = 'true' == true;
+  var verify = 'true' == true;
+  var valine = new Valine();
+  valine.init({
+    el: '#valine_container',
+    notify: notify,
+    verify: verify,
+    guest_info: guest_info,
+    
+    appId: "YSitK1ig1lRcy3jvrtTzT6fb-MdYXbMMI",
+    appKey: "e7hFf2zqvyWgNmDsClWcM7W3",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'wavatar',
+    lang:'zh-cn',
+    visitor: 'false',
+    highlight:'true'
+  })
+  </script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1.5/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copyed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-clipboard-check');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPYED';
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-exclamation-triangle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+
+  <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "[object Object]";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+<script>!function(e){var c=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){for(var r=0;r<c.length;r++)t=c[r],0<=(n=t.getBoundingClientRect()).bottom&&0<=n.left&&n.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=c[r];t=o,n=function(){c=c.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n&&n()},e.src=i}();var t,n}i(),e.addEventListener("scroll",function(){var t,n;t=i,n=e,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)})}(this);</script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script></body>
+</html>

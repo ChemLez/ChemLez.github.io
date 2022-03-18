@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Java基础之Filter - Liz&#39;blog</title>
+  
+    <meta name="keywords" content="Filter,动态代理">
+  
+  
+    <meta name="description" content="一、概念Filter是Java Web的三大组件之一。Java Web三大组件分别是Servlet、Filter、Listener。
+Filter的作用一般用于完成通用的操作。例如:登录验证、统一编码处理、敏感字符过滤…在实际开发中，过滤器就是对Web资源进行拦截，做一些处理后再交给下一个过滤器或servlet处...">
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css">
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+  <link rel="shortcut icon" type='image/x-icon' href="https://s1.ax1x.com/2020/03/15/81ZR5F.jpg">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1.5.2/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+
+  <div class='wrapper'>
+    <div class='nav-sub container--flex'>
+      <a class="logo flat-box"></a>
+      <ul class='switcher h-list'>
+        <li><a class="s-comment flat-btn fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc flat-btn fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main container container--flex">
+      
+        
+        <a class="logo flat-box" target="_self" href='/'>
+          
+          
+          
+          
+            CHEMLEZ <b><sup style='color:#3AA757'></sup></b>
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='h-list'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-home fa-fw'></i>
+                  
+                  主页
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" 
+                  
+                  
+                  >
+                  
+                    <i class='fas fa-list-alt fa-fw fa-fw'></i>
+                  
+                  索引
+                </a>
+                
+                  <ul class="submenu">
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  
+                    <i class='fas fa-tags fa-fw'></i>
+                  
+                  标签
+                </a>
+                
+              </li>
+            
+          
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  
+                    <i class='fas fa-folder-open fa-fw'></i>
+                  
+                  类别
+                </a>
+                
+              </li>
+            
+          
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  
+                    <i class='fas fa-archive fa-fw'></i>
+                  
+                  归档
+                </a>
+                
+              </li>
+            
+          
+                    
+                  </ul>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  
+                    <i class='fas fa-link fa-fw'></i>
+                  
+                  友链
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  
+                    <i class='fas fa-info-circle fa-fw'></i>
+                  
+                  关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      
+        <div class="m_search">
+          <form name="searchform" class="form u-search-form">
+            <i class="icon fas fa-search fa-fw"></i>
+            <input type="text" class="input u-search-input" placeholder="搜索" />
+          </form>
+        </div>
+      
+
+			<ul class='switcher h-list'>
+				
+					<li><a class="s-search flat-btn fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li><a class="s-menu flat-btn fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+	</div>
+</header>
+<ul class="menu-phone navigation white-box">
+  
+  
+    <li>
+      <a class="flat-box" href=/
+        
+        
+        
+          id="home"
+        >
+        
+          <i class='fas fa-clock fa-fw fa-fw'></i>
+        
+        近期文章
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/archives/
+        
+        
+        
+          id="archives"
+        >
+        
+          <i class='fas fa-list-alt fa-fw fa-fw'></i>
+        
+        文章归档
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/categories/
+        
+        
+        
+          id="categories"
+        >
+        
+          <i class='fas fa-folder-open fa-fw'></i>
+        
+        文章类别
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/tags/
+        
+        
+        
+          id="tags"
+        >
+        
+          <i class='fas fa-tags fa-fw'></i>
+        
+        文章标签
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/friends/
+        
+        
+        
+          id="friends"
+        >
+        
+          <i class='fas fa-link fa-fw'></i>
+        
+        我的友链
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/about/
+        
+        
+        
+          id="about"
+        >
+        
+          <i class='fas fa-info-circle fa-fw'></i>
+        
+        关于小站
+      </a>
+    </li>
+  
+</ul>
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box shadow floatable article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2020/09/03/Java%E5%9F%BA%E7%A1%80%E4%B9%8BFilter/">
+        Java基础之Filter
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+<div class='new-meta-item author'>
+  <a href="https://chemlez.cn" target="_blank" rel="nofollow noopener">
+    <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/03/13/8mvbCj.jpg">
+    <p>Chemlez</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Java/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>Java</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-edit" aria-hidden="true"></i>
+    <p>发布于：Sep 3, 2020</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <h3 id="一、概念"><a href="#一、概念" class="headerlink" title="一、概念"></a>一、概念</h3><p><code>Filter</code>是<code>Java Web</code>的三大组件之一。<code>Java Web</code>三大组件分别是<code>Servlet</code>、<code>Filter</code>、<code>Listener</code>。</p>
+<p><code>Filter</code>的作用一般用于完成通用的操作。例如:登录验证、统一编码处理、敏感字符过滤…在实际开发中，过滤器就是对Web资源进行拦截，做一些处理后再交给下一个过滤器或servlet处理，通常都是用来拦截<code>request</code>进行处理，或者对返回的<code>response</code>进行拦截处理。其处理流程见下图：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/09/03/wC9YkV.png" alt="Filter执行原理"></p>
+<p>拦截<code>request</code>可以简单理解为，在客户端向后端发送请求时，我们需要对其请求加一些”修饰”，将”修饰”后的请求带到后端。其中这个”修饰”是需要在这个请求的过程中完成的，这里因为是通用操作，可能是对所有的<code>request</code>进行”修饰”，所以并没有在客户端进行编写，否则当再加入一个<code>request</code>请求时，我们又要编写对应的规则，因此我们借用过滤器在请求过程中，对我们需要改写的<code>request</code>进行”修饰”。</p>
+<p>其中，这里的”修饰”就可以理解为在原有的<code>request</code>请求中，再加入一些”修改”。例如:在Servlet中过多字符集编码发生变化需要修改时，你是选择对每个<code>Servlet</code>都进行修改，还是会选择一个通用的”规则”,来自动判断帮我们进行修改呢？而这里通用的”规则”就是<code>Filter</code>，我们可以把这些通用的字符集编码配置等工作放在<code>Filter</code>中，由<code>Filter</code>在请求过程中或返回过程中帮我们来实现。</p>
+<a id="more"></a>
+
+<h3 id="二、过滤器的快速使用"><a href="#二、过滤器的快速使用" class="headerlink" title="二、过滤器的快速使用"></a>二、过滤器的快速使用</h3><p>其中过滤增强的方法写在<code>doFilter</code>中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebFilter</span>(<span class="string">"/*"</span>) <span class="comment">//访问所有资源之前，都会执行该过滤器</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FilterDemo1</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(FilterConfig filterConfig)</span> <span class="keyword">throws</span> ServletException </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)</span> <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line">        </span><br><span class="line">              <span class="string">''</span><span class="string">'对request请求消息进行增强'</span><span class="string">''</span></span><br><span class="line">        filterChain.doFilter(servletRequest,servletResponse); <span class="comment">// 修饰完以后进行放行</span></span><br><span class="line">              <span class="string">''</span><span class="string">'放行回来后，对response响应消息的增强'</span><span class="string">''</span></span><br><span class="line">              		</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>filterChain.doFilter(servletRequest,servletResponse)</code> 用于对我们的请求进行放行。<code>doFilter</code>中的参数就是<code>request</code>，<code>response</code>；带着请求消息和响应消息。</p>
+<h4 id="2-1-执行流程"><a href="#2-1-执行流程" class="headerlink" title="2.1 执行流程"></a>2.1 执行流程</h4><p>在<code>doFilter</code>放行前，对<code>request</code>请求进行增强，然后带着增强后的<code>requeset</code>进入到<code>doFilter</code>；从<code>doFilter</code>方法出来后，将后台返回的<code>response</code>进行增强，返回给前端。</p>
+<h4 id="2-2-过滤器生命周期方法"><a href="#2-2-过滤器生命周期方法" class="headerlink" title="2.2 过滤器生命周期方法"></a>2.2 过滤器生命周期方法</h4><ol>
+<li><code>init</code>:在服务器启动后，会创建<code>Filter</code>对象，然后调用<code>init</code>方法。只执行一次。用于加载资源。</li>
+<li><code>doFilter</code>:每一次请求被拦截资源时，会执行。执行多次。</li>
+<li><code>destroy</code>:在服务器关闭后，<code>Filter</code>对象被销毁。如果服务器是正常关闭，则会执行<code>destroy</code>方法。只执行一次。用于释放资源。</li>
+</ol>
+<h3 id="三、过滤器配置"><a href="#三、过滤器配置" class="headerlink" title="三、过滤器配置"></a>三、过滤器配置</h3><h4 id="3-1-web-xml配置"><a href="#3-1-web-xml配置" class="headerlink" title="3.1 web.xml配置"></a>3.1 web.xml配置</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>demo1<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>cn.itcast.web.filter.FilterDemo1<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>demo1<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 拦截路径 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="3-2-拦截路径设置"><a href="#3-2-拦截路径设置" class="headerlink" title="3.2 拦截路径设置"></a>3.2 拦截路径设置</h4><ol>
+<li>具体资源路径： /index.jsp   只有访问index.jsp资源时，过滤器才会被执行</li>
+<li>拦截目录： /user/*    访问/user下的所有资源时，过滤器都会被执行</li>
+<li>后缀名拦截： *.jsp   访问所有后缀名为jsp资源时，过滤器都会被执行</li>
+<li>拦截所有资源：/*        访问所有资源时，过滤器都会被执行</li>
+</ol>
+<h4 id="3-3-注解配置"><a href="#3-3-注解配置" class="headerlink" title="3.3 注解配置"></a>3.3 注解配置</h4><p>通过设置<strong>dispatcherTypes</strong>属性，设置拦截方式，即资源被访问的方式。</p>
+<ol>
+<li><code>REQUEST</code>：默认值。浏览器直接请求资源</li>
+<li><code>FORWARD</code>：转发访问资源（只有在转发访问资源时，才会被拦截器所拦截，直接访问反而不会了）</li>
+<li><code>INCLUDE</code>：包含访问资源</li>
+<li><code>ERROR</code>：错误跳转资源</li>
+<li><code>ASYNC</code>：异步访问资源</li>
+</ol>
+<p>以上是数组的形式，可以同时同时填写多个条件。</p>
+<p>在<code>web.xml</code>中的配置在：</p>
+<p>设置<code>&lt;dispatcher&gt;&lt;/dispatcher&gt;</code>标签即可</p>
+<h4 id="3-4-过滤器链"><a href="#3-4-过滤器链" class="headerlink" title="3.4 过滤器链"></a>3.4 过滤器链</h4><p>即同时配置多个过滤器，多个过滤器对同一路径进行拦截时。</p>
+<p>类似于栈的形式<strong>先进后出</strong>，例如有两个过滤器 A和B。</p>
+<p>执行顺序即为：过滤器A –&gt; 过滤器B –&gt; 执行资源 –&gt; 过滤器B –&gt; 过滤器A</p>
+<p>执行资源前的是对<code>request</code>的增强，执行资源后的是对<code>response</code>的增强</p>
+<p>过滤器执行的先后顺序：</p>
+<ol>
+<li>注解配置：按照类名的字符串比较规则比较，值小的先执行.<ul>
+<li>如： AFilter 和 BFilter，AFilter就先执行了。</li>
+</ul>
+</li>
+<li>web.xml配置： &lt;filter-mapping&gt;谁定义在上边，谁先执行.</li>
+</ol>
+<h3 id="四、过滤器基本案例实战"><a href="#四、过滤器基本案例实战" class="headerlink" title="四、过滤器基本案例实战"></a>四、过滤器基本案例实战</h3><h4 id="4-1-登录验证-权限控制"><a href="#4-1-登录验证-权限控制" class="headerlink" title="4.1 登录验证(权限控制)"></a>4.1 登录验证(权限控制)</h4><p>对这一讲中–<btn><a href="http://www.liizhi.cn/2020/08/16/Java%E5%88%9D%E8%AF%95MVC%E5%8F%8A%E4%B8%89%E5%B1%82%E6%9E%B6%E6%9E%84/" target="_blank" rel="noopener">Java初试MVC及三层架构</a></btn>的登录进行验证。</p>
+<p>要求：</p>
+<ol>
+<li>如果已经登录，则直接放行。</li>
+<li>如果没有登录，则跳转到登录页面，并提示信息。</li>
+</ol>
+<p><strong>思路:</strong></p>
+<p>设置<code>LoginFilter</code>。判断当前用户是否登录(判断<code>Session</code>中是否有<code>User</code>)。</p>
+<ul>
+<li>如果用户已经登录，则对其进行放行</li>
+<li>如果没有登录，提示用户进行先进行登录。</li>
+</ul>
+<p><strong>注意：</strong>先排除是否是登录相关的资源。</p>
+<ul>
+<li>如果是，直接放行；</li>
+<li>不是，判断是否登录。</li>
+</ul>
+<p>代码实现：</p>
+<details>
+<summary>
+登录权限的案例代码实现
+</summary>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebFilter</span>(<span class="string">"/*"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest req, ServletResponse resp, FilterChain chain)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        <span class="comment">// 强转 -- 转换成子接口HttpServletRequest;也可以将ServletResponse转换成子接口HttpServletResponse</span></span><br><span class="line">        HttpServletRequest request = (HttpServletRequest) req; </span><br><span class="line">        String uri = request.getRequestURI(); <span class="comment">// 获取请求路径</span></span><br><span class="line">        <span class="comment">// 排除不需要过滤的资源路径</span></span><br><span class="line">        <span class="keyword">if</span> (uri.contains(<span class="string">"/login.jsp"</span>) || uri.contains(<span class="string">"/css/"</span>) || uri.contains(<span class="string">"/fonts/"</span>) || uri.contains(<span class="string">"/img/"</span>) || uri.contains(<span class="string">"/js/"</span>) || uri.contains(<span class="string">"/checkCode"</span>) || uri.contains(<span class="string">"/loginUser"</span>)) &#123;</span><br><span class="line">        chain.doFilter(req, resp);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            HttpSession session = request.getSession(); <span class="comment">// 获取session</span></span><br><span class="line">            Object user = session.getAttribute(<span class="string">"adminUser"</span>); <span class="comment">// 从session中获取用户登录信息</span></span><br><span class="line">            <span class="keyword">if</span> (user != <span class="keyword">null</span>) &#123; <span class="comment">// 不为空说明已经登录</span></span><br><span class="line">                chain.doFilter(req, resp);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123; <span class="comment">// 否则提示用户进行登录，并转发至登录首页</span></span><br><span class="line">                request.setAttribute(<span class="string">"adminUser_error"</span>, <span class="string">"请先登录"</span>);</span><br><span class="line">                request.getRequestDispatcher(<span class="string">"/login.jsp"</span>).forward(request, resp);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(FilterConfig config)</span> <span class="keyword">throws</span> ServletException </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<h4 id="4-2-敏感字符替换"><a href="#4-2-敏感字符替换" class="headerlink" title="4.2 敏感字符替换"></a>4.2 敏感字符替换</h4><p>对数据进行敏感词汇过滤，然后用<code>*</code>进行替换。</p>
+<p>重点：</p>
+<ul>
+<li>将修改完的文字再设置回<code>request</code>域中，放行，继而传递至<code>doFilter</code>中，将请求数据传递给后台。使用新的<code>request</code>对象，图中是蓝色的<code>request</code>对象。通过代理模式实现对象的增强。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/09/03/wiP6QU.png" alt="敏感词汇过滤"></p>
+<h4 id="4-2-1-代理模式介绍"><a href="#4-2-1-代理模式介绍" class="headerlink" title="4.2.1 代理模式介绍"></a>4.2.1 代理模式介绍</h4><h5 id="4-2-1-1-设计模式-一些通用的解决固定问题的方式。"><a href="#4-2-1-1-设计模式-一些通用的解决固定问题的方式。" class="headerlink" title="4.2.1.1 设计模式:一些通用的解决固定问题的方式。"></a>4.2.1.1 设计模式:一些通用的解决固定问题的方式。</h5><p>代理模式：</p>
+<ul>
+<li><p>概念</p>
+<ol>
+<li>真实对象：被代理的对象（可以理解为原厂商）</li>
+<li>代理对象：代理真实对象的对象。（可以理解为经销商–中间厂商）</li>
+<li>代理模式：代理对象代理真实对象，达到增强真实对象功能的目的</li>
+</ol>
+</li>
+<li><p>实现方式</p>
+<ul>
+<li><p>静态代理：有一个类文件描述代理模式</p>
+</li>
+<li><p>动态代理：在内存中形成代理类</p>
+</li>
+</ul>
+</li>
+<li><p>实现步骤：</p>
+<ol>
+<li>代理对象和真实对象实现相同的接口</li>
+<li>代理对象 = <code>Proxy.newProxyInstance();</code></li>
+<li>使用代理对象调用方法</li>
+<li>增强方法</li>
+</ol>
+</li>
+<li><p>增强方式：</p>
+<ol>
+<li>增强参数列表:获取具体的参数，对参数进行增强(替换参数等操作)</li>
+<li>增强返回值类型:对返回值进行增强(即对返回值的操作)</li>
+<li>增强方法体执行逻辑:在方法体中增强具体的逻辑操作</li>
+</ol>
+</li>
+</ul>
+<h5 id="4-2-1-2-动态代理"><a href="#4-2-1-2-动态代理" class="headerlink" title="4.2.1.2 动态代理"></a>4.2.1.2 动态代理</h5><p>特点：字节码随用随创建，随用随加载</p>
+<p>作用：不修改源码的基础上对方法增强</p>
+<p>分类：</p>
+<ul>
+<li>基于接口的动态代理</li>
+<li>基于子类的动态代理</li>
+</ul>
+<h6 id="1-基于接口的动态代理"><a href="#1-基于接口的动态代理" class="headerlink" title="1. 基于接口的动态代理"></a>1. 基于接口的动态代理</h6><p>涉及的类：<code>Proxy</code></p>
+<p>提供者：<code>JDK</code>官方</p>
+<ol>
+<li>如何创建代理对象：</li>
+</ol>
+<ul>
+<li>使用<code>Proxy</code>类中的<code>newProxyInstance</code>方法</li>
+</ul>
+<p>创建代理对象的要求:</p>
+<ul>
+<li>被代理类最少实现一个接口，如果没有则不能使用</li>
+</ul>
+<ol start="2">
+<li><code>newProxyInstance</code>方法的参数：</li>
+</ol>
+<ul>
+<li><code>ClassLoader</code>:类加载器<ul>
+<li>它是用于加载代理对象字节码的。和被代理对象使用相同的类加载器。(固定写法)</li>
+</ul>
+</li>
+<li><code>Class[]</code>:字节码数组<ul>
+<li>它是用于让代理对象和被代理对象有相同方法。(固定写法)</li>
+</ul>
+</li>
+<li><code>InvocationHandler</code>：用于提供增强的代码<ul>
+<li>它是让我们写如何代理。我们一般都是写一个该接口的实现类，通常情况下都是匿名内部类，但不是必须的。</li>
+</ul>
+</li>
+</ul>
+<h6 id="2-基于子类的动态代理"><a href="#2-基于子类的动态代理" class="headerlink" title="2. 基于子类的动态代理"></a>2. 基于子类的动态代理</h6><p>涉及的类：<code>Enhancer</code></p>
+<p>提供者：第三方<code>cglib</code>库</p>
+<p>如何创建代理对象:</p>
+<ul>
+<li>使用<code>Enhancer</code>类中的<code>create</code>方法</li>
+</ul>
+<p>创建代理对象的要求:</p>
+<ul>
+<li>被代理类不能是最终类</li>
+</ul>
+<p><code>create</code>方法的参数：</p>
+<ul>
+<li><p><code>Class</code>：字节码</p>
+<ul>
+<li>它是用于指定被代理对象的字节码</li>
+</ul>
+</li>
+<li><p><code>Callback</code>：用于提供增强的代码</p>
+<p>它是让我们写如何代理。我们一般都是写一个该接口的实现类，通常情况下都是匿名内部类。</p>
+<p>此接口的实现类都是谁用谁写(我们自己用，那便是我们自己写)</p>
+<p>我们一般写的都是该接口的子接口的实现类：<code>MethodInterceptor</code></p>
+</li>
+</ul>
+<h5 id="4-2-1-3-案例"><a href="#4-2-1-3-案例" class="headerlink" title="4.2.1.3 案例"></a>4.2.1.3 案例</h5><h6 id="1-基于接口的动态代理实例"><a href="#1-基于接口的动态代理实例" class="headerlink" title="1. 基于接口的动态代理实例"></a>1. 基于接口的动态代理实例</h6><p><strong>定义接口：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">SaleComputer</span> </span>&#123;</span><br><span class="line">    <span class="function">String <span class="title">sale</span><span class="params">(<span class="keyword">double</span> money)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>定义真实对象:</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 真实类 -- 作为真实对象</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Lenovo</span> <span class="keyword">implements</span> <span class="title">SaleComputer</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">sale</span><span class="params">(<span class="keyword">double</span> money)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"花了"</span> + money + <span class="string">"元买了一条电脑"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"联想电脑"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"展示电脑"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>代理对象的使用逻辑:</strong></p>
+<details>
+<summary>
+代理对象的使用逻辑
+</summary>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProxyTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Lenovo lenovo = <span class="keyword">new</span> Lenovo();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//2.动态代理增强Lenovo对象</span></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 三个参数：</span></span><br><span class="line"><span class="comment">         *      1.类加载器：真实对象.getClass().getClassLoader()</span></span><br><span class="line"><span class="comment">         *      2.接口数组(保证代理对象和真实对象实现相同的接口)：真实数组.getClass().getInterfaces() -- 真实对象的接口</span></span><br><span class="line"><span class="comment">         *      3.处理器：new InvocationHandler() 这是所关心的，即我们的代理方式</span></span><br><span class="line"><span class="comment">         *      4.这里的proxy_lenovo即为代理对象</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建代理对象 -- 使代理对象和真实对象实现相同的接口(相同接口类型)</span></span><br><span class="line">        SaleComputer proxy_lenovo = (SaleComputer) Proxy.newProxyInstance(lenovo.getClass().getClassLoader(), lenovo.getClass().getInterfaces(), <span class="keyword">new</span> InvocationHandler() &#123;</span><br><span class="line">            <span class="comment">/*</span></span><br><span class="line"><span class="comment">                代理逻辑编写的方法：代理对象调用的所有方法都会触发该方法执行</span></span><br><span class="line"><span class="comment">                参数:</span></span><br><span class="line"><span class="comment">                    1.proxy:代理对象</span></span><br><span class="line"><span class="comment">                    2.method:代理对象调用的方法。被封装为的对象</span></span><br><span class="line"><span class="comment">                    3.args:代理对象调用的方法时，传递的实际参数(调用方法中的参数列表)</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line"><span class="comment">//                System.out.println("该方法被执行了...");</span></span><br><span class="line"><span class="comment">//                System.out.println(method.getName());</span></span><br><span class="line"><span class="comment">//                System.out.println(args[0]);</span></span><br><span class="line">                <span class="comment">// 1.增强参数</span></span><br><span class="line">                <span class="keyword">if</span> (method.getName().equals(<span class="string">"sale"</span>)) &#123;</span><br><span class="line">                    <span class="keyword">double</span> money = (<span class="keyword">double</span>) args[<span class="number">0</span>];</span><br><span class="line">                    money = money * <span class="number">0.85</span>; <span class="comment">// 对参数列表进行增强</span></span><br><span class="line">                    <span class="comment">// 使用真实对象调用该方法</span></span><br><span class="line">                   String obj = (String) method.invoke(lenovo, money);</span><br><span class="line">                   <span class="comment">// 2. 增强返回值</span></span><br><span class="line">                    <span class="keyword">return</span> obj+<span class="string">"_鼠标垫"</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    Object obj = method.invoke(lenovo, args);</span><br><span class="line">                    <span class="keyword">return</span> obj;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3.调用方法</span></span><br><span class="line">        String computer = proxy_lenovo.sale(<span class="number">8000</span>); <span class="comment">// 确定了 方法名 -- sale;参数列表 -- &#123;8000&#125;</span></span><br><span class="line"><span class="comment">//        System.out.println(computer);</span></span><br><span class="line"><span class="comment">//        proxy_lenovo.show();</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<h6 id="2-基于子类的动态代理实例"><a href="#2-基于子类的动态代理实例" class="headerlink" title="2. 基于子类的动态代理实例"></a>2. 基于子类的动态代理实例</h6><details>
+<summary>
+被代理对象类
+</summary>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 一个生产者</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Producer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 销售</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> money</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">saleProduct</span><span class="params">(<span class="keyword">float</span> money)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"销售产品，并拿到钱："</span>+money);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 售后</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> money</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterService</span><span class="params">(<span class="keyword">float</span> money)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"提供售后服务，并拿到钱："</span>+money);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<details>
+<summary>
+代理对象类
+</summary>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 模拟一个消费者</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> Producer producer = <span class="keyword">new</span> Producer();</span><br><span class="line">        Producer cglibProducer = (Producer)Enhancer.create(producer.getClass(), <span class="keyword">new</span> MethodInterceptor() &#123;</span><br><span class="line">            <span class="comment">/**</span></span><br><span class="line"><span class="comment">             * 执行被代理对象的任何方法都会经过该方法</span></span><br><span class="line"><span class="comment">             * <span class="doctag">@param</span> proxy</span></span><br><span class="line"><span class="comment">             * <span class="doctag">@param</span> method</span></span><br><span class="line"><span class="comment">             * <span class="doctag">@param</span> args</span></span><br><span class="line"><span class="comment">             *    以上三个参数和基于接口的动态代理中invoke方法的参数是一样的</span></span><br><span class="line"><span class="comment">             * <span class="doctag">@param</span> methodProxy ：当前执行方法的代理对象</span></span><br><span class="line"><span class="comment">             * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">             * <span class="doctag">@throws</span> Throwable</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Object <span class="title">intercept</span><span class="params">(Object proxy, Method method, Object[] args, MethodProxy methodProxy)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">                <span class="comment">//提供增强的代码</span></span><br><span class="line">                Object returnValue = <span class="keyword">null</span>;</span><br><span class="line">                <span class="comment">//1.获取方法执行的参数</span></span><br><span class="line">                Float money = (Float)args[<span class="number">0</span>];</span><br><span class="line">                <span class="comment">//2.判断当前方法是不是销售 -- 若是的话，则对方法进行增强</span></span><br><span class="line">                <span class="keyword">if</span>(<span class="string">"saleProduct"</span>.equals(method.getName())) &#123;</span><br><span class="line">                    returnValue = method.invoke(producer, money*<span class="number">0.8f</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> returnValue;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        cglibProducer.saleProduct(<span class="number">12000f</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<h4 id="4-2-2-敏感词汇过滤代码"><a href="#4-2-2-敏感词汇过滤代码" class="headerlink" title="4.2.2 敏感词汇过滤代码"></a>4.2.2 敏感词汇过滤代码</h4><p><strong>逻辑:</strong>获取<code>request</code>中带有请求参数的方法，例如:<code>getParameter</code>、<code>getParameterMap</code>、<code>getParameterValue</code>等。对其方法的返回值进行判定，是否存在敏感值。如果存在，则对返回值进行增强。</p>
+<details>
+<summary>
+敏感词汇过滤代码
+</summary>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebFilter</span>(<span class="string">"/*"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SensitiveWordsFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest req, ServletResponse resp, FilterChain chain)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        <span class="comment">// 真实对象和代理对象都实现 ServletRequest 接口</span></span><br><span class="line">        ServletRequest request = (ServletRequest) Proxy.newProxyInstance(req.getClass().getClassLoader(), req.getClass().getInterfaces(), <span class="keyword">new</span> InvocationHandler() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (method.getName().equals(<span class="string">"getParameter"</span>)) &#123; <span class="comment">// 存在getParameter方法</span></span><br><span class="line">                    String value = (String) method.invoke(req, args);</span><br><span class="line">                    <span class="keyword">if</span> (value != <span class="keyword">null</span>) &#123;</span><br><span class="line">                        <span class="keyword">for</span> (String word : list) &#123;</span><br><span class="line">                            <span class="keyword">if</span> (value.contains(word)) &#123;</span><br><span class="line">                                value = value.replaceFirst(word, <span class="string">"**"</span>); <span class="comment">// 获取新的value</span></span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">return</span> value;</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (method.getName().equals(<span class="string">"getParameterMap"</span>)) &#123; <span class="comment">// 存在getParameterMap方法</span></span><br><span class="line">                    Map&lt;String, String[]&gt; parameterMap = (Map&lt;String, String[]&gt;) method.invoke(req, args);</span><br><span class="line">                    <span class="keyword">if</span> (parameterMap != <span class="keyword">null</span> &amp;&amp; !parameterMap.isEmpty()) &#123;</span><br><span class="line">                        Set&lt;String&gt; keySet = parameterMap.keySet();</span><br><span class="line">                        <span class="keyword">for</span> (String key : keySet) &#123;</span><br><span class="line">                            String[] values = parameterMap.get(key);</span><br><span class="line">                            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; values.length; i++) &#123;</span><br><span class="line">                                <span class="keyword">for</span> (String word : list) &#123;</span><br><span class="line">                                    <span class="keyword">if</span> (values[i].contains(word)) &#123;</span><br><span class="line">                                        parameterMap.get(key)[i] = values[i].replaceAll(word, <span class="string">"**"</span>);</span><br><span class="line">                                    &#125;</span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125;</span><br><span class="line"></span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">return</span> parameterMap;</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (method.getName().equals(<span class="string">"getParameterValues"</span>)) &#123;</span><br><span class="line">                    String[] values = (String[]) method.invoke(req, args);</span><br><span class="line">                    <span class="keyword">if</span> (values != <span class="keyword">null</span> &amp;&amp; values.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">                        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; values.length; i++) &#123;</span><br><span class="line">                            <span class="keyword">for</span> (String word : list) &#123;</span><br><span class="line">                                <span class="keyword">if</span> (values[i].contains(word)) &#123;</span><br><span class="line">                                    values[i] = values[i].replaceAll(word, <span class="string">"**"</span>);</span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">return</span> values;</span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">                <span class="comment">// 如果不是以上方法，就返回客户端传递的req对象(旧对象)原来的方法返回值即可，而以上方法传递的是新的req对象方法返回值(经过增强后的返回值) -- 对返回值进行了增强</span></span><br><span class="line">                <span class="keyword">return</span> method.invoke(req, args);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        chain.doFilter(request, resp);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    	用于加载敏感词汇表，存放在列表中。init初始时加载 -- 只加载一次</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(FilterConfig config)</span> <span class="keyword">throws</span> ServletException </span>&#123;  </span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 获取真实路径</span></span><br><span class="line">            ServletContext servletContext = config.getServletContext();</span><br><span class="line">            String realPath = servletContext.getRealPath(<span class="string">"/WEB-INF/classes/word"</span>);</span><br><span class="line">            <span class="comment">// 读取文件</span></span><br><span class="line">            BufferedReader br = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> FileReader(realPath));</span><br><span class="line">            <span class="comment">// 将文件添加到集合当中</span></span><br><span class="line">            String line = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">while</span> ((line = br.readLine()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">                list.add(line);</span><br><span class="line">            &#125;</span><br><span class="line">            br.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (FileNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><blockquote>
+<p>[1] <a href="https://blog.csdn.net/yuzhiqiang_1993/article/details/81288912" target="_blank" rel="noopener">Java Web之过滤器(Filter)</a></p>
+<p>[2] <a href="https://baike.baidu.com/item/java%E8%BF%87%E6%BB%A4%E5%99%A8/242605?fr=aladdin" target="_blank" rel="noopener">Java过滤器–百度百科</a></p>
+<p>[3] <a href="">黑马讲义</a></p>
+</blockquote>
+
+          
+            <br>
+            
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.chemlez.cn/2020/09/03/Java%E5%9F%BA%E7%A1%80%E4%B9%8BFilter/>https://www.chemlez.cn/2020/09/03/Java%E5%9F%BA%E7%A1%80%E4%B9%8BFilter/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget related_posts  desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-bookmark fa-fw" aria-hidden="true"></i><span class='name'>相关文章</span>
+    
+  </header>
+
+
+    <div class="content">
+      <ul class="popular-posts"><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="/2019/11/18/JDBC基础使用/" title="JDBC基础使用" rel="bookmark">JDBC基础使用</a></h3></div></li></ul>
+    </div>
+  </section>
+
+
+  
+
+
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-09-17T09:34:09+08:00">
+  <a class='notlink'>
+    <i class="fas fa-save" aria-hidden="true"></i>
+    <p>更新于：Sep 17, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Filter/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i><p>Filter</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i><p>动态代理</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.chemlez.cn/2020/09/03/Java%E5%9F%BA%E7%A1%80%E4%B9%8BFilter/&title=Java基础之Filter - Liz'blog&summary=一、概念Filter是Java Web的三大组件之一。Java Web三大组件分别是Servlet、Filter、Listener。
+Filter的作用一般用于完成通用的操作。例如:登录验证、统一编码处理、敏感字符过滤…在实际开发中，过滤器就是对Web资源进行拦截，做一些处理后再交给下一个过滤器或servlet处理，通常都是用来拦截request进行处理，或者对返回的response进行拦截处理。其处理流程见下图：
+
+拦截request可以简单理解为，在客户端向后端发送请求时，我们需要对其请求加一些”修饰”，将”修饰”后的请求带到后端。其中这个”修饰”是需要在这个请求的过程中完成的，这里因为是通用操作，可能是对所有的request进行”修饰”，所以并没有在客户端进行编写，否则当再加入一个request请求时，我们又要编写对应的规则，因此我们借用过滤器在请求过程中，对我们需要改写的request进行”修饰”。
+其中，这里的”修饰”就可以理解为在原有的request请求中，再加入一些”修改”。例如:在Servlet中过多字符集编码发生变化需要修改时，你是选择对每个Servlet都进行修改，还是会选择一个通用的”规则”,来自动判断帮我们进行修改呢？而这里通用的”规则”就是Filter，我们可以把这些通用的字符集编码配置等工作放在Filter中，由Filter在请求过程中或返回过程中帮我们来实现。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.chemlez.cn/2020/09/03/Java%E5%9F%BA%E7%A1%80%E4%B9%8BFilter/&title=Java基础之Filter - Liz'blog&summary=一、概念Filter是Java Web的三大组件之一。Java Web三大组件分别是Servlet、Filter、Listener。
+Filter的作用一般用于完成通用的操作。例如:登录验证、统一编码处理、敏感字符过滤…在实际开发中，过滤器就是对Web资源进行拦截，做一些处理后再交给下一个过滤器或servlet处理，通常都是用来拦截request进行处理，或者对返回的response进行拦截处理。其处理流程见下图：
+
+拦截request可以简单理解为，在客户端向后端发送请求时，我们需要对其请求加一些”修饰”，将”修饰”后的请求带到后端。其中这个”修饰”是需要在这个请求的过程中完成的，这里因为是通用操作，可能是对所有的request进行”修饰”，所以并没有在客户端进行编写，否则当再加入一个request请求时，我们又要编写对应的规则，因此我们借用过滤器在请求过程中，对我们需要改写的request进行”修饰”。
+其中，这里的”修饰”就可以理解为在原有的request请求中，再加入一些”修改”。例如:在Servlet中过多字符集编码发生变化需要修改时，你是选择对每个Servlet都进行修改，还是会选择一个通用的”规则”,来自动判断帮我们进行修改呢？而这里通用的”规则”就是Filter，我们可以把这些通用的字符集编码配置等工作放在Filter中，由Filter在请求过程中或返回过程中帮我们来实现。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.chemlez.cn/2020/09/03/Java%E5%9F%BA%E7%A1%80%E4%B9%8BFilter/&title=Java基础之Filter - Liz'blog&summary=一、概念Filter是Java Web的三大组件之一。Java Web三大组件分别是Servlet、Filter、Listener。
+Filter的作用一般用于完成通用的操作。例如:登录验证、统一编码处理、敏感字符过滤…在实际开发中，过滤器就是对Web资源进行拦截，做一些处理后再交给下一个过滤器或servlet处理，通常都是用来拦截request进行处理，或者对返回的response进行拦截处理。其处理流程见下图：
+
+拦截request可以简单理解为，在客户端向后端发送请求时，我们需要对其请求加一些”修饰”，将”修饰”后的请求带到后端。其中这个”修饰”是需要在这个请求的过程中完成的，这里因为是通用操作，可能是对所有的request进行”修饰”，所以并没有在客户端进行编写，否则当再加入一个request请求时，我们又要编写对应的规则，因此我们借用过滤器在请求过程中，对我们需要改写的request进行”修饰”。
+其中，这里的”修饰”就可以理解为在原有的request请求中，再加入一些”修改”。例如:在Servlet中过多字符集编码发生变化需要修改时，你是选择对每个Servlet都进行修改，还是会选择一个通用的”规则”,来自动判断帮我们进行修改呢？而这里通用的”规则”就是Filter，我们可以把这些通用的字符集编码配置等工作放在Filter中，由Filter在请求过程中或返回过程中帮我们来实现。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADmklEQVR42u3aQVLkQAwEwPn/p9n7RhBulWQsQ/YN2+NpZXMoJD5fVrQ+CMCBAwfOAgduCdwnXN+++L/7V58/vf7d/av3fLe/tF5w4MCBAwcOHLhtcMcBsPj81cav3nsKkoJX6wUHDhw4cODAgdsK1w2ep8+fFnIF9+P7BwcOHDhw4MCB++VwUwF0qmEKDhw4cODAgQMHrrfhdABdfa4awMGBAwcOHDhw4N4Od1fw3NqYfGySDw4cOHDgwIEDNwRXXenAecvPcb3gwIEDBw4cOHBL4KYHw2kj8Sognz53ej+uFxw4cODAgQMHbglcGhDTjU41QqvQ3frAgQMHDhw4cODeAlcNuqfPXxU63VCtBufL/YMDBw4cOHDgwC2BSwPjdCMybTx2D+DqvZcDaXDgwIEDBw4cuIfh0oLSoHl6vdqoTA/8+GDAgQMHDhw4cOCWwd3dGKx+X1pgt1Ha/ssBHDhw4MCBAwfuIbg0sHaDa7fwckOyeNDgwIEDBw4cOHBvgesOln9qQJz+AlQbteDAgQMHDhw4cNvgpga33UCbDqrTQB43YMGBAwcOHDhw4JbCnW64HSTDA+oedDvQgwMHDhw4cODALYGrbjQNoHcPnk/rSEHBgQMHDhw4cOC2wqUNxdMg2S2w+72f5gIHDhw4cODAgXsLXNrQnGo8dgfa041TcODAgQMHDhy4rXBpIdXg2wWY3lc1qIMDBw4cOHDgwG2BqwbfqcKqjdRu0O3WCQ4cOHDgwIEDtw2uGijvLqjaMO1eL38eHDhw4MCBAwfuJXDV5z7hSj//dbiq7wEHDhw4cODAgdsONxV4p/5R8e7BeLW+y4E0OHDgwIEDBw7cMrhqsOxuuBqw0+BeHUiDAwcOHDhw4MBth0thpgfFaVDuDrbjRiY4cODAgQMHDtwyuKcH0lOBuNs4LQdgcODAgQMHDhy4h+C6jcJ40Bs+f7Wv6YMEBw4cOHDgwIHbAtddpxtIA/Qp1Ol72sEaHDhw4MCBAwduCVw3IKaBtlpY92DHfgYHDhw4cODAgVsGN72RqeemvmcsiIMDBw4cOHDgwC2F6zYMxwa/Qwea7gMcOHDgwIEDB+6vwN0VbLsD6vSAwIEDBw4cOHDg/ipcvLHm4LobpMGBAwcOHDhw4N4KV20YdoPv6f0pgHRgDQ4cOHDgwIEDtxVuepDchUyDb9rYPL4ODhw4cODAgQO3BM4qBmoE4MCBA2eBA/fs+gdb6QTb2bYBxQAAAABJRU5ErkJggg==">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/2020/09/05/Java%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%8F%8D%E5%B0%84%E5%88%9D%E6%AD%A5%E7%90%86%E8%A7%A3/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Java基础之反射初步理解</p>
+                <p class='content'>由于在学习框架时，经常会遇到反射，故此篇文章用于对反射的基本学习。
+一、概述基本定义:JAVA反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调...</p>
+              </a>
+            
+            
+              <a class='next' href='/2020/08/31/Servlet%E4%BC%98%E5%8C%96%E4%B9%8B%E5%8A%9F%E8%83%BD%E9%87%8D%E7%BB%84%E6%88%90%E6%A8%A1%E5%9D%97/'>
+                <p class='title'>Servlet优化之功能重组成模块<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>在之前的总结Java初试MVC及三层架构中，查看其目录结构仅仅对于User对象的操作就写了6，7个servlet，而每一个servlet只对应一个功能，但随着以后项目的扩大，业务逻辑的复杂化，我...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box comments shadow floatable">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> Comment</p>
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-spinner fa-spin fa-fw"></i>
+          </div>
+        </section>
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Java基础之Filter',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+    
+    
+
+<section class="widget blogger shadow floatable desktop">
+  <div class='content'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='https://s1.ax1x.com/2020/03/13/8mvbCj.jpg'/>
+      </div>
+    
+    
+      <div class='text'>
+        
+        
+        
+          <p><span id="jinrishici-sentence">Liz'blog</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="https://github.com/Chemlez"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://weibo.com/u/5653780011?nick=Sane_z&is_all=1"
+              class="social fab fa-weibo flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="mailto:liz_1106@163.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget category shadow floatable desktop">
+    
+  <header>
+    
+      <a href='/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <ul class="entry navigation">
+        
+          <li><a class="flat-box"
+            title="/categories/Java/" href="/categories/Java/"
+            id="categoriesJava"
+            ><div class='name'>Java</div><div class='badge'>(17)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Java/%E6%A1%86%E6%9E%B6/" href="/categories/Java/%E6%A1%86%E6%9E%B6/"
+            id="categoriesJavaE6A186E69EB6"
+            ><div class='name'>框架</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Linux/" href="/categories/Linux/"
+            id="categoriesLinux"
+            ><div class='name'>Linux</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Machine-Learning/" href="/categories/Machine-Learning/"
+            id="categoriesMachine-Learning"
+            ><div class='name'>Machine Learning</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Machine-Learning/sklearn/" href="/categories/Machine-Learning/sklearn/"
+            id="categoriesMachine-Learningsklearn"
+            ><div class='name'>sklearn</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Mongodb/" href="/categories/Mongodb/"
+            id="categoriesMongodb"
+            ><div class='name'>Mongodb</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Nginx/" href="/categories/Nginx/"
+            id="categoriesNginx"
+            ><div class='name'>Nginx</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Python/" href="/categories/Python/"
+            id="categoriesPython"
+            ><div class='name'>Python</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Python/%E7%88%AC%E8%99%AB/" href="/categories/Python/%E7%88%AC%E8%99%AB/"
+            id="categoriesPythonE788ACE899AB"
+            ><div class='name'>爬虫</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/git/" href="/categories/git/"
+            id="categoriesgit"
+            ><div class='name'>git</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E5%89%8D%E7%AB%AF/" href="/categories/%E5%89%8D%E7%AB%AF/"
+            id="categoriesE5898DE7ABAF"
+            ><div class='name'>前端</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"
+            id="categoriesE5A49AE7BABFE7A88B"
+            ><div class='name'>多线程</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"
+            id="categoriesE695B0E68DAEE7BB93E69E84E4B88EE7AE97E6B395"
+            ><div class='name'>数据结构与算法</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"
+            id="categoriesE8AEBEE8AEA1E6A8A1E5BC8F"
+            ><div class='name'>设计模式</div><div class='badge'>(10)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget tagcloud shadow floatable desktop">
+    
+  <header>
+    
+      <a href='/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <a href="/tags/Beautifulsoup/" style="font-size: 17.33px; color: #828282">Beautifulsoup</a> <a href="/tags/Data-Preprocessing/" style="font-size: 14px; color: #999">Data Preprocessing</a> <a href="/tags/DecisionTree/" style="font-size: 14px; color: #999">DecisionTree</a> <a href="/tags/Feature-Engineering/" style="font-size: 14px; color: #999">Feature Engineering</a> <a href="/tags/Filter/" style="font-size: 14px; color: #999">Filter</a> <a href="/tags/IO%E6%B5%81/" style="font-size: 14px; color: #999">IO流</a> <a href="/tags/JDBC/" style="font-size: 17.33px; color: #828282">JDBC</a> <a href="/tags/JQuery/" style="font-size: 14px; color: #999">JQuery</a> <a href="/tags/Java/" style="font-size: 20.67px; color: #6c6c6c">Java</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/JavaWeb/" style="font-size: 17.33px; color: #828282">JavaWeb</a> <a href="/tags/Kaggle/" style="font-size: 14px; color: #999">Kaggle</a> <a href="/tags/Linux/" style="font-size: 17.33px; color: #828282">Linux</a> <a href="/tags/MBG/" style="font-size: 14px; color: #999">MBG</a> <a href="/tags/MVC/" style="font-size: 14px; color: #999">MVC</a> <a href="/tags/Mapper/" style="font-size: 14px; color: #999">Mapper</a> <a href="/tags/Mongodb/" style="font-size: 14px; color: #999">Mongodb</a> <a href="/tags/MySQL/" style="font-size: 20.67px; color: #6c6c6c">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 20.67px; color: #6c6c6c">Mybatis</a> <a href="/tags/Nginx/" style="font-size: 14px; color: #999">Nginx</a> <a href="/tags/Python/" style="font-size: 14px; color: #999">Python</a> <a href="/tags/Request/" style="font-size: 17.33px; color: #828282">Request</a> <a href="/tags/Servlet/" style="font-size: 20.67px; color: #6c6c6c">Servlet</a> <a href="/tags/Spring/" style="font-size: 17.33px; color: #828282">Spring</a> <a href="/tags/SpringMVC/" style="font-size: 17.33px; color: #828282">SpringMVC</a> <a href="/tags/Springboot-starter/" style="font-size: 14px; color: #999">Springboot-starter</a> <a href="/tags/ThreadLocal/" style="font-size: 14px; color: #999">ThreadLocal</a> <a href="/tags/VMware/" style="font-size: 14px; color: #999">VMware</a> <a href="/tags/conda/" style="font-size: 14px; color: #999">conda</a> <a href="/tags/git/" style="font-size: 14px; color: #999">git</a> <a href="/tags/hexo/" style="font-size: 14px; color: #999">hexo</a> <a href="/tags/redis/" style="font-size: 14px; color: #999">redis</a> <a href="/tags/servlet/" style="font-size: 14px; color: #999">servlet</a> <a href="/tags/sklearn/" style="font-size: 17.33px; color: #828282">sklearn</a> <a href="/tags/ssm/" style="font-size: 14px; color: #999">ssm</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">依赖倒置原则</a> <a href="/tags/%E5%89%8D%E7%BC%80%E6%A0%91/" style="font-size: 14px; color: #999">前缀树</a> <a href="/tags/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" style="font-size: 14px; color: #999">动态代理</a> <a href="/tags/%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">单一职责原则</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">单例模式</a> <a href="/tags/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">原型模式</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 17.33px; color: #828282">反射</a> <a href="/tags/%E5%A0%86%E6%8E%92%E5%BA%8F/" style="font-size: 14px; color: #999">堆排序</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 14px; color: #999">多线程</a> <a href="/tags/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">工厂模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 14px; color: #999">并查集</a> <a href="/tags/%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">建造者模式</a> <a href="/tags/%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">开闭原则</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E9%9A%94%E7%A6%BB%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">接口隔离原则</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 17.33px; color: #828282">正则表达式</a> <a href="/tags/%E6%BA%90%E7%A0%81/" style="font-size: 17.33px; color: #828282">源码</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 17.33px; color: #828282">爬虫</a> <a href="/tags/%E7%BB%84%E5%90%88%E4%BC%98%E4%BA%8E%E7%BB%A7%E6%89%BF%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">组合优于继承原则</a> <a href="/tags/%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81/" style="font-size: 14px; color: #999">表单验证</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 24px; color: #555">设计模式</a> <a href="/tags/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">适配器模式</a>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow floatable desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、概念"><span class="toc-text">一、概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、过滤器的快速使用"><span class="toc-text">二、过滤器的快速使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-执行流程"><span class="toc-text">2.1 执行流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-过滤器生命周期方法"><span class="toc-text">2.2 过滤器生命周期方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、过滤器配置"><span class="toc-text">三、过滤器配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-web-xml配置"><span class="toc-text">3.1 web.xml配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-拦截路径设置"><span class="toc-text">3.2 拦截路径设置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-注解配置"><span class="toc-text">3.3 注解配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-4-过滤器链"><span class="toc-text">3.4 过滤器链</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四、过滤器基本案例实战"><span class="toc-text">四、过滤器基本案例实战</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-登录验证-权限控制"><span class="toc-text">4.1 登录验证(权限控制)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-敏感字符替换"><span class="toc-text">4.2 敏感字符替换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-1-代理模式介绍"><span class="toc-text">4.2.1 代理模式介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#4-2-1-1-设计模式-一些通用的解决固定问题的方式。"><span class="toc-text">4.2.1.1 设计模式:一些通用的解决固定问题的方式。</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-2-1-2-动态代理"><span class="toc-text">4.2.1.2 动态代理</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-基于接口的动态代理"><span class="toc-text">1. 基于接口的动态代理</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-基于子类的动态代理"><span class="toc-text">2. 基于子类的动态代理</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-2-1-3-案例"><span class="toc-text">4.2.1.3 案例</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-基于接口的动态代理实例"><span class="toc-text">1. 基于接口的动态代理实例</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-基于子类的动态代理实例"><span class="toc-text">2. 基于子类的动态代理实例</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-2-敏感词汇过滤代码"><span class="toc-text">4.2.2 敏感词汇过滤代码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考文献"><span class="toc-text">参考文献</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="https://github.com/Chemlez"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="https://weibo.com/u/5653780011?nick=Sane_z&amp;is_all=1"
+                class="social fab fa-weibo flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="mailto:liz_1106@163.com"
+                class="social fas fa-envelope flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://chemlez.cn" target="_blank" rel="noopener">Copyright © 2019-2021 Chemlez</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.0/js/valine.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var notify = 'true' == true;
+  var verify = 'true' == true;
+  var valine = new Valine();
+  valine.init({
+    el: '#valine_container',
+    notify: notify,
+    verify: verify,
+    guest_info: guest_info,
+    
+    appId: "YSitK1ig1lRcy3jvrtTzT6fb-MdYXbMMI",
+    appKey: "e7hFf2zqvyWgNmDsClWcM7W3",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'wavatar',
+    lang:'zh-cn',
+    visitor: 'false',
+    highlight:'true'
+  })
+  </script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1.5/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copyed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-clipboard-check');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPYED';
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-exclamation-triangle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+
+  <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "[object Object]";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+<script>!function(e){var c=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){for(var r=0;r<c.length;r++)t=c[r],0<=(n=t.getBoundingClientRect()).bottom&&0<=n.left&&n.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=c[r];t=o,n=function(){c=c.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n&&n()},e.src=i}();var t,n}i(),e.addEventListener("scroll",function(){var t,n;t=i,n=e,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)})}(this);</script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script></body>
+</html>

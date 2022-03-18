@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>云端MySQL安装及相关配置 - Liz&#39;blog</title>
+  
+    <meta name="keywords" content="MySQL,Linux">
+  
+  
+    <meta name="description" content="由于自己的阿里云账号申请不足6个月，能够享受新用户云服务器ECS89元一年的优惠政策，所以就购买了一台云服务器，作为日常学习的使用。本文用来记录此次装载云服务器所遇到的一些问题及MySQL的安装过程。
+一、云服务器的选配及配置此次我选购的服务器网址:http://aliyun.langsan.com/?bd_vi...">
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css">
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+  <link rel="shortcut icon" type='image/x-icon' href="https://s1.ax1x.com/2020/03/15/81ZR5F.jpg">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1.5.2/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+
+  <div class='wrapper'>
+    <div class='nav-sub container--flex'>
+      <a class="logo flat-box"></a>
+      <ul class='switcher h-list'>
+        <li><a class="s-comment flat-btn fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc flat-btn fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main container container--flex">
+      
+        
+        <a class="logo flat-box" target="_self" href='/'>
+          
+          
+          
+          
+            CHEMLEZ <b><sup style='color:#3AA757'></sup></b>
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='h-list'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-home fa-fw'></i>
+                  
+                  主页
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" 
+                  
+                  
+                  >
+                  
+                    <i class='fas fa-list-alt fa-fw fa-fw'></i>
+                  
+                  索引
+                </a>
+                
+                  <ul class="submenu">
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  
+                    <i class='fas fa-tags fa-fw'></i>
+                  
+                  标签
+                </a>
+                
+              </li>
+            
+          
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  
+                    <i class='fas fa-folder-open fa-fw'></i>
+                  
+                  类别
+                </a>
+                
+              </li>
+            
+          
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  
+                    <i class='fas fa-archive fa-fw'></i>
+                  
+                  归档
+                </a>
+                
+              </li>
+            
+          
+                    
+                  </ul>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  
+                    <i class='fas fa-link fa-fw'></i>
+                  
+                  友链
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  
+                    <i class='fas fa-info-circle fa-fw'></i>
+                  
+                  关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      
+        <div class="m_search">
+          <form name="searchform" class="form u-search-form">
+            <i class="icon fas fa-search fa-fw"></i>
+            <input type="text" class="input u-search-input" placeholder="搜索" />
+          </form>
+        </div>
+      
+
+			<ul class='switcher h-list'>
+				
+					<li><a class="s-search flat-btn fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li><a class="s-menu flat-btn fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+	</div>
+</header>
+<ul class="menu-phone navigation white-box">
+  
+  
+    <li>
+      <a class="flat-box" href=/
+        
+        
+        
+          id="home"
+        >
+        
+          <i class='fas fa-clock fa-fw fa-fw'></i>
+        
+        近期文章
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/archives/
+        
+        
+        
+          id="archives"
+        >
+        
+          <i class='fas fa-list-alt fa-fw fa-fw'></i>
+        
+        文章归档
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/categories/
+        
+        
+        
+          id="categories"
+        >
+        
+          <i class='fas fa-folder-open fa-fw'></i>
+        
+        文章类别
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/tags/
+        
+        
+        
+          id="tags"
+        >
+        
+          <i class='fas fa-tags fa-fw'></i>
+        
+        文章标签
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/friends/
+        
+        
+        
+          id="friends"
+        >
+        
+          <i class='fas fa-link fa-fw'></i>
+        
+        我的友链
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/about/
+        
+        
+        
+          id="about"
+        >
+        
+          <i class='fas fa-info-circle fa-fw'></i>
+        
+        关于小站
+      </a>
+    </li>
+  
+</ul>
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box shadow floatable article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2020/01/22/%E4%BA%91%E7%AB%AFMySQL%E5%AE%89%E8%A3%85%E5%8F%8A%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE/">
+        云端MySQL安装及相关配置
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+<div class='new-meta-item author'>
+  <a href="https://chemlez.cn" target="_blank" rel="nofollow noopener">
+    <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/03/13/8mvbCj.jpg">
+    <p>Chemlez</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Linux/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>Linux</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-edit" aria-hidden="true"></i>
+    <p>发布于：Jan 22, 2020</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>由于自己的阿里云账号申请不足6个月，能够享受新用户云服务器ECS89元一年的优惠政策，所以就购买了一台云服务器，作为日常学习的使用。本文用来记录此次装载云服务器所遇到的一些问题及MySQL的安装过程。</p>
+<h4 id="一、云服务器的选配及配置"><a href="#一、云服务器的选配及配置" class="headerlink" title="一、云服务器的选配及配置"></a>一、云服务器的选配及配置</h4><p>此次我选购的服务器网址:<a href="http://aliyun.langsan.com/?bd_vid=8575091722087683835" target="_blank" rel="noopener">http://aliyun.langsan.com/?bd_vid=8575091722087683835</a>。下图为此次所购的云服务器配置:  <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s2.ax1x.com/2020/01/22/1AMtQs.png" alt="服务器配置"> </p>
+<a id="more"></a>
+
+
+
+<p>后续步骤为：提货券的兑换；地域站点的选取以及系统的选配。这里我选取的为上海的站点（大陆境内站点随便选没什么差别），系统选装的为Centos7(具体到7.x没什么区别)。然后就是阿里云那边的自动配置了。购买及配置较为简单，全部为阿里云的傻瓜一站式操作。</p>
+<h4 id="二、安全组的设置"><a href="#二、安全组的设置" class="headerlink" title="二、安全组的设置"></a>二、安全组的设置</h4><p>第一次服务器的使用，需要进行安全组的设置。进入到自己的控制台-实例与镜像-实例。这个时候就能够看到自己的服务器。勾选此台服务器：<br><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s2.ax1x.com/2020/01/22/1AlfPO.png" alt="">  </p>
+<ul>
+<li><p>依次设置实例ID、重置实例密码；  </p>
+</li>
+<li><p>在更多选项中选择密码/密匙。重置远程连接的密码。  </p>
+<p><strong>注</strong>:实例密码为操作系统的密码，即为root用户名密码。在实例创建时可选设定，如果没有设定或者遗忘可在阿里云的个人控制台上进行密码重置操作；远程链接密码是通过个人后台控制面板，通过内网形式直接链接到操作系统上，这种链接方式可以绕过安全组拦截，一般用于安全组将远程端口拦截时选择此种方法。  </p>
+</li>
+<li><p>网络与安全组。将此实例加入到安全组里。  </p>
+</li>
+<li><p>设置安全组规则  <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s2.ax1x.com/2020/01/22/1A3K1g.png" alt="">  在安全组规则中，采用快速创建规则。规则方向：入方向/出方向，均可采用，用于控制服务器访入与访出。授权策略：允许/禁止（不解释）。常用端口（TCP）:控制端口的访入与访出（根据自己的习惯与用处）。授权对象:默认为0.0.0.0/0。至此服务器基本配置到此结束。<br>回到控制台实例中，点击远程连接。区域即为所选区域（一般默认不变）；端口默认为22；用户名默认为root；密码是之前设置的实例密码。</p>
+</li>
+</ul>
+<h4 id="三、本机ssh连接服务器免密设置"><a href="#三、本机ssh连接服务器免密设置" class="headerlink" title="三、本机ssh连接服务器免密设置"></a>三、本机ssh连接服务器免密设置</h4><p>上一部分中，我们在阿里云的网页实例中，远程连接到我们的服务器。但是，每当我们需要用到服务器时，便要通过阿里云账号登录再来连接就显得比较麻烦。这里，通过ssh的命令在自己电脑终端来远程连接自己的服务器。<br>终端命令：<code>ssh root@ip</code>  </p>
+<ul>
+<li>root:远程连接的用户名；一般默认不变即为root。  </li>
+<li>ip:自己服务器公网ip。<br>回车后，输入自己的root用户实例密码即可连接。<br><strong>注：Linux、Mac系统终端自带ssh命令；Windows系统不自带ssh命令，需要借助putty或Xshell客户端软件使用。</strong><br>但是，每次我们在自己的电脑连接到服务器都需要通过ip地址，再由密码登录也比较麻烦。所以这里再介绍本机免密码登录服务器的方式。<br>思路：将自己的公有密匙添加到服务器端。  </li>
+</ul>
+<h5 id="1-在本地生成一对公匙-密匙"><a href="#1-在本地生成一对公匙-密匙" class="headerlink" title="1.在本地生成一对公匙-密匙"></a>1.在本地生成一对公匙-密匙</h5><p><code>ssh-keygen -t rsa</code><br>采用默认目录，不设置密码，一路回车即可。<br><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s2.ax1x.com/2020/01/22/1AYUaR.png" alt="">  最终会在~/.ssh目录下生成id_rsa(密匙)；id_rsa.pub(公匙)。  </p>
+<h5 id="2-将公匙部署至服务器上"><a href="#2-将公匙部署至服务器上" class="headerlink" title="2.将公匙部署至服务器上"></a>2.将公匙部署至服务器上</h5><p>在本地命令执行：<br>方式一:<code>scp ~/.ssh/id_rsa.pub root@公网IP地址:～/.ssh/authorized_keys</code><br>方式二：<code>ssh-copy-id ~/.ssh/id_rsa.pub root@公网IP地址</code><br>以上两种方式即将本地公匙内容复制到远程服务器<code>～/.ssh/authorized_keys</code>的文件中。</p>
+<p>至此，再次登录服务器只需一句ssh终端命令即可，不需要再输入密码。<br>到这里还不是最简洁的一种登录方式，因为我们还需要输入root用户账号，ip地址。所以后续还有更简洁的方式：<br>本地需要保存ssh登录主机的相关信息，在本地主机用户根目录下的.ssh文件内创建config文件，用于保存ssh登陆主机的相关信息<br><code>vim config</code>（如果没有vim可以手动到此目下创建config文件）<br>编辑内容：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Host name #AAAAA为服务器主机名</span><br><span class="line">HostName 39.97.170.231 #写服务器ip地址</span><br><span class="line">User root #root为登陆用户名</span><br><span class="line">Port 22 #主机端口，默认是22</span><br><span class="line">IdentityFile &#x2F;Users&#x2F;.ssh&#x2F;id_rsa #自己生成的私钥的文件路径</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：Host name是之前服务器设置中设置的实例id/名称</strong><br>实例如下：<br><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s2.ax1x.com/2020/01/22/1AUC5R.png" alt="">  </p>
+<h5 id="3-在服务器设置自动检验的信息"><a href="#3-在服务器设置自动检验的信息" class="headerlink" title="3.在服务器设置自动检验的信息"></a>3.在服务器设置自动检验的信息</h5><p>打开/etc/ssh/sshd_config文件<br><code>vim /etc/ssh/sshd_config</code>找到  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PubkeyAuthentication yes </span><br><span class="line">AuthorizedKeysFile .ssh&#x2F;authorized_keys</span><br></pre></td></tr></table></figure>
+
+<p>取消注释。<br>至此，以后在自己本机上只需要采用:<code>ssh liz_es</code>即可登录。</p>
+<h4 id="四、-MySQL服务器的安装及相关配置"><a href="#四、-MySQL服务器的安装及相关配置" class="headerlink" title="四、 MySQL服务器的安装及相关配置"></a>四、 MySQL服务器的安装及相关配置</h4><h5 id="MySQ安装"><a href="#MySQ安装" class="headerlink" title="MySQ安装"></a>MySQ安装</h5><p>这一部分记录云服务器端安装MySQL及相关配置</p>
+<ol>
+<li>下载并安装MySQL官方的Yum Repository<br><code>[root@localhost ~]# wget -i -c http://dev.mysql.com/get/mysql57-community-release-el7-10.noarch.rpm</code><br>使用上面的命令直接安装Yum Repository<br><code>[root@localhost ~]# yum -y install mysql57-community-release-el7-10.noarch.rpm</code> </li>
+<li>安装MySQL服务器<br><code>root@localhost ~]# yum -y install mysql-community-server</code><br><code>[root@localhost ~]# yum -y remove mysql57-community-release-el7-10.noarch</code>    </li>
+<li>MySQL数据库设置<br>MySQL的启动<br><code>[root@localhost ~]# systemctl start mysqld.service</code><br>MySQL的关闭<br><code>systemctl stop mysqld.service</code><br>查看MySQL运行状态<br><code>[root@localhost ~]# systemctl status mysqld.service</code><br>查找root初始密码<br><code>[root@localhost ~]# grep &quot;password&quot; /var/log/mysqld.log</code><br>登录MySQL<br><code>mysql -uroot -p</code><br>此时需要修改初始密码才能对数据库进行后续操作。又由于数据库默认的密码强度所设置的密码较为复杂，所以需要事先修改密码强度规则。否则在修改密码的过程容易出现以下错误：<br><code>ERROR 1819 (HY000): Your password does not satisfy the current policy requiremen</code><br>下面列出常用的关于密码设置方面的MySQL操作命令。<br>查看MySQL密码相关的全局参数：<br><code>mysql&gt; select @@validate_password_policy;</code><br><code>mysql&gt; SHOW VARIABLES LIKE &#39;validate_password%&#39;;</code>  </li>
+</ol>
+<h5 id="参数解释"><a href="#参数解释" class="headerlink" title="参数解释"></a>参数解释</h5><p><code>validate_password_dictionary_file</code><br>插件用于验证密码强度的字典文件路径。<br><code>validate_password_length</code> </p>
+<p>密码最小长度，参数默认为8，它有最小值的限制，最小值为：validate_password_number_count + validate_password_special_char_count + (2 * validate_password_mixed_case_count)<br><code>validate_password_mixed_case_count</code><br>密码至少要包含的小写字母个数和大写字母个数。</p>
+<p><code>validate_password_number_count</code><br>密码至少要包含的数字个数。<br><code>validate_password_policy</code><br>密码强度检查等级，0/LOW、1/MEDIUM、2/STRONG。<br><code>validate_password_special_char_count</code> </p>
+<p>密码至少要包含的特殊字符数。</p>
+<h5 id="修改mysql参数配置"><a href="#修改mysql参数配置" class="headerlink" title="修改mysql参数配置"></a>修改mysql参数配置</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; set global validate_password_policy&#x3D;0;  </span><br><span class="line">Query OK, 0 rows affected (0.05 sec)  </span><br><span class="line">  </span><br><span class="line">mysql&gt; set global validate_password_mixed_case_count&#x3D;0;  </span><br><span class="line">Query OK, 0 rows affected (0.00 sec)  </span><br><span class="line">  </span><br><span class="line">mysql&gt; set global validate_password_number_count&#x3D;5;  </span><br><span class="line">Query OK, 0 rows affected (0.00 sec)  </span><br><span class="line">  </span><br><span class="line">mysql&gt; set global validate_password_special_char_count&#x3D;0;  </span><br><span class="line">Query OK, 0 rows affected (0.00 sec)  </span><br><span class="line">  </span><br><span class="line">mysql&gt; set global validate_password_length&#x3D;2;  </span><br><span class="line">Query OK, 0 rows affected (0.00 sec)  </span><br><span class="line">  </span><br><span class="line">mysql&gt; SHOW VARIABLES LIKE &#39;validate_password%&#39;;  </span><br><span class="line">mysql&gt; FLUSH PRIVILEGES</span><br></pre></td></tr></table></figure>
+
+<p>可能最后两句在执行时，会报错。这是因为还没对初始密码进行修改。在修改完密码以后<code>FLUSH PRIVILEGES</code>，保证密码强度规则的更新。</p>
+<h5 id="MySQL密码的修改"><a href="#MySQL密码的修改" class="headerlink" title="MySQL密码的修改"></a>MySQL密码的修改</h5><p><code>mysql&gt; ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;new password&#39;;</code>  </p>
+<h5 id="MySQL用户的创建及权限设置"><a href="#MySQL用户的创建及权限设置" class="headerlink" title="MySQL用户的创建及权限设置"></a>MySQL用户的创建及权限设置</h5><p>在MySQL中其实有一个内置且名为mysql的数据库，这个数据库中存储的是MySQL的一些数据，比如用户、权限信息、存储过程等。通过以下命令可查看当前数据库存在哪些用户；<br><code>SELECT User, Host FROM mysql.user;</code><br>可看见如下类似信息：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">+---------------+-----------+</span><br><span class="line">| User          | Host      |</span><br><span class="line">+---------------+-----------+</span><br><span class="line">| re_mysql      | %         |</span><br><span class="line">| mysql.session | localhost |</span><br><span class="line">| mysql.sys     | localhost |</span><br><span class="line">| root          | localhost |</span><br><span class="line">+---------------+-----------+</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Host代表用户所能连接的数据库主机</p>
+<p>% 代表任何主机<br>localhost 代表只能在本机上使用的用户</p>
+</blockquote>
+<ol>
+<li><p>创建用户<br><code>mysql&gt;CREATE USER  &#39;user_name&#39;@&#39;host&#39;  IDENTIFIED BY  &#39;password&#39;;</code><br>user_name:需要创建的用户名称。<br>host:表示要这个新创建的用户允许从哪台机登陆，如果只允许从本机登陆，则填‘localhost’ ；如果指定某台主机登录，则填’ip’;如果允许从任意远程登陆，则填 ‘%’；<br>password:新创建用户的数据库登录密码，需符合密码强度规则。  </p>
+</li>
+<li><p>授权用户<br><code>GRANT ALL PRIVILEGES ON *.* TO &#39;user_name&#39;@&#39;%&#39; IDENTIFIED BY &#39;password&#39; WITH GRANT OPTION;</code><br><code>PRIVILEGES:</code>表示要授予什么权限。例如可以有 select ,insert ,delete,update等,如果要授予全部权力,则填ALL。  </p>
+<p><code>*.*:</code>表示用户的权限能用在哪个库的哪个表中，如果想要用户的权限很作用于所有的数据库所有的表，则填*.*，*是一个通配符，表示全部。<br><code>user_name:</code>所要授权的用户。<br><code>&#39;%&#39;:</code>表面所有远程都可在此用户登录MySQL服务器，具体使用同节。<br><code>WITH GRANT OPTION:</code>用以上命令授权的用户不能给其他用户授权，如果想这个用户能够给其他用户授权，就要在后面加上WITH GRANT OPTION。  </p>
+</li>
+<li><p>删除用户<br><code>DROP  USER ‘user_name’@‘localhost/ip/*’</code>  </p>
+</li>
+<li><p>立即生效<br><code>flush privileges</code>  </p>
+</li>
+<li><p>修改mysql库里边的user表，限制root用户只能从哪个ip登录<br><code>update mysql.user set host=&#39;localhost&#39; where user=&#39;root&#39;;</code></p>
+</li>
+</ol>
+<h4 id="MySQL的远程连接"><a href="#MySQL的远程连接" class="headerlink" title="MySQL的远程连接"></a>MySQL的远程连接</h4><p>云服务器端部署好了MySQL。那么可以在本机中连接云服务器端的MySQL数据库。这里，我借助的是<code>Navicat for MySQL</code>。<br>创建连接：<br><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s2.ax1x.com/2020/01/22/1AYZrQ.png" alt="">  连接名：随便写。<br>主机：云服务器的公有IP。<br>端口：默认端口3306。<br>用户名:即在上一节中创建的新用户，并且是能够远程连接的用户。<br>编辑密码：MySQL这一用户的密码。<br>点击测试连接。<br><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s2.ax1x.com/2020/01/22/1ATjbD.png" alt="">  成功！<br>以后便可以在本机连接到服务器端的MySQL进行使用。</p>
+<h5 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h5><p>当在虚拟机(Ubuntu16.04)中的MySQL采取同样的操作时，可能连接失败。在百度了一番博文以后，所采用的办法是在虚拟机的终端：  </p>
+<ul>
+<li>cd /etc/mysql 进入到my.cnf文件所在的目录下，sudo cp my.cnf my.cnf.bak，备份文件  </li>
+<li>打开配置，找到bind-address= 127.0.0.1这一行，注释掉。  </li>
+<li>重启数据库，使用Navicat进行连接。  </li>
+</ul>
+<h4 id="附"><a href="#附" class="headerlink" title="附"></a>附</h4><ul>
+<li><p>Markdown常用命令：<a href="https://www.runoob.com/markdown/md-tutorial.html" target="_blank" rel="noopener">https://www.runoob.com/markdown/md-tutorial.html</a>  </p>
+</li>
+<li><p>vim常用命令：<a href="https://www.runoob.com/linux/linux-vim.html" target="_blank" rel="noopener">https://www.runoob.com/linux/linux-vim.html</a>  </p>
+</li>
+<li><p>菜鸟：<a href="https://www.runoob.com/" target="_blank" rel="noopener">https://www.runoob.com/</a>  </p>
+</li>
+<li><p>免费的图床-路过图床：<a href="https://imgchr.com/" target="_blank" rel="noopener">https://imgchr.com/</a>  </p>
+</li>
+<li><p><a href="https://blog.csdn.net/sunshine940326/article/details/70936988" target="_blank" rel="noopener">hexo高阶教程：想让你的博客被更多的人在搜索引擎中搜到吗?</a>  </p>
+</li>
+<li><p><a href="https://www.jianshu.com/p/271449df801f" target="_blank" rel="noopener">Hexo 教程：Hexo 博客部署到腾讯云教程</a>  </p>
+</li>
+<li><p><a href="https://blog.csdn.net/sinat_37781304/article/details/82729029" target="_blank" rel="noopener">hexo史上最全搭建教程</a>   </p>
+</li>
+<li><p><strong>git 清除缓存</strong></p>
+<blockquote>
+<p>git rm -r –cached .<br>git add .<br>git commit -m ‘update .gitignore’</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h4><blockquote>
+<p>[1] centos7下安装mysql（完整配置）:<a href="https://blog.csdn.net/baidu_32872293/article/details/80557668" target="_blank" rel="noopener">https://blog.csdn.net/baidu_32872293/article/details/80557668</a><br>[2] mysql 密码强度规则设置:<a href="https://blog.csdn.net/u014236541/article/details/78244601" target="_blank" rel="noopener">https://blog.csdn.net/u014236541/article/details/78244601</a><br>[3] MYSQL的创建用户，授权用户，删除用户，查看用户:<a href="https://blog.csdn.net/u014453898/article/details/55064312" target="_blank" rel="noopener">https://blog.csdn.net/u014453898/article/details/55064312</a><br>[4] mysql查看所有用户:<a href="https://blog.csdn.net/qq_37996815/article/details/78934536" target="_blank" rel="noopener">https://blog.csdn.net/qq_37996815/article/details/78934536</a><br>[5] Ubuntu 16.04 安装使用MySQL:<a href="https://blog.csdn.net/vXueYing/article/details/52330180" target="_blank" rel="noopener">https://blog.csdn.net/vXueYing/article/details/52330180</a><br>[6] 使用navicat 连接虚拟机上的MySQL数据库:<a href="https://www.jianshu.com/p/8fa82acb16e9" target="_blank" rel="noopener">https://www.jianshu.com/p/8fa82acb16e9</a><br>[7] SSH连接服务器 本地记住用户名及密码:<a href="https://blog.csdn.net/persist_xyz/article/details/90231433" target="_blank" rel="noopener">https://blog.csdn.net/persist_xyz/article/details/90231433</a></font></p>
+</blockquote>
+
+          
+            <br>
+            
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.chemlez.cn/2020/01/22/%E4%BA%91%E7%AB%AFMySQL%E5%AE%89%E8%A3%85%E5%8F%8A%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE/>https://www.chemlez.cn/2020/01/22/%E4%BA%91%E7%AB%AFMySQL%E5%AE%89%E8%A3%85%E5%8F%8A%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget related_posts  desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-bookmark fa-fw" aria-hidden="true"></i><span class='name'>相关文章</span>
+    
+  </header>
+
+
+    <div class="content">
+      <ul class="popular-posts"><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="/2019/11/18/JDBC基础使用/" title="JDBC基础使用" rel="bookmark">JDBC基础使用</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="/2019/12/21/抽取JDBC工具类——JDBCUtils的使用/" title="抽取JDBCU工具类——JDBCUtils的使用" rel="bookmark">抽取JDBCU工具类——JDBCUtils的使用</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="/2020/01/17/Linux-Ubuntu的安装与相关设置/" title="Linux-Ubuntu的安装与相关设置" rel="bookmark">Linux-Ubuntu的安装与相关设置</a></h3></div></li></ul>
+    </div>
+  </section>
+
+
+  
+
+
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-03-14T22:12:12+08:00">
+  <a class='notlink'>
+    <i class="fas fa-save" aria-hidden="true"></i>
+    <p>更新于：Mar 14, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/MySQL/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i><p>MySQL</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i><p>Linux</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.chemlez.cn/2020/01/22/%E4%BA%91%E7%AB%AFMySQL%E5%AE%89%E8%A3%85%E5%8F%8A%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE/&title=云端MySQL安装及相关配置 - Liz'blog&summary=由于自己的阿里云账号申请不足6个月，能够享受新用户云服务器ECS89元一年的优惠政策，所以就购买了一台云服务器，作为日常学习的使用。本文用来记录此次装载云服务器所遇到的一些问题及MySQL的安装过程。
+一、云服务器的选配及配置此次我选购的服务器网址:http://aliyun.langsan.com/?bd_vid=8575091722087683835。下图为此次所购的云服务器配置:   "
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.chemlez.cn/2020/01/22/%E4%BA%91%E7%AB%AFMySQL%E5%AE%89%E8%A3%85%E5%8F%8A%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE/&title=云端MySQL安装及相关配置 - Liz'blog&summary=由于自己的阿里云账号申请不足6个月，能够享受新用户云服务器ECS89元一年的优惠政策，所以就购买了一台云服务器，作为日常学习的使用。本文用来记录此次装载云服务器所遇到的一些问题及MySQL的安装过程。
+一、云服务器的选配及配置此次我选购的服务器网址:http://aliyun.langsan.com/?bd_vid=8575091722087683835。下图为此次所购的云服务器配置:   "
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.chemlez.cn/2020/01/22/%E4%BA%91%E7%AB%AFMySQL%E5%AE%89%E8%A3%85%E5%8F%8A%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE/&title=云端MySQL安装及相关配置 - Liz'blog&summary=由于自己的阿里云账号申请不足6个月，能够享受新用户云服务器ECS89元一年的优惠政策，所以就购买了一台云服务器，作为日常学习的使用。本文用来记录此次装载云服务器所遇到的一些问题及MySQL的安装过程。
+一、云服务器的选配及配置此次我选购的服务器网址:http://aliyun.langsan.com/?bd_vid=8575091722087683835。下图为此次所购的云服务器配置:   "
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZgAAAGYCAAAAABaUKuJAAAGDklEQVR42u3dQW7kMAwEQP//08l9AUNskpoJsKVbMmNbVunSaCF5fow/OR5LAMYAA8YAA8YAYxxhnub49/rT/arff53w4b5v308/P823+v32eoIBAwYMGDBgwIABA6YMUw5Aywt7ur4K3d1Ip+d159NeTzBgwIABAwYMGDBgwMQw3YCYQqSBsPr87edWN8TaeoIBAwYMGDBgwIABA+Y6zDSgbQHfDr7pfMGAAQMGDBgwYMCAAfN3YW793C3EtgJvCgwGDBgwYMCAAQMGDJjvwaQPrk7gU/edBsSt53/9JCYYMGDAgAEDBgwYMP8BzFZh5OfheoIBAwYMGBBgwIABA+YIsz26ATC9vhswu8XYNECX1w8MGDBgwIABAwYMGDBHmO4BueoLVH+/Hdi2DwYeC67we+XkDwYMGDBgwIABAwYMmNeAeTvwtQ/ANQPip6G7ARcMGDBgwIABAwYMGDA5TDVoTRcuDlphIXX7/tN1Kc8bDBgwYMCAAQMGDBgwMUwaNKdFVPfzNNB2N8ztDVk+8AcGDBgwYMCAAQMGDJj4H45uvWA3gKUL2C22usF16/3BgAEDBgwYMGDAgAFzhkkD3PS6W0VTt5hK77u94V4DJhgwYMCAAQMGDBgwYI4w3SJsK9CNX6g5j60NlG7ccsAEAwYMGDBgwIABAwZMXJSlRVL387SoSmHS7003aBsaDBgwYMCAAQMGDBgwMUx3AabXbUOk95+Cx0HyVJSBAQMGDBgwYMCAAQNmDFMNatOCbRt4GgS3Cr/yfcGAAQMGDBgwYMCAAXOE2SqGpgu8FdCmCzR9zvT+YMCAAQMGDBgwYMCAqZ8rOwWv9KDeNLh1A3AXtvo+6XPi+YIBAwYMGDBgwIABA6bcx2wvXBdy+sLdg4lbG2UMDAYMGDBgwIABAwYMmDLMVuCcfj4Ngunn0wXdCppgwIABAwYMGDBgwIDJYZ7lkU6oCjGdR/e+0/uUAzUYMGDAgAEDBgwYMGCOMN0iqhscq0Fyu4Cazne7+AMDBgwYMGDAgAEDBkwfZnyj4gJPr+8WaVvzbRdf6fVgwIABAwYMGDBgwICJi7JbAaq74FsLmf6+uzHGsGDAgAEDBgwYMGDAgCkXZdVia+tA3LR46hZw2wcBu/N5/RwMGDBgwIABAwYMGDBHmG7Q7Aa2T92nGyS7G2xtnmDAgAEDBgwYMGDAgIkDZjVonSaQFmpbC5IG2WmRtz5/MGDAgAEDBgwYMGDAjA/8bRVg3SA4LdbSBb69EY/3BQMGDBgwYMCAAQMGTBmmGsC2Jp4WTOkLV+dZ3ZjpfNYCJhgwYMCAAQMGDBgwYF6LsrRw2gqmt6+bgm6/5xEaDBgwYMCAAQMGDBgwcVGWQkwD41YB1x3dwm76czn5gwEDBgwYMGDAgAEDJg6Y02Jpq3DbOiA43VDVIN4u7MCAAQMGDBgwYMCAAbMGc+vg322Y20VYt3B8/T0YMGDAgAEDBgwYMGCOMOmDpoGzC50G4a3AezsgvwZMMGDAgAEDBgwYMGDAxDDdoDeFmR7c6wbPbnCcHkSMAyYYMGDAgAEDBgwYMGDW/rD1VrDcuv/2gb2toHqEAgMGDBgwYMCAAQMGzPU+Jn2xaTHXff5WgE3fKy4UwYABAwYMGDBgwIABE8NMF+j0ve3gOS2muoVbtTiLC0cwYMCAAQMGDBgwYMAcYbog3eA5hZ0WU+mCPksjDphgwIABAwYMGDBgwIA5BsytAqkb7G4Xaad5pIXfdrEHBgwYMGDAgAEDBgyYOsxWYEoD3VogaxZw0yB5az5gwIABAwYMGDBgwICpw2wHv+2i6laxtX1gb3zAEAwYMGDAgAEDBgwYMDHMVqDaum4ahOOiqrnw0+eAAQMGDBgwYMCAAQPmezBbBVk3+HUX+vZ8yusJBgwYMGDAgAEDBgyY6zDdCXYLqe4CTr8/DZrljQQGDBgwYMCAAQMGDJgYZjvIpYG0ugBbBVq5wFp+v7goAwMGDBgwYMCAAQMGzPofYJgWSunzpvNNi8D0e931AwMGDBgwYMCAAQMGzP3/H2PsDjBgDDBgDDBgDDDG6/gFh66RAZqXx78AAAAASUVORK5CYII=">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/2020/02/09/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E5%86%B3%E7%AD%96%E6%A0%91%E5%85%A5%E9%97%A8%E4%B9%8B%E6%B3%B0%E5%9D%A6%E5%B0%BC%E5%85%8B%E5%8F%B7%E6%A1%88%E4%BE%8B/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>机器学习:决策树入门之泰坦尼克号案例</p>
+                <p class='content'>本文用于记录机器学习中的一次入门练习，即：利用决策树进行简单的二分类。同时，结合Kaggle上的经典案例Titanic，来测试实际效果。
+一、数据集采用Kaggle中的Titanic的数据集。数...</p>
+              </a>
+            
+            
+              <a class='next' href='/2020/01/17/Linux-Ubuntu%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E7%9B%B8%E5%85%B3%E8%AE%BE%E7%BD%AE/'>
+                <p class='title'>Linux-Ubuntu的安装与相关设置<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>近日换了电脑，想装一个Linux系统，但也不想在本机上装双系统，就选择了装起虚拟机。此次选择了安装Ubuntu 16.04.6版本，文章最后会附上常用16.04和18.04ubuntu镜像源下载...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box comments shadow floatable">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> Comment</p>
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-spinner fa-spin fa-fw"></i>
+          </div>
+        </section>
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '云端MySQL安装及相关配置',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+    
+    
+
+<section class="widget blogger shadow floatable desktop">
+  <div class='content'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='https://s1.ax1x.com/2020/03/13/8mvbCj.jpg'/>
+      </div>
+    
+    
+      <div class='text'>
+        
+        
+        
+          <p><span id="jinrishici-sentence">Liz'blog</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="https://github.com/Chemlez"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://weibo.com/u/5653780011?nick=Sane_z&is_all=1"
+              class="social fab fa-weibo flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="mailto:liz_1106@163.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget category shadow floatable desktop">
+    
+  <header>
+    
+      <a href='/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <ul class="entry navigation">
+        
+          <li><a class="flat-box"
+            title="/categories/Java/" href="/categories/Java/"
+            id="categoriesJava"
+            ><div class='name'>Java</div><div class='badge'>(17)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Java/%E6%A1%86%E6%9E%B6/" href="/categories/Java/%E6%A1%86%E6%9E%B6/"
+            id="categoriesJavaE6A186E69EB6"
+            ><div class='name'>框架</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Linux/" href="/categories/Linux/"
+            id="categoriesLinux"
+            ><div class='name'>Linux</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Machine-Learning/" href="/categories/Machine-Learning/"
+            id="categoriesMachine-Learning"
+            ><div class='name'>Machine Learning</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Machine-Learning/sklearn/" href="/categories/Machine-Learning/sklearn/"
+            id="categoriesMachine-Learningsklearn"
+            ><div class='name'>sklearn</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Mongodb/" href="/categories/Mongodb/"
+            id="categoriesMongodb"
+            ><div class='name'>Mongodb</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Nginx/" href="/categories/Nginx/"
+            id="categoriesNginx"
+            ><div class='name'>Nginx</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Python/" href="/categories/Python/"
+            id="categoriesPython"
+            ><div class='name'>Python</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Python/%E7%88%AC%E8%99%AB/" href="/categories/Python/%E7%88%AC%E8%99%AB/"
+            id="categoriesPythonE788ACE899AB"
+            ><div class='name'>爬虫</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/git/" href="/categories/git/"
+            id="categoriesgit"
+            ><div class='name'>git</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E5%89%8D%E7%AB%AF/" href="/categories/%E5%89%8D%E7%AB%AF/"
+            id="categoriesE5898DE7ABAF"
+            ><div class='name'>前端</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"
+            id="categoriesE5A49AE7BABFE7A88B"
+            ><div class='name'>多线程</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"
+            id="categoriesE695B0E68DAEE7BB93E69E84E4B88EE7AE97E6B395"
+            ><div class='name'>数据结构与算法</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"
+            id="categoriesE8AEBEE8AEA1E6A8A1E5BC8F"
+            ><div class='name'>设计模式</div><div class='badge'>(10)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget tagcloud shadow floatable desktop">
+    
+  <header>
+    
+      <a href='/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <a href="/tags/Beautifulsoup/" style="font-size: 17.33px; color: #828282">Beautifulsoup</a> <a href="/tags/Data-Preprocessing/" style="font-size: 14px; color: #999">Data Preprocessing</a> <a href="/tags/DecisionTree/" style="font-size: 14px; color: #999">DecisionTree</a> <a href="/tags/Feature-Engineering/" style="font-size: 14px; color: #999">Feature Engineering</a> <a href="/tags/Filter/" style="font-size: 14px; color: #999">Filter</a> <a href="/tags/IO%E6%B5%81/" style="font-size: 14px; color: #999">IO流</a> <a href="/tags/JDBC/" style="font-size: 17.33px; color: #828282">JDBC</a> <a href="/tags/JQuery/" style="font-size: 14px; color: #999">JQuery</a> <a href="/tags/Java/" style="font-size: 20.67px; color: #6c6c6c">Java</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/JavaWeb/" style="font-size: 17.33px; color: #828282">JavaWeb</a> <a href="/tags/Kaggle/" style="font-size: 14px; color: #999">Kaggle</a> <a href="/tags/Linux/" style="font-size: 17.33px; color: #828282">Linux</a> <a href="/tags/MBG/" style="font-size: 14px; color: #999">MBG</a> <a href="/tags/MVC/" style="font-size: 14px; color: #999">MVC</a> <a href="/tags/Mapper/" style="font-size: 14px; color: #999">Mapper</a> <a href="/tags/Mongodb/" style="font-size: 14px; color: #999">Mongodb</a> <a href="/tags/MySQL/" style="font-size: 20.67px; color: #6c6c6c">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 20.67px; color: #6c6c6c">Mybatis</a> <a href="/tags/Nginx/" style="font-size: 14px; color: #999">Nginx</a> <a href="/tags/Python/" style="font-size: 14px; color: #999">Python</a> <a href="/tags/Request/" style="font-size: 17.33px; color: #828282">Request</a> <a href="/tags/Servlet/" style="font-size: 20.67px; color: #6c6c6c">Servlet</a> <a href="/tags/Spring/" style="font-size: 17.33px; color: #828282">Spring</a> <a href="/tags/SpringMVC/" style="font-size: 17.33px; color: #828282">SpringMVC</a> <a href="/tags/Springboot-starter/" style="font-size: 14px; color: #999">Springboot-starter</a> <a href="/tags/ThreadLocal/" style="font-size: 14px; color: #999">ThreadLocal</a> <a href="/tags/VMware/" style="font-size: 14px; color: #999">VMware</a> <a href="/tags/conda/" style="font-size: 14px; color: #999">conda</a> <a href="/tags/git/" style="font-size: 14px; color: #999">git</a> <a href="/tags/hexo/" style="font-size: 14px; color: #999">hexo</a> <a href="/tags/redis/" style="font-size: 14px; color: #999">redis</a> <a href="/tags/servlet/" style="font-size: 14px; color: #999">servlet</a> <a href="/tags/sklearn/" style="font-size: 17.33px; color: #828282">sklearn</a> <a href="/tags/ssm/" style="font-size: 14px; color: #999">ssm</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">依赖倒置原则</a> <a href="/tags/%E5%89%8D%E7%BC%80%E6%A0%91/" style="font-size: 14px; color: #999">前缀树</a> <a href="/tags/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" style="font-size: 14px; color: #999">动态代理</a> <a href="/tags/%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">单一职责原则</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">单例模式</a> <a href="/tags/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">原型模式</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 17.33px; color: #828282">反射</a> <a href="/tags/%E5%A0%86%E6%8E%92%E5%BA%8F/" style="font-size: 14px; color: #999">堆排序</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 14px; color: #999">多线程</a> <a href="/tags/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">工厂模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 14px; color: #999">并查集</a> <a href="/tags/%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">建造者模式</a> <a href="/tags/%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">开闭原则</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E9%9A%94%E7%A6%BB%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">接口隔离原则</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 17.33px; color: #828282">正则表达式</a> <a href="/tags/%E6%BA%90%E7%A0%81/" style="font-size: 17.33px; color: #828282">源码</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 17.33px; color: #828282">爬虫</a> <a href="/tags/%E7%BB%84%E5%90%88%E4%BC%98%E4%BA%8E%E7%BB%A7%E6%89%BF%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">组合优于继承原则</a> <a href="/tags/%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81/" style="font-size: 14px; color: #999">表单验证</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 24px; color: #555">设计模式</a> <a href="/tags/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">适配器模式</a>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow floatable desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#一、云服务器的选配及配置"><span class="toc-text">一、云服务器的选配及配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二、安全组的设置"><span class="toc-text">二、安全组的设置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#三、本机ssh连接服务器免密设置"><span class="toc-text">三、本机ssh连接服务器免密设置</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-在本地生成一对公匙-密匙"><span class="toc-text">1.在本地生成一对公匙-密匙</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-将公匙部署至服务器上"><span class="toc-text">2.将公匙部署至服务器上</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-在服务器设置自动检验的信息"><span class="toc-text">3.在服务器设置自动检验的信息</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#四、-MySQL服务器的安装及相关配置"><span class="toc-text">四、 MySQL服务器的安装及相关配置</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#MySQ安装"><span class="toc-text">MySQ安装</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#参数解释"><span class="toc-text">参数解释</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#修改mysql参数配置"><span class="toc-text">修改mysql参数配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#MySQL密码的修改"><span class="toc-text">MySQL密码的修改</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#MySQL用户的创建及权限设置"><span class="toc-text">MySQL用户的创建及权限设置</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL的远程连接"><span class="toc-text">MySQL的远程连接</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#注意"><span class="toc-text">注意</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#附"><span class="toc-text">附</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#参考文献"><span class="toc-text">参考文献</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="https://github.com/Chemlez"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="https://weibo.com/u/5653780011?nick=Sane_z&amp;is_all=1"
+                class="social fab fa-weibo flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="mailto:liz_1106@163.com"
+                class="social fas fa-envelope flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://chemlez.cn" target="_blank" rel="noopener">Copyright © 2019-2021 Chemlez</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.0/js/valine.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var notify = 'true' == true;
+  var verify = 'true' == true;
+  var valine = new Valine();
+  valine.init({
+    el: '#valine_container',
+    notify: notify,
+    verify: verify,
+    guest_info: guest_info,
+    
+    appId: "YSitK1ig1lRcy3jvrtTzT6fb-MdYXbMMI",
+    appKey: "e7hFf2zqvyWgNmDsClWcM7W3",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'wavatar',
+    lang:'zh-cn',
+    visitor: 'false',
+    highlight:'true'
+  })
+  </script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1.5/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copyed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-clipboard-check');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPYED';
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-exclamation-triangle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+
+  <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "[object Object]";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+<script>!function(e){var c=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){for(var r=0;r<c.length;r++)t=c[r],0<=(n=t.getBoundingClientRect()).bottom&&0<=n.left&&n.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=c[r];t=o,n=function(){c=c.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n&&n()},e.src=i}();var t,n}i(),e.addEventListener("scroll",function(){var t,n;t=i,n=e,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)})}(this);</script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script></body>
+</html>

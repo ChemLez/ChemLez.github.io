@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Hexo yilia 主题添加相册功能 - Liz&#39;blog</title>
+  
+    <meta name="keywords" content="hexo">
+  
+  
+    <meta name="description" content="当我们使用hexo博客框架中的yilia主题时，在我们这一博客页面中，原作者Litten并未帮我们添加相册这一功能。这时，如果想让我们的博客拥有相册的功能，就需要我们自行添加改变、添加主题中的相关参数。从网上百度了很多，看了许多的博客，还是遇到了一些坑爬不过去。最终，还是请教了一个小伙伴才得以解决。
+一、博客页面...">
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css">
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+  <link rel="shortcut icon" type='image/x-icon' href="https://s1.ax1x.com/2020/03/15/81ZR5F.jpg">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1.5.2/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+
+  <div class='wrapper'>
+    <div class='nav-sub container--flex'>
+      <a class="logo flat-box"></a>
+      <ul class='switcher h-list'>
+        <li><a class="s-comment flat-btn fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc flat-btn fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main container container--flex">
+      
+        
+        <a class="logo flat-box" target="_self" href='/'>
+          
+          
+          
+          
+            CHEMLEZ <b><sup style='color:#3AA757'></sup></b>
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='h-list'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-home fa-fw'></i>
+                  
+                  主页
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" 
+                  
+                  
+                  >
+                  
+                    <i class='fas fa-list-alt fa-fw fa-fw'></i>
+                  
+                  索引
+                </a>
+                
+                  <ul class="submenu">
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  
+                    <i class='fas fa-tags fa-fw'></i>
+                  
+                  标签
+                </a>
+                
+              </li>
+            
+          
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  
+                    <i class='fas fa-folder-open fa-fw'></i>
+                  
+                  类别
+                </a>
+                
+              </li>
+            
+          
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  
+                    <i class='fas fa-archive fa-fw'></i>
+                  
+                  归档
+                </a>
+                
+              </li>
+            
+          
+                    
+                  </ul>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  
+                    <i class='fas fa-link fa-fw'></i>
+                  
+                  友链
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  
+                    <i class='fas fa-info-circle fa-fw'></i>
+                  
+                  关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      
+        <div class="m_search">
+          <form name="searchform" class="form u-search-form">
+            <i class="icon fas fa-search fa-fw"></i>
+            <input type="text" class="input u-search-input" placeholder="搜索" />
+          </form>
+        </div>
+      
+
+			<ul class='switcher h-list'>
+				
+					<li><a class="s-search flat-btn fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li><a class="s-menu flat-btn fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+	</div>
+</header>
+<ul class="menu-phone navigation white-box">
+  
+  
+    <li>
+      <a class="flat-box" href=/
+        
+        
+        
+          id="home"
+        >
+        
+          <i class='fas fa-clock fa-fw fa-fw'></i>
+        
+        近期文章
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/archives/
+        
+        
+        
+          id="archives"
+        >
+        
+          <i class='fas fa-list-alt fa-fw fa-fw'></i>
+        
+        文章归档
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/categories/
+        
+        
+        
+          id="categories"
+        >
+        
+          <i class='fas fa-folder-open fa-fw'></i>
+        
+        文章类别
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/tags/
+        
+        
+        
+          id="tags"
+        >
+        
+          <i class='fas fa-tags fa-fw'></i>
+        
+        文章标签
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/friends/
+        
+        
+        
+          id="friends"
+        >
+        
+          <i class='fas fa-link fa-fw'></i>
+        
+        我的友链
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/about/
+        
+        
+        
+          id="about"
+        >
+        
+          <i class='fas fa-info-circle fa-fw'></i>
+        
+        关于小站
+      </a>
+    </li>
+  
+</ul>
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box shadow floatable article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2019/08/28/hexo-yilia-%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%9B%B8%E5%86%8C%E5%8A%9F%E8%83%BD/">
+        Hexo yilia 主题添加相册功能
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+<div class='new-meta-item author'>
+  <a href="https://chemlez.cn" target="_blank" rel="nofollow noopener">
+    <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/03/13/8mvbCj.jpg">
+    <p>Chemlez</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-edit" aria-hidden="true"></i>
+    <p>发布于：Aug 28, 2019</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>当我们使用hexo博客框架中的yilia主题时，在我们这一博客页面中，原作者Litten并未帮我们添加相册这一功能。这时，如果想让我们的博客拥有相册的功能，就需要我们自行添加改变、添加主题中的相关参数。从网上百度了很多，看了许多的博客，还是遇到了一些坑爬不过去。最终，还是请教了一个小伙伴才得以解决。</p>
+<h2 id="一、博客页面添加相册"><a href="#一、博客页面添加相册" class="headerlink" title="一、博客页面添加相册"></a>一、博客页面添加相册</h2><p>首先，打开cmd进入blog的source目录下，创建photos文件夹。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">E:\&gt;cd blog</span><br><span class="line">E:\blog&gt;cd source</span><br><span class="line">E:\blog\source&gt;hexo new page &quot;photos&quot;</span><br><span class="line">INFO  Created: E:\blog\source\photos\index.md</span><br></pre></td></tr></table></figure>
+<p>删除文件夹中的index.md文件，否则最终生成的是一个单纯的页面。也可以直接进入source文件下创建photos文件夹。</p>
+<a id="more"></a>
+
+
+
+<h2 id="二、创建图片存储仓库"><a href="#二、创建图片存储仓库" class="headerlink" title="二、创建图片存储仓库"></a>二、创建图片存储仓库</h2><p>因为，我们的博客是部署到远端，使得每一个人都能够看到，而图片在远端的展示，可借助于图床。所以，我们可以专门在github上创建一个仓库用于存储图片。仓库的创建就不再一一赘述，只需登录自己的github，new repository即可。这里，我的仓库名为blog-Picture.<br><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s2.ax1x.com/2019/08/28/mHQKyV.png" alt="个人仓库"><br>在创建完远端仓库后，将本地与github上远端仓库关联，这样我们以后才能够将图片推送到远端。<br>远端仓库与本地仓库关联的方法:<br>打开博客文件夹，在此根目录下，使用git ,即 git Bush Here,然后输入</p>
+<blockquote>
+<p>$ git clone <a href="mailto:git@github.com">git@github.com</a>:chemlez/picture-blog.git</p>
+</blockquote>
+<p>其中clone的仓库换成自己的仓库地址。这样便能使本地与远端关联起立。此刻，会产生一个blog-Picture的文件夹，在此文件夹下分别创建min_photos、photos文件夹。其中，在此photos文件夹下存入一张图片，再将整个内容推送至远端。</p>
+<blockquote>
+<p>$ git add .<br>$ git commit -m “照片存放”<br>$ git push -u origin master </p>
+</blockquote>
+<p>这个时候本地的内容就被推送到了远端。关于git推送远端的用法，可参照<a href="https://www.liaoxuefeng.com/wiki/896043488029600/898732864121440" target="_blank" rel="noopener">廖雪峰的教程</a>。这样后面我们可以用来查看图片的存入地址，来修改我们的ins.js参数。</p>
+<h2 id="三、创建相册布局样式"><a href="#三、创建相册布局样式" class="headerlink" title="三、创建相册布局样式"></a>三、创建相册布局样式</h2><p>在一开始的博客主题clone中，主题yilia并没有相册的版块。但作者<a href="http://litten.me/" target="_blank" rel="noopener">Litten</a>的博客样式中添加了这一版块。所以，我们可以参照原作者的格式进行相关的修改即可。其中的样式参照这里–<a href="https://github.com/ChemLez/ChemLez.github.io/tree/master/photos" target="_blank" rel="noopener">样式参考</a>。下载完之后：<br>1.删除其中所有的.json文件。因为，后面的.json文件是我们自己博客在上传图片时生成的.<br>2.修改index.ejs。这一步很重要，我自己查百度和相关博文时，都没有提到这一步。将其中的href修改成自己的博客地址。当初我就没有修改，最终，显示出来的永远都是原作者Litten的相册.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">   &lt;div class&#x3D;&quot;instagram itemscope&quot;&gt;</span><br><span class="line">	&lt;a href&#x3D;&quot;https:&#x2F;&#x2F;chemlez.github.io&#x2F;&quot; target&#x3D;&quot;_blank&quot; class&#x3D;&quot;open-ins&quot;&gt;图片正在加载中…&lt;&#x2F;a&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+<p>3.修改ins.js文件里的render()函数，按照上面的注释提醒，进行修改。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 修改这里render()函数：修改图片的路径地址.minSrc 小图的路径. src 大图的路径.修改为自己的图片路径(github的路径)</span><br><span class="line">	&#x2F;&#x2F; https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ChemLez&#x2F;blog-Picture&#x2F;master&#x2F;photos&#x2F;</span><br><span class="line">	&#x2F;&#x2F; https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ChemLez&#x2F;blog-Picture&#x2F;master&#x2F;min_photos&#x2F;</span><br><span class="line">    var render &#x3D; function render(res) &#123;</span><br><span class="line">      var ulTmpl &#x3D; &quot;&quot;;</span><br><span class="line">      for (var j &#x3D; 0, len2 &#x3D; res.list.length; j &lt; len2; j++) &#123;</span><br><span class="line">        var data &#x3D; res.list[j].arr;</span><br><span class="line">        var liTmpl &#x3D; &quot;&quot;;</span><br><span class="line">        for (var i &#x3D; 0, len &#x3D; data.link.length; i &lt; len; i++) &#123;</span><br><span class="line">          var minSrc &#x3D; &#39;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ChemLez&#x2F;blog-Picture&#x2F;master&#x2F;min_photos&#x2F;&#39; + data.link[i];</span><br><span class="line">          var src &#x3D; &#39;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ChemLez&#x2F;blog-Picture&#x2F;master&#x2F;photos&#x2F;&#39; + data.link[i];</span><br><span class="line">          var type &#x3D; data.type[i];</span><br><span class="line">          var target &#x3D; src + (type &#x3D;&#x3D;&#x3D; &#39;video&#39; ? &#39;.mp4&#39; : &#39;.jpg&#39;);</span><br><span class="line">          src +&#x3D; &#39;&#39;;</span><br></pre></td></tr></table></figure>
+<p>这里的地址，就可以查看我们第二步所做的工作。打开github，进入blog-Picture仓库后。点击在第二步中上传的照片。<img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s2.ax1x.com/2019/08/29/mqaudA.png" alt="图片">然后点击Download，此时的浏览框中的地址就是我们所需要的地址。</p>
+<h2 id="四、添加脚本"><a href="#四、添加脚本" class="headerlink" title="四、添加脚本"></a>四、添加脚本</h2><p>这里添加的python脚本主要是用于处理图片。脚本下载-<a href="https://github.com/ChemLez/blog-Picture" target="_blank" rel="noopener">下载地址</a>.<br>因为，当我们点击相册这一页面时，展示在眼前的是一张张缩略图。而当你需要预览具体的某一张图时，其显示的是一张大图。所以，我们的预览图照片大小是经过压缩处理的（使得页面加载快）。当我们具体看某张图片时，再使用原画质的图片。所以，min_photos和photos两个文件夹分别对应着这两种图片。其中，min_photos就是处理过后的压缩图片，而photos就是我们存放的图片。所以，这里的python脚本主要就做着这样的工作。</p>
+<ol>
+<li>将其中的.py文件拷贝至本地仓库blog-Picture文件夹中.</li>
+<li>根据脚本文件，图片的命名规则为：2019-10-21_xxx.jpg/png.</li>
+<li>将图片<a href="https://github.com/ChemLez/ChemLez.github.io/blob/master/assets/img/empty.png" target="_blank" rel="noopener">empty.png</a>下载放入博客目录下的assets/img文件夹中.</li>
+<li>打开tool.py文件,修改def handle_photo():<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">with open(&quot;E:&#x2F;blog&#x2F;source&#x2F;photos&#x2F;data.json&quot;, &quot;w&quot;) as fp:</span><br></pre></td></tr></table></figure>
+将其中的的地址，换成你将要生成data.json的位置，就是在第一步中，我们删除的.json文件夹的目录地址。每次，进行tool.py脚本时，都会产生data.json文件，用于存储我们图片的信息。</li>
+</ol>
+<h2 id="五、运行"><a href="#五、运行" class="headerlink" title="五、运行"></a>五、运行</h2><p>1.首先将用于测试的图片名改成上述的命名规则的名字,推送至github远端，进行修改.<br>2.打开终端命令窗口cmd.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">输入：</span><br><span class="line">cd blog-Picture &#x2F;&#x2F;用于进入blog-Picture文件夹</span><br><span class="line">python tool.py &#x2F;&#x2F;python脚本文件的运行</span><br><span class="line">第二句的运行这里可能会报错 &#96;no module named PIL&#96;</span><br><span class="line">然后输入：</span><br><span class="line">pip install pillow</span><br><span class="line">可能出现权限不足的情况，按照下方出现的英文，加上权限进行下载。即：一路按照下方的英文,加权限进行下载.</span><br></pre></td></tr></table></figure>
+<p>3.hexo s.预览查看。这里我将video功能隐去了，最初的photos旁边还有一个video功能。<br><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s2.ax1x.com/2019/08/29/mq6fkF.png" alt=""><br>4.在最初的photos下载中，有个videos.ejs文件，如果想引入一些视频，可将其中的链接即src，视频名进行修改.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;center&gt;</span><br><span class="line">    &lt;h1&gt;指弹_女儿情&lt;&#x2F;h1&gt;</span><br><span class="line">&lt;&#x2F;center&gt;</span><br><span class="line">&lt;hr&#x2F;&gt;</span><br><span class="line">&lt;center&gt;</span><br><span class="line">    &lt;div class&#x3D;&quot;video-container&quot;&gt;</span><br><span class="line">        &lt;iframe height&#x3D;&quot;80%&quot; width&#x3D;&quot;80%&quot; src&#x3D;&quot;https:&#x2F;&#x2F;player.youku.com&#x2F;embed&#x2F;XMjUzMzY4OTM3Ng&#x3D;&#x3D;&quot; frameborder&#x3D;0 allowfullscreen&gt;&lt;&#x2F;iframe&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;center&gt;</span><br><span class="line">&lt;hr&#x2F;&gt;</span><br></pre></td></tr></table></figure>
+<p>如果不想用这一功能，将以下标签注释.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a class&#x3D;&quot;photos-btn&quot; href&#x3D;&quot;&#x2F;photos&#x2F;videos.html&quot;&gt;Video&lt;&#x2F;a&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><ol>
+<li>每次将需要上传的图片，放入到blog-Picture中的photos文件夹.图片的命名一定要遵循上述说的命名规则.<strong>注意</strong>：如果想让多张图片归类在页面中的某一个年、月份下，必须使得日期一模一样，只能修改xxx。如果命名中，年、月相同，而日期不同便会在相册页面额外生成一个list，其表头相同。</li>
+<li>cmd命令窗口进入blog-Picture,再进行python tool.py，运行脚本.</li>
+<li>将图片推送到github远端仓库，产生链接.</li>
+<li>hexo s 进入本地窗口预览，没有问题后：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &#x2F;&#x2F;清除页面缓存</span><br><span class="line">hexo g &#x2F;&#x2F;用于生成改动的文件</span><br><span class="line">hexo d &#x2F;&#x2F;部署到远端网站</span><br></pre></td></tr></table></figure>
+
+
+<btns rounded grid5>
+
+<a href='https://Chemlez.github.io/photos/' target="_blank" rel="noopener"><i class='fas fa-book'></i>最终效果</a>
+</a>
+
+</btns>
+
+
+
+</li>
+</ol>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>[1] hexo Yilia 主题如何添加相册功能:<a href="https://www.jianshu.com/p/a9f309aaa0e0" target="_blank" rel="noopener">https://www.jianshu.com/p/a9f309aaa0e0</a><br>[2] hexo yilia 主题如何添加相册:<a href="https://blog.csdn.net/qq_40651535/article/details/95061281" target="_blank" rel="noopener">https://blog.csdn.net/qq_40651535/article/details/95061281</a><br>[3] Hexo+Github实现相册功能:<a href="http://lawlite.me/2017/04/13/Hexo-Github%E5%AE%9E%E7%8E%B0%E7%9B%B8%E5%86%8C%E5%8A%9F%E8%83%BD/" target="_blank" rel="noopener">http://lawlite.me/2017/04/13/Hexo-Github%E5%AE%9E%E7%8E%B0%E7%9B%B8%E5%86%8C%E5%8A%9F%E8%83%BD/</a></p>
+
+          
+            <br>
+            
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.chemlez.cn/2019/08/28/hexo-yilia-%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%9B%B8%E5%86%8C%E5%8A%9F%E8%83%BD/>https://www.chemlez.cn/2019/08/28/hexo-yilia-%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%9B%B8%E5%86%8C%E5%8A%9F%E8%83%BD/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget related_posts  desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-bookmark fa-fw" aria-hidden="true"></i><span class='name'>相关文章</span>
+    
+  </header>
+
+
+    <div class="content">
+      <ul class="popular-posts"><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="/2020/08/20/Git的基本使用/" title="Git的基本操作" rel="bookmark">Git的基本操作</a></h3></div></li></ul>
+    </div>
+  </section>
+
+
+  
+
+
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-03-15T02:27:47+08:00">
+  <a class='notlink'>
+    <i class="fas fa-save" aria-hidden="true"></i>
+    <p>更新于：Mar 15, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/hexo/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i><p>hexo</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.chemlez.cn/2019/08/28/hexo-yilia-%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%9B%B8%E5%86%8C%E5%8A%9F%E8%83%BD/&title=Hexo yilia 主题添加相册功能 - Liz'blog&summary=当我们使用hexo博客框架中的yilia主题时，在我们这一博客页面中，原作者Litten并未帮我们添加相册这一功能。这时，如果想让我们的博客拥有相册的功能，就需要我们自行添加改变、添加主题中的相关参数。从网上百度了很多，看了许多的博客，还是遇到了一些坑爬不过去。最终，还是请教了一个小伙伴才得以解决。
+一、博客页面添加相册首先，打开cmd进入blog的source目录下，创建photos文件夹。
+1234E:\&gt;cd blogE:\blog&gt;cd sourceE:\blog\source&gt;hexo new page &quot;photos&quot;INFO  Created: E:\blog\source\photos\index.md
+删除文件夹中的index.md文件，否则最终生成的是一个单纯的页面。也可以直接进入source文件下创建photos文件夹。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.chemlez.cn/2019/08/28/hexo-yilia-%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%9B%B8%E5%86%8C%E5%8A%9F%E8%83%BD/&title=Hexo yilia 主题添加相册功能 - Liz'blog&summary=当我们使用hexo博客框架中的yilia主题时，在我们这一博客页面中，原作者Litten并未帮我们添加相册这一功能。这时，如果想让我们的博客拥有相册的功能，就需要我们自行添加改变、添加主题中的相关参数。从网上百度了很多，看了许多的博客，还是遇到了一些坑爬不过去。最终，还是请教了一个小伙伴才得以解决。
+一、博客页面添加相册首先，打开cmd进入blog的source目录下，创建photos文件夹。
+1234E:\&gt;cd blogE:\blog&gt;cd sourceE:\blog\source&gt;hexo new page &quot;photos&quot;INFO  Created: E:\blog\source\photos\index.md
+删除文件夹中的index.md文件，否则最终生成的是一个单纯的页面。也可以直接进入source文件下创建photos文件夹。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.chemlez.cn/2019/08/28/hexo-yilia-%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%9B%B8%E5%86%8C%E5%8A%9F%E8%83%BD/&title=Hexo yilia 主题添加相册功能 - Liz'blog&summary=当我们使用hexo博客框架中的yilia主题时，在我们这一博客页面中，原作者Litten并未帮我们添加相册这一功能。这时，如果想让我们的博客拥有相册的功能，就需要我们自行添加改变、添加主题中的相关参数。从网上百度了很多，看了许多的博客，还是遇到了一些坑爬不过去。最终，还是请教了一个小伙伴才得以解决。
+一、博客页面添加相册首先，打开cmd进入blog的source目录下，创建photos文件夹。
+1234E:\&gt;cd blogE:\blog&gt;cd sourceE:\blog\source&gt;hexo new page &quot;photos&quot;INFO  Created: E:\blog\source\photos\index.md
+删除文件夹中的index.md文件，否则最终生成的是一个单纯的页面。也可以直接进入source文件下创建photos文件夹。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,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">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/2019/10/22/%E5%BA%8F%E5%88%97%E4%B9%8B%E6%B7%B1%E6%8B%B7%E8%B4%9D-%E6%B5%85%E6%8B%B7%E8%B4%9D/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>序列之深拷贝/浅拷贝</p>
+                <p class='content'>在上周的Python科学计算课上，老师讲到了Python序列的浅拷贝以及深拷贝方面的知识，个人觉得说得比较言简意赅了，对于我这个刚入Python的新手来说，也基本可以避免今后变量的赋值使用错乱的...</p>
+              </a>
+            
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box comments shadow floatable">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> Comment</p>
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-spinner fa-spin fa-fw"></i>
+          </div>
+        </section>
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Hexo yilia 主题添加相册功能',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+    
+    
+
+<section class="widget blogger shadow floatable desktop">
+  <div class='content'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='https://s1.ax1x.com/2020/03/13/8mvbCj.jpg'/>
+      </div>
+    
+    
+      <div class='text'>
+        
+        
+        
+          <p><span id="jinrishici-sentence">Liz'blog</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="https://github.com/Chemlez"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://weibo.com/u/5653780011?nick=Sane_z&is_all=1"
+              class="social fab fa-weibo flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="mailto:liz_1106@163.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget category shadow floatable desktop">
+    
+  <header>
+    
+      <a href='/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <ul class="entry navigation">
+        
+          <li><a class="flat-box"
+            title="/categories/Java/" href="/categories/Java/"
+            id="categoriesJava"
+            ><div class='name'>Java</div><div class='badge'>(17)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Java/%E6%A1%86%E6%9E%B6/" href="/categories/Java/%E6%A1%86%E6%9E%B6/"
+            id="categoriesJavaE6A186E69EB6"
+            ><div class='name'>框架</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Linux/" href="/categories/Linux/"
+            id="categoriesLinux"
+            ><div class='name'>Linux</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Machine-Learning/" href="/categories/Machine-Learning/"
+            id="categoriesMachine-Learning"
+            ><div class='name'>Machine Learning</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Machine-Learning/sklearn/" href="/categories/Machine-Learning/sklearn/"
+            id="categoriesMachine-Learningsklearn"
+            ><div class='name'>sklearn</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Mongodb/" href="/categories/Mongodb/"
+            id="categoriesMongodb"
+            ><div class='name'>Mongodb</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Nginx/" href="/categories/Nginx/"
+            id="categoriesNginx"
+            ><div class='name'>Nginx</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Python/" href="/categories/Python/"
+            id="categoriesPython"
+            ><div class='name'>Python</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Python/%E7%88%AC%E8%99%AB/" href="/categories/Python/%E7%88%AC%E8%99%AB/"
+            id="categoriesPythonE788ACE899AB"
+            ><div class='name'>爬虫</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/git/" href="/categories/git/"
+            id="categoriesgit"
+            ><div class='name'>git</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E5%89%8D%E7%AB%AF/" href="/categories/%E5%89%8D%E7%AB%AF/"
+            id="categoriesE5898DE7ABAF"
+            ><div class='name'>前端</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"
+            id="categoriesE5A49AE7BABFE7A88B"
+            ><div class='name'>多线程</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"
+            id="categoriesE695B0E68DAEE7BB93E69E84E4B88EE7AE97E6B395"
+            ><div class='name'>数据结构与算法</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"
+            id="categoriesE8AEBEE8AEA1E6A8A1E5BC8F"
+            ><div class='name'>设计模式</div><div class='badge'>(10)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget tagcloud shadow floatable desktop">
+    
+  <header>
+    
+      <a href='/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <a href="/tags/Beautifulsoup/" style="font-size: 17.33px; color: #828282">Beautifulsoup</a> <a href="/tags/Data-Preprocessing/" style="font-size: 14px; color: #999">Data Preprocessing</a> <a href="/tags/DecisionTree/" style="font-size: 14px; color: #999">DecisionTree</a> <a href="/tags/Feature-Engineering/" style="font-size: 14px; color: #999">Feature Engineering</a> <a href="/tags/Filter/" style="font-size: 14px; color: #999">Filter</a> <a href="/tags/IO%E6%B5%81/" style="font-size: 14px; color: #999">IO流</a> <a href="/tags/JDBC/" style="font-size: 17.33px; color: #828282">JDBC</a> <a href="/tags/JQuery/" style="font-size: 14px; color: #999">JQuery</a> <a href="/tags/Java/" style="font-size: 20.67px; color: #6c6c6c">Java</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/JavaWeb/" style="font-size: 17.33px; color: #828282">JavaWeb</a> <a href="/tags/Kaggle/" style="font-size: 14px; color: #999">Kaggle</a> <a href="/tags/Linux/" style="font-size: 17.33px; color: #828282">Linux</a> <a href="/tags/MBG/" style="font-size: 14px; color: #999">MBG</a> <a href="/tags/MVC/" style="font-size: 14px; color: #999">MVC</a> <a href="/tags/Mapper/" style="font-size: 14px; color: #999">Mapper</a> <a href="/tags/Mongodb/" style="font-size: 14px; color: #999">Mongodb</a> <a href="/tags/MySQL/" style="font-size: 20.67px; color: #6c6c6c">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 20.67px; color: #6c6c6c">Mybatis</a> <a href="/tags/Nginx/" style="font-size: 14px; color: #999">Nginx</a> <a href="/tags/Python/" style="font-size: 14px; color: #999">Python</a> <a href="/tags/Request/" style="font-size: 17.33px; color: #828282">Request</a> <a href="/tags/Servlet/" style="font-size: 20.67px; color: #6c6c6c">Servlet</a> <a href="/tags/Spring/" style="font-size: 17.33px; color: #828282">Spring</a> <a href="/tags/SpringMVC/" style="font-size: 17.33px; color: #828282">SpringMVC</a> <a href="/tags/Springboot-starter/" style="font-size: 14px; color: #999">Springboot-starter</a> <a href="/tags/ThreadLocal/" style="font-size: 14px; color: #999">ThreadLocal</a> <a href="/tags/VMware/" style="font-size: 14px; color: #999">VMware</a> <a href="/tags/conda/" style="font-size: 14px; color: #999">conda</a> <a href="/tags/git/" style="font-size: 14px; color: #999">git</a> <a href="/tags/hexo/" style="font-size: 14px; color: #999">hexo</a> <a href="/tags/redis/" style="font-size: 14px; color: #999">redis</a> <a href="/tags/servlet/" style="font-size: 14px; color: #999">servlet</a> <a href="/tags/sklearn/" style="font-size: 17.33px; color: #828282">sklearn</a> <a href="/tags/ssm/" style="font-size: 14px; color: #999">ssm</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">依赖倒置原则</a> <a href="/tags/%E5%89%8D%E7%BC%80%E6%A0%91/" style="font-size: 14px; color: #999">前缀树</a> <a href="/tags/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" style="font-size: 14px; color: #999">动态代理</a> <a href="/tags/%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">单一职责原则</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">单例模式</a> <a href="/tags/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">原型模式</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 17.33px; color: #828282">反射</a> <a href="/tags/%E5%A0%86%E6%8E%92%E5%BA%8F/" style="font-size: 14px; color: #999">堆排序</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 14px; color: #999">多线程</a> <a href="/tags/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">工厂模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 14px; color: #999">并查集</a> <a href="/tags/%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">建造者模式</a> <a href="/tags/%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">开闭原则</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E9%9A%94%E7%A6%BB%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">接口隔离原则</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 17.33px; color: #828282">正则表达式</a> <a href="/tags/%E6%BA%90%E7%A0%81/" style="font-size: 17.33px; color: #828282">源码</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 17.33px; color: #828282">爬虫</a> <a href="/tags/%E7%BB%84%E5%90%88%E4%BC%98%E4%BA%8E%E7%BB%A7%E6%89%BF%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">组合优于继承原则</a> <a href="/tags/%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81/" style="font-size: 14px; color: #999">表单验证</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 24px; color: #555">设计模式</a> <a href="/tags/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">适配器模式</a>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow floatable desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、博客页面添加相册"><span class="toc-text">一、博客页面添加相册</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、创建图片存储仓库"><span class="toc-text">二、创建图片存储仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、创建相册布局样式"><span class="toc-text">三、创建相册布局样式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、添加脚本"><span class="toc-text">四、添加脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、运行"><span class="toc-text">五、运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六、总结"><span class="toc-text">六、总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文献"><span class="toc-text">参考文献</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="https://github.com/Chemlez"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="https://weibo.com/u/5653780011?nick=Sane_z&amp;is_all=1"
+                class="social fab fa-weibo flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="mailto:liz_1106@163.com"
+                class="social fas fa-envelope flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://chemlez.cn" target="_blank" rel="noopener">Copyright © 2019-2021 Chemlez</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.0/js/valine.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var notify = 'true' == true;
+  var verify = 'true' == true;
+  var valine = new Valine();
+  valine.init({
+    el: '#valine_container',
+    notify: notify,
+    verify: verify,
+    guest_info: guest_info,
+    
+    appId: "YSitK1ig1lRcy3jvrtTzT6fb-MdYXbMMI",
+    appKey: "e7hFf2zqvyWgNmDsClWcM7W3",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'wavatar',
+    lang:'zh-cn',
+    visitor: 'false',
+    highlight:'true'
+  })
+  </script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1.5/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copyed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-clipboard-check');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPYED';
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-exclamation-triangle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+
+  <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "[object Object]";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+<script>!function(e){var c=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){for(var r=0;r<c.length;r++)t=c[r],0<=(n=t.getBoundingClientRect()).bottom&&0<=n.left&&n.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=c[r];t=o,n=function(){c=c.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n&&n()},e.src=i}();var t,n}i(),e.addEventListener("scroll",function(){var t,n;t=i,n=e,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)})}(this);</script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script></body>
+</html>

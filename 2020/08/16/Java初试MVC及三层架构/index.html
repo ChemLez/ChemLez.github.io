@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Java初试MVC及三层架构 - Liz&#39;blog</title>
+  
+    <meta name="keywords" content="Java,MVC,Servlet">
+  
+  
+    <meta name="description" content="最近又捡起了对Java的学习，通过对一个实例的介绍，总结下此次对Web开发中MVC三层架构的学习，以便用于日后的复习。
+一、 MVC简单的先介绍下MVC模式：
+
+M（Model）：JavaBean。用于完成具体的业务操作。
+JavaBean：Java中特殊的类.
+JavaBean满足条件：
+
+public修饰的类...">
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css">
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+  <link rel="shortcut icon" type='image/x-icon' href="https://s1.ax1x.com/2020/03/15/81ZR5F.jpg">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1.5.2/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+
+  <div class='wrapper'>
+    <div class='nav-sub container--flex'>
+      <a class="logo flat-box"></a>
+      <ul class='switcher h-list'>
+        <li><a class="s-comment flat-btn fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc flat-btn fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main container container--flex">
+      
+        
+        <a class="logo flat-box" target="_self" href='/'>
+          
+          
+          
+          
+            CHEMLEZ <b><sup style='color:#3AA757'></sup></b>
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='h-list'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-home fa-fw'></i>
+                  
+                  主页
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" 
+                  
+                  
+                  >
+                  
+                    <i class='fas fa-list-alt fa-fw fa-fw'></i>
+                  
+                  索引
+                </a>
+                
+                  <ul class="submenu">
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  
+                    <i class='fas fa-tags fa-fw'></i>
+                  
+                  标签
+                </a>
+                
+              </li>
+            
+          
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  
+                    <i class='fas fa-folder-open fa-fw'></i>
+                  
+                  类别
+                </a>
+                
+              </li>
+            
+          
+                    
+                      
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  
+                    <i class='fas fa-archive fa-fw'></i>
+                  
+                  归档
+                </a>
+                
+              </li>
+            
+          
+                    
+                  </ul>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  
+                    <i class='fas fa-link fa-fw'></i>
+                  
+                  友链
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  
+                    <i class='fas fa-info-circle fa-fw'></i>
+                  
+                  关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      
+        <div class="m_search">
+          <form name="searchform" class="form u-search-form">
+            <i class="icon fas fa-search fa-fw"></i>
+            <input type="text" class="input u-search-input" placeholder="搜索" />
+          </form>
+        </div>
+      
+
+			<ul class='switcher h-list'>
+				
+					<li><a class="s-search flat-btn fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li><a class="s-menu flat-btn fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+	</div>
+</header>
+<ul class="menu-phone navigation white-box">
+  
+  
+    <li>
+      <a class="flat-box" href=/
+        
+        
+        
+          id="home"
+        >
+        
+          <i class='fas fa-clock fa-fw fa-fw'></i>
+        
+        近期文章
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/archives/
+        
+        
+        
+          id="archives"
+        >
+        
+          <i class='fas fa-list-alt fa-fw fa-fw'></i>
+        
+        文章归档
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/categories/
+        
+        
+        
+          id="categories"
+        >
+        
+          <i class='fas fa-folder-open fa-fw'></i>
+        
+        文章类别
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/tags/
+        
+        
+        
+          id="tags"
+        >
+        
+          <i class='fas fa-tags fa-fw'></i>
+        
+        文章标签
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/friends/
+        
+        
+        
+          id="friends"
+        >
+        
+          <i class='fas fa-link fa-fw'></i>
+        
+        我的友链
+      </a>
+    </li>
+  
+    <li>
+      <a class="flat-box" href=/about/
+        
+        
+        
+          id="about"
+        >
+        
+          <i class='fas fa-info-circle fa-fw'></i>
+        
+        关于小站
+      </a>
+    </li>
+  
+</ul>
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box shadow floatable article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2020/08/16/Java%E5%88%9D%E8%AF%95MVC%E5%8F%8A%E4%B8%89%E5%B1%82%E6%9E%B6%E6%9E%84/">
+        Java初试MVC及三层架构
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+<div class='new-meta-item author'>
+  <a href="https://chemlez.cn" target="_blank" rel="nofollow noopener">
+    <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/03/13/8mvbCj.jpg">
+    <p>Chemlez</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Java/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>Java</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-edit" aria-hidden="true"></i>
+    <p>发布于：Aug 16, 2020</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>最近又捡起了对<code>Java</code>的学习，通过对一个实例的介绍，总结下此次对<code>Web</code>开发中<code>MVC</code>三层架构的学习，以便用于日后的复习。</p>
+<h4 id="一、-MVC"><a href="#一、-MVC" class="headerlink" title="一、 MVC"></a>一、 MVC</h4><p>简单的先介绍下MVC模式：</p>
+<ul>
+<li><p>M（Model）：<code>JavaBean</code>。用于完成具体的业务操作。</p>
+<p><code>JavaBean</code>：<code>Java</code>中特殊的类.</p>
+<p><code>JavaBean</code>满足条件：</p>
+<ul>
+<li><code>public</code>修饰的类，并提供<code>public</code>无参构造方法</li>
+<li>所有的属性都是<code>private</code>修饰</li>
+<li>提供<code>getter</code>和<code>setter</code>方法</li>
+</ul>
+<p>使用层面：</p>
+<ul>
+<li>封装业务逻辑：<code>dao</code>层封装对数据库的底层操作</li>
+<li>封装数据：<code>domain</code>层。对数据库中所要查询对象的封装</li>
+</ul>
+</li>
+<li><p>V（View）：视图。用于数据的展示。</p>
+<ul>
+<li>页面的展示</li>
+<li>与用户的交互</li>
+</ul>
+</li>
+<li><p>C（Controller）：控制器。由Servlet实现控制器。</p>
+<p>主要功能：</p>
+<ul>
+<li>获取用户的输入</li>
+<li>调用模型，将请求交给模型进行处理</li>
+<li>将数据交给视图进行展示</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a>
+
+<img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/08/16/dECMWQ.png" alt="MVC模式"/>
+
+<p>首先浏览器（通过View页面）向服务器端进行请求（可以是表单请求、超链接、AJAX请求等），<code>Controller</code>层获取浏览器请求的数据进行解析，调用模型；模型进行业务逻辑的操作，并将处理结果返回给<code>Controller</code>层；<code>Controller</code>层再将相应的数据交给<code>View</code>层，进行数据展示到客户端。</p>
+<h4 id="二、三层架构"><a href="#二、三层架构" class="headerlink" title="二、三层架构"></a>二、三层架构</h4><p>三层架构：视图层View、服务层Service、与持久层Dao。</p>
+<ul>
+<li><code>View</code>:用于接收用户提交请求的代码。</li>
+<li><code>Service</code>:用于编写系统的业务逻辑。（最重要的一层）</li>
+<li><code>Dao</code>:对数据库进行最直接的操作。即：对数据库的增删改查。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/08/16/dEi6PO.png" alt="三层架构"></p>
+<p>dao层中，定义了对数据库的增删改查的接口。而service层中即对数据的具体业务操作，用于组合dao层中的接口方法。web层中则用于对用户数据的接收和发送。上图很好的解释了MVC与三层架构之间的关系。</p>
+<h4 id="三、案例"><a href="#三、案例" class="headerlink" title="三、案例"></a>三、案例</h4><p>通过<code>servlet</code>、<code>jsp</code>、<code>Mysql</code>、<code>JDBCTempleat</code>、<code>Duird</code>、<code>BeanUtils</code>、<code>Tomcat</code>等技术完成用户信息列表展示的实例。此部分着重解释后端代码的实现。</p>
+<h5 id="1-查询所有用户信息"><a href="#1-查询所有用户信息" class="headerlink" title="1.查询所有用户信息"></a>1.查询所有用户信息</h5><p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/08/16/dEGRSJ.png" alt=""></p>
+<p>当点击前端页面查询按钮时，此时通过对服务器端的请求，到<code>web</code>层中的<code>Controller</code>层，触发<code>FindUserServlet</code>。由<code>Controller</code>调用<code>Service</code>层中的模型，继而<code>Service</code>层通过<code>dao</code>层获取全部的用户信息，封装到<code>List&lt;User&gt;</code>集合中。返回给<code>Service</code>层，再通过<code>Service</code>层将用户信息返回给<code>Controller</code>层。<code>Web</code>层中的<code>Controller</code>将数据进行存储转发给<code>View</code>，进行数据的解析展示，返回给客户端。</p>
+<p><code>findAll方法：</code></p>
+<details>
+<summary>
+dao层中findAll接口的实现
+</summary>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">findAll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    JdbcTemplate template = <span class="keyword">new</span> JdbcTemplate(JDBCUtils.getDataSource());</span><br><span class="line">    String sql = <span class="string">"select * from user"</span>;</span><br><span class="line">    List&lt;User&gt; users = template.query(sql, <span class="keyword">new</span> BeanPropertyRowMapper&lt;User&gt;(User<span class="class">.<span class="keyword">class</span>))</span>;</span><br><span class="line">    <span class="keyword">return</span> users;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<details>
+<summary>
+service层中findAll接口的实现
+</summary>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">findAll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    UserDao userDao = <span class="keyword">new</span> UserDaoImpl();</span><br><span class="line">    List&lt;User&gt; users = userDao.findAll();</span><br><span class="line">    <span class="keyword">return</span> users;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<details>
+<summary>
+web层中UserListServlet
+</summary>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebServlet</span>(<span class="string">"/userListServlet"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserListServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        UserService userService = <span class="keyword">new</span> UserServiceImpl();</span><br><span class="line">        List&lt;User&gt; users = userService.findAll();</span><br><span class="line">        request.setAttribute(<span class="string">"users"</span>, users);</span><br><span class="line">        request.getRequestDispatcher(<span class="string">"/list.jsp"</span>).forward(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.doPost(request,response);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<h5 id="2-增加用户信息"><a href="#2-增加用户信息" class="headerlink" title="2.增加用户信息"></a>2.增加用户信息</h5><p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/08/16/dEthOs.png" alt="增加用户信息"></p>
+<p>当客户端点击提交按钮时，此次对服务器端的请求带着表单的数据。根据我们上面对三层架构以及<code>Controller</code>层的介绍可知，由其进行数据的接收。这里即为<code>AddUserServlet</code>对获取的数据进行处理、封装。将封装好的数据传给Service层（Model),即为<code>UerService</code>，进行业务逻辑的操作。再通过<code>dao</code>层对数据库进行相应的访问。</p>
+<details>
+<summary>
+dao层中add接口的实现
+</summary>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addUser</span><span class="params">(User user)</span> </span>&#123;</span><br><span class="line">    JdbcTemplate template = <span class="keyword">new</span> JdbcTemplate(JDBCUtils.getDataSource());</span><br><span class="line">    String sql = <span class="string">"insert into user values(null,?,?,?,?,?,?,null,null)"</span>;</span><br><span class="line">    template.update(sql, user.getName(), user.getGender(), user.getAge(), 									user.getAddress(), user.getQq(), user.getEmail());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<details>
+<summary>
+Service层中add接口的实现
+</summary>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addUser</span><span class="params">(User user)</span> </span>&#123;</span><br><span class="line">    UserDao userDao = <span class="keyword">new</span> UserDaoImpl();</span><br><span class="line">    userDao.addUser(user);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<details>
+<summary>
+web层中addServlet的实现
+</summary>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebServlet</span>(<span class="string">"/addServlet"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AddServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        request.setCharacterEncoding(<span class="string">"utf-8"</span>);</span><br><span class="line">        User user = <span class="keyword">new</span> User();</span><br><span class="line">        Map&lt;String, String[]&gt; parameterMap = request.getParameterMap(); <span class="comment">// 将请求参数进行Map集合的封装</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            BeanUtils.populate(user, parameterMap);<span class="comment">//将获取到的值封装到User对象中</span></span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        UserService service = <span class="keyword">new</span> UserServiceImpl();</span><br><span class="line">        service.addUser(user);</span><br><span class="line">        HttpSession session = request.getSession(); <span class="comment">// 再进行重定向之前，将需要添加的User对象设置到session中，以便后续对其的获取使用</span></span><br><span class="line">        session.setAttribute(<span class="string">"addUser"</span>, user);</span><br><span class="line">        response.sendRedirect(request.getContextPath() + <span class="string">"/findUserByPageServlet"</span>);<span class="comment">//重定向至View层</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.doPost(request, response);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<p><strong>思考：</strong></p>
+<p>在上一个方法查找所有的用户时，在最后，我们将获取到的数据传给view层，采用的是存储转发，而在这里，对用户的添加，我们却采用的是重定向（实际上，增、删、改都是采用的重定向）。这是为什么呢？</p>
+<p>这里先对重定向和存储转发的几个特点进行简单的比较：</p>
+<ul>
+<li><p>存储转发：一种在服务器内部的资源跳转方式。</p>
+<p>特点：</p>
+<ol>
+<li>浏览器地址栏不会发生变化</li>
+<li><strong>只能转发到当前服务器内部资源中</strong></li>
+<li><strong>转发是一次请求</strong></li>
+</ol>
+<p>最重要的一点便是转发只在当前服务器内部进行，请求也只有一次。这样做带来的一点用处便是，request域中带有的请求是可以在多次资源跳转中进行共享的。在使用时，只需要添加资源路径即可。</p>
+</li>
+<li><p>重定向：具有多次的请求。其跳转在于客户端与服务器端之间，每次请求都是独立的，存在新的<code>request</code>与<code>response</code>。</p>
+<p>特点：</p>
+<ol>
+<li>重定向之后地址栏会发生变化</li>
+<li>重定向可以访问其他站点（服务器）的资源</li>
+<li>重定向是两次请求。故不能使用<code>request</code>域共享数据。</li>
+</ol>
+</li>
+</ul>
+<p>其中，重定向可避免在用户重新加载页面时，两次调用相同的动作。即，访问数据库时，增删改使用重定向。<strong>当前我的理解是</strong>：转发只有一次请求，故当重新加载页面时，会沿着之前的请求再请求一次（这句话可能比较绕），在页面进行展示全部用户数据之前，又会将数据库添加用户的操作进行一遍，所以会造成表单的重复提交；而重定向中是多次（两次）请求，所以只复用”最近一次“请求（因为每次请求是独立的，之前的请求都不在了），这里只是对页面进行全部用户的展示。</p>
+<p><strong>重定向：</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/08/16/dEBTKS.png" alt=""></p>
+<p><strong>存储转发：</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/08/16/dEBIv8.png" alt="存储转发"></p>
+<h5 id="3-用户信息更改"><a href="#3-用户信息更改" class="headerlink" title="3.用户信息更改"></a>3.用户信息更改</h5><p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/08/16/dEyIij.png" alt="update"></p>
+<p>思路：用户信息的更改相对前面的用户显示的展示和增加要多了一些步骤。首先，在我们需要对信息进行更改时，需要将原信息展示给我们，在原信息的基础上进行修改，即：是查询到所要修改的用户，将其信息进行回显。其次，当我们对用户信息更改完毕以后，通过对数据库的访问，将对应的数据库信息进行Update操作。最后，通过view层，对列表信息进行展示传送给客户端。这里，每个用户都有一个唯一标识符–id主键，所以当我们拿到主键id时，其实也就获得了对应的数据库中的User对象，后面的操作也就顺理成章了。</p>
+<ol>
+<li><code>FindUserServlet</code> – 查询需要修改的用户，用于信息的回显</li>
+</ol>
+<details>
+<summary>
+web层中FindUserServlet的实现
+</summary>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebServlet</span>(<span class="string">"/findUserServlet"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FindUserServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        request.setCharacterEncoding(<span class="string">"utf-8"</span>);</span><br><span class="line">        String id = request.getParameter(<span class="string">"id"</span>); <span class="comment">// 获取id</span></span><br><span class="line">        UserService service = <span class="keyword">new</span> UserServiceImpl();</span><br><span class="line">        User user = service.findUser(Integer.parseInt(id));<span class="comment">// 通过id返回User对象</span></span><br><span class="line">        request.setAttribute(<span class="string">"user"</span>, user);<span class="comment">// 查找操作所以存储-转发，将用户信息封装传至view层</span></span><br><span class="line">        request.getRequestDispatcher(<span class="string">"/update.jsp"</span>).forward(request,response);<span class="comment">// 即传至update.jsp页面进行解析</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.doPost(request,response);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<details>
+<summary>
+service层中findUser的实现
+</summary>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> User <span class="title">findUser</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">    UserDao userDao = <span class="keyword">new</span> UserDaoImpl();</span><br><span class="line">    User user = userDao.findUser(id);</span><br><span class="line">    <span class="keyword">return</span> user;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<details>
+<summary>
+dao层中findUser接口的实现
+</summary>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> User <span class="title">findUser</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">    JdbcTemplate template = <span class="keyword">new</span> JdbcTemplate(JDBCUtils.getDataSource());</span><br><span class="line">    String sql = <span class="string">"select * from user where id = ?"</span>;</span><br><span class="line">    User user = template.queryForObject(sql, <span class="keyword">new</span> BeanPropertyRowMapper&lt;User&gt;(User<span class="class">.<span class="keyword">class</span>), <span class="title">id</span>)</span>;</span><br><span class="line">    <span class="keyword">return</span> user;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<p>以上是获取到需要修改的对象，然后对用户信息进行一个回显操作。</p>
+<p>下面，便是对用户信息进行修改。</p>
+<ol start="2">
+<li><code>UpdateUserServlet</code> – 修改用户信息，对数据库数据进行修改</li>
+</ol>
+<details>
+<summary>
+web层中UpdateUserServlet的实现
+</summary>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebServlet</span>(<span class="string">"/updateUserServlet"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UpdateUserServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        request.setCharacterEncoding(<span class="string">"utf-8"</span>);</span><br><span class="line">        Map&lt;String, String[]&gt; parameterMap = request.getParameterMap();</span><br><span class="line">        User user = <span class="keyword">new</span> User();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            BeanUtils.populate(user, parameterMap);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> id = user.getId();</span><br><span class="line">        UserService service = <span class="keyword">new</span> UserServiceImpl();</span><br><span class="line">        service.updateUser(id, user);<span class="comment">// 对用户信息进行修改</span></span><br><span class="line">        response.sendRedirect(request.getContextPath()+<span class="string">"/findUserByPageServlet"</span>);<span class="comment">//View层，信息的展示</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.doPost(request,response);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<details>
+<summary>
+service层中UpdateUser接口的实现
+</summary>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateUser</span><span class="params">(<span class="keyword">int</span> id, User user)</span> </span>&#123;</span><br><span class="line">    UserDao userDao = <span class="keyword">new</span> UserDaoImpl();</span><br><span class="line">    userDao.updateUser(id, user);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<details>
+<summary>
+dao层中UpdateUser抽象方法的实现
+</summary>
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateUser</span><span class="params">(<span class="keyword">int</span> id, User user)</span> </span>&#123;</span><br><span class="line">    JdbcTemplate template = <span class="keyword">new</span> JdbcTemplate(JDBCUtils.getDataSource());</span><br><span class="line">    String sql = <span class="string">"update user set name = ?,age=?,gender=?,address=?,qq=?,email=? where id=?"</span>;</span><br><span class="line">    template.update(sql, user.getName(), user.getAge(), user.getGender(), user.getAddress(), user.getQq(), user.getEmail(), user.getId());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<h5 id="4-用户的删除"><a href="#4-用户的删除" class="headerlink" title="4.用户的删除"></a>4.<strong>用户的删除</strong></h5><p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/08/16/dE26AS.png" alt="用户的删除"></p>
+<p>用户的删除同用户的更新类似，这里同样是获取用户的id，通过id查询到数据库中相应的数据，然后将数据进行删除。</p>
+<details>
+<summary>
+dao层中deleteUser抽象方法的实现
+</summary>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">deleteUser</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">    JdbcTemplate template = <span class="keyword">new</span> JdbcTemplate(JDBCUtils.getDataSource());</span><br><span class="line">    String sql = <span class="string">"delete from user where id = ?"</span>;</span><br><span class="line">    template.update(sql, id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<h5 id="5-删除选中功能"><a href="#5-删除选中功能" class="headerlink" title="5.删除选中功能"></a>5.<strong>删除选中功能</strong></h5><p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/08/16/dE2HNF.png" alt="删除选中"></p>
+<p>这里删除选中，是对数据进行批量删除。其中思路同单个用户的删除类似，这里是获取一个id的集合，然后通过循环遍历id删除用户即可。这里的难点在于如何通过前端获取到这些id传递到web层。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"btn btn-primary"</span> <span class="attr">href</span>=<span class="string">"javascript:void(0);"</span> <span class="attr">onclick</span>=<span class="string">"select()"</span>&gt;</span>删除选中<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>定义<code>Javascript</code>方法。</p>
+<p>其中:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">select</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> uids = <span class="built_in">document</span>.getElementsByName(<span class="string">"uid"</span>);<span class="comment">// 获取属性为uid的标签 -- 这里给所有用户指定的class属性值即为uid,所以是为了获取每一个用户的信息</span></span><br><span class="line">    <span class="keyword">var</span> flag = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; uids.length; ++i) &#123;</span><br><span class="line">        <span class="keyword">var</span> checked = uids[i].checked;</span><br><span class="line">        <span class="keyword">if</span> (checked) &#123;</span><br><span class="line">            flag = <span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (flag) &#123; <span class="comment">// 判断id是否为空 （前端防空的校验）</span></span><br><span class="line">        <span class="keyword">var</span> flag = <span class="built_in">window</span>.confirm(<span class="string">"您确认删除么？"</span>); <span class="comment">// 用于确认删除</span></span><br><span class="line">        <span class="keyword">if</span> (flag) &#123;</span><br><span class="line">            <span class="built_in">document</span>.getElementById(<span class="string">"s_form"</span>).submit(); <span class="comment">// 提交表单</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先获取被选中的<code>uid</code>，判断是否有用户被选中，这里是为了防止传入到后端的值为空，而报空指针异常。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">c:forEach</span> <span class="attr">items</span>=<span class="string">"$&#123;userByPages.user&#125;"</span> <span class="attr">var</span>=<span class="string">"user"</span> <span class="attr">varStatus</span>=<span class="string">"u"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">name</span>=<span class="string">"uid"</span> <span class="attr">value</span>=<span class="string">"$&#123;user.id&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>$&#123;u.count&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>$&#123;user.name&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>$&#123;user.gender&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>$&#123;user.age&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>$&#123;user.address&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>$&#123;user.qq&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span>$&#123;user.email&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"btn btn-default btn-sm"</span></span></span><br><span class="line"><span class="tag">               <span class="attr">href</span>=<span class="string">"$&#123;pageContext.request.contextPath&#125;/findUserServlet?id=$&#123;user.id&#125;"</span>&gt;</span>修改<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="symbol">&amp;nbsp;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"btn btn-default btn-sm"</span> <span class="attr">href</span>=<span class="string">"javascript:give_msg($&#123;user.id&#125;)"</span>&gt;</span>删除<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">c:forEach</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>以上便是由前端获取需要删除的用户的id。</p>
+<details>
+<summary>
+web层中DeleteSelectServlet的实现
+</summary>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebServlet</span>(<span class="string">"/delSelectServlet"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DelSelectServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        request.setCharacterEncoding(<span class="string">"utf-8"</span>);</span><br><span class="line">        String[] uids = request.getParameterValues(<span class="string">"uid"</span>);<span class="comment">// 获取用户id的数组</span></span><br><span class="line">        UserService service = <span class="keyword">new</span> UserServiceImpl();</span><br><span class="line">        service.delByIds(uids);</span><br><span class="line">        response.sendRedirect(request.getContextPath()+<span class="string">"/findUserByPageServlet"</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.doPost(request,response);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<details>
+<summary>
+service层中DelByIds接口的实现
+</summary>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delByIds</span><span class="params">(String[] ids)</span> </span>&#123;</span><br><span class="line">    UserDao userDao = <span class="keyword">new</span> UserDaoImpl();</span><br><span class="line">    <span class="keyword">int</span> id_count;</span><br><span class="line">    <span class="keyword">if</span> (ids != <span class="keyword">null</span> &amp;&amp; ids.length != <span class="number">0</span>) &#123; <span class="comment">// 删除选项的后台验证 -- 防止参数为空（后端判空的校验）</span></span><br><span class="line">        <span class="keyword">for</span> (String id : ids) &#123;</span><br><span class="line">        id_count = Integer.parseInt(id);</span><br><span class="line">        userDao.deleteUser(id_count);</span><br><span class="line">    	&#125;</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<details>
+<summary>
+dao层中DeleteUser接口的实现
+</summary>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">deleteUser</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">    JdbcTemplate template = <span class="keyword">new</span> JdbcTemplate(JDBCUtils.getDataSource());</span><br><span class="line">    String sql = <span class="string">"delete from user where id = ?"</span>;</span><br><span class="line">    template.update(sql, id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<p>批量删除的注意事项：</p>
+<ul>
+<li>id获取的批量方式</li>
+<li>删除前的确认操作</li>
+<li>防止空参数时的删除操作（前后端都进行校验）</li>
+</ul>
+<h5 id="6-分页查询"><a href="#6-分页查询" class="headerlink" title="6.分页查询"></a>6.<strong>分页查询</strong></h5><p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/08/16/dEb8BQ.png" alt="页面基础信息"></p>
+<p>在客户端对用户列表进行分页展示的基本思路，即需要获取以下的信息：</p>
+<ul>
+<li>首先确定数据库中总的条目数 – totalCount;</li>
+<li>总的页面数量 – totalPage</li>
+<li>获取每页的数据 – List集合</li>
+<li>获取当前的页码 – currentPage</li>
+<li>每页显示的条数 – rows</li>
+</ul>
+<p><code>totalCount:</code>可以借鉴<code>findAll()</code>的思路，统计出总条目数。    </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">totalCount = <span class="keyword">select</span> <span class="keyword">count</span>(*) frow <span class="keyword">user</span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>rows:</code>有客户端进行传递到参数，即预先设定好的请求参数。</p>
+<p><code>totalPage:</code>totalCount/rows，上取。</p>
+<p><code>currentPage:</code>包含在客户端的请求参数中。</p>
+<p><code>List集合:</code>获取起始索引<code>index</code>以及上面的<code>rows</code>即可确定当前页面需要显示的条目数。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">index = (currentPage - 1)*rows</span><br><span class="line">list = <span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="keyword">limit</span> <span class="keyword">index</span>,<span class="keyword">rows</span></span><br></pre></td></tr></table></figure>
+
+<p>还记得前面所说的<code>Model</code>中操作的是<code>JavaBean</code>对象么，所以这里我们将以上的信息封装成一个<code>PageBean</code>对象。以便我们进行业务逻辑的操作，最终将整个<code>PageBean</code>进行返回交给Web层的<code>Controller</code>，再由<code>Controller</code>传递给View视图，进行展示。逻辑操作见下图：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/08/16/dEbYAs.png" alt=""></p>
+<p><strong>扩展:</strong>对数据的查询进行组合查询，即复杂功能的查询。</p>
+<details>
+<summary>
+web层中FindUserByPageServlet的实现
+</summary>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//findUserByPageServlet?currentPage=2&amp;rows=5</span></span><br><span class="line"><span class="meta">@WebServlet</span>(<span class="string">"/findUserByPageServlet"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FindUserByPageServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        request.setCharacterEncoding(<span class="string">"utf-8"</span>);</span><br><span class="line">        String currentPage = request.getParameter(<span class="string">"currentPage"</span>);</span><br><span class="line">        String rows = request.getParameter(<span class="string">"rows"</span>);</span><br><span class="line">        <span class="keyword">if</span> (currentPage == <span class="keyword">null</span> || <span class="string">""</span>.equals(currentPage)) &#123; <span class="comment">// 当首次进入到列表查询页面时，用于判空操作，即给currentPage,rows赋初始值。</span></span><br><span class="line">            currentPage = <span class="string">"1"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (rows == <span class="keyword">null</span> || <span class="string">""</span>.equals(rows)) &#123;</span><br><span class="line">            rows = <span class="string">"5"</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Map&lt;String, String[]&gt; condition = request.getParameterMap();<span class="comment">//用于复杂条件的查询，本小结可暂时忽略</span></span><br><span class="line"></span><br><span class="line">        UserService service = <span class="keyword">new</span> UserServiceImpl();</span><br><span class="line">        PageBean&lt;User&gt; userByPage = service.findUserByPage(Integer.parseInt(currentPage), Integer.parseInt(rows),condition);</span><br><span class="line">        request.setAttribute(<span class="string">"userByPages"</span>, userByPage);</span><br><span class="line">        request.setAttribute(<span class="string">"condition"</span>,condition);<span class="comment">// 后续转发时，条件的回显</span></span><br><span class="line">        request.getRequestDispatcher(<span class="string">"/list.jsp"</span>).forward(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.doPost(request,response);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<details>
+<summary>
+Service层中findUserByPage抽象方法的实现
+</summary>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> PageBean&lt;User&gt; <span class="title">findUserByPage</span><span class="params">(<span class="keyword">int</span> currentPage, <span class="keyword">int</span> rows, Map&lt;String, String[]&gt; condition)</span> </span>&#123;</span><br><span class="line">    PageBean&lt;User&gt; userPageBean = <span class="keyword">new</span> PageBean&lt;&gt;();</span><br><span class="line">    <span class="comment">// 页数不能小于1</span></span><br><span class="line">    <span class="keyword">if</span> (currentPage &lt;= <span class="number">0</span>) &#123; </span><br><span class="line">        currentPage = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 查询总条目数</span></span><br><span class="line">    UserDao dao = <span class="keyword">new</span> UserDaoImpl();</span><br><span class="line">    <span class="keyword">int</span> totalCount = dao.findTotalCount(condition);</span><br><span class="line">    <span class="comment">// 计算出总页数</span></span><br><span class="line">    <span class="keyword">int</span> totalPageCount = (totalCount % rows == <span class="number">0</span>) ? (totalCount / rows) : (totalCount / rows + <span class="number">1</span>);</span><br><span class="line">    <span class="comment">// 页数不能大于总页数</span></span><br><span class="line">    <span class="keyword">if</span> (currentPage &gt; totalPageCount) &#123;</span><br><span class="line">        currentPage = totalPageCount;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 查询的索引数</span></span><br><span class="line">    <span class="keyword">int</span> starIndex = (currentPage - <span class="number">1</span>) * rows;</span><br><span class="line">    <span class="comment">// 返回出所要查询的对象数目</span></span><br><span class="line">    List&lt;User&gt; users = dao.findByPage(starIndex, rows,condition);</span><br><span class="line">    <span class="comment">// 设置对象的属性</span></span><br><span class="line">    userPageBean.setTotalCount(totalCount);</span><br><span class="line">    userPageBean.setTotalPage(totalPageCount);</span><br><span class="line">    userPageBean.setUser(users);</span><br><span class="line">    userPageBean.setCurrentPage(currentPage); <span class="comment">// 当前页数</span></span><br><span class="line">    userPageBean.setRows(rows); <span class="comment">// 每页展示的条目数</span></span><br><span class="line">    <span class="keyword">return</span> userPageBean;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<details>
+<summary>
+dao层中findTotalCount及findByPage抽象方法的实现
+</summary>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findTotalCount</span><span class="params">(Map&lt;String, String[]&gt; condition)</span> </span>&#123; <span class="comment">// search condition</span></span><br><span class="line">    JdbcTemplate template = <span class="keyword">new</span> JdbcTemplate(JDBCUtils.getDataSource());</span><br><span class="line">    String sql = <span class="string">"select count(*) from user where 1=1 "</span>;</span><br><span class="line">    List&lt;Object&gt; params = <span class="keyword">new</span> ArrayList&lt;Object&gt;();</span><br><span class="line">    StringBuffer sb = <span class="keyword">new</span> StringBuffer(sql);</span><br><span class="line">    Set&lt;String&gt; keySet = condition.keySet(); <span class="comment">// 复杂条件的查询</span></span><br><span class="line">    <span class="keyword">for</span> (String key : keySet) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">"currentPage"</span>.equals(key) || <span class="string">"rows"</span>.equals(key)) &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        String value = condition.get(key)[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">if</span> (value != <span class="keyword">null</span> &amp;&amp; value != <span class="string">""</span>) &#123;</span><br><span class="line">            sb.append(<span class="string">" and "</span> + key + <span class="string">" like ?"</span>);</span><br><span class="line">            params.add(<span class="string">"%"</span> + value + <span class="string">"%"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    sql = sb.toString();</span><br><span class="line">    Integer count = template.queryForObject(sql, Integer<span class="class">.<span class="keyword">class</span>, <span class="title">params</span>.<span class="title">toArray</span>())</span>;</span><br><span class="line">    System.out.println(sql);</span><br><span class="line">    System.out.println(params);</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">findByPage</span><span class="params">(<span class="keyword">int</span> starIndex, <span class="keyword">int</span> rows, Map&lt;String, String[]&gt; condition)</span> </span>&#123; <span class="comment">// 根据索引返回的列表对象</span></span><br><span class="line">    JdbcTemplate template = <span class="keyword">new</span> JdbcTemplate(JDBCUtils.getDataSource());</span><br><span class="line">    String sql = <span class="string">"select * from user where 1=1"</span>;</span><br><span class="line">    List&lt;Object&gt; params = <span class="keyword">new</span> ArrayList&lt;Object&gt;();</span><br><span class="line">    StringBuffer sb = <span class="keyword">new</span> StringBuffer(sql);</span><br><span class="line">    Set&lt;String&gt; keySet = condition.keySet();</span><br><span class="line">    <span class="keyword">for</span> (String key : keySet) &#123; <span class="comment">// 用于复杂条件的查询</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="string">"currentPage"</span>.equals(key) || <span class="string">"rows"</span>.equals(key)) &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        String value = condition.get(key)[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">if</span> (value != <span class="keyword">null</span> &amp;&amp; value != <span class="string">""</span>) &#123;</span><br><span class="line">            sb.append(<span class="string">" and "</span> + key + <span class="string">" like ?"</span>);</span><br><span class="line">            params.add(<span class="string">"%"</span> + value + <span class="string">"%"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    params.add(starIndex);</span><br><span class="line">    params.add(rows);</span><br><span class="line">    sb.append(<span class="string">" limit ?,? "</span>);</span><br><span class="line">    sql = sb.toString();</span><br><span class="line">    List&lt;User&gt; users = template.query(sql, <span class="keyword">new</span> BeanPropertyRowMapper&lt;User&gt;(User<span class="class">.<span class="keyword">class</span>), <span class="title">params</span>.<span class="title">toArray</span>())</span>;</span><br><span class="line">    <span class="keyword">return</span> users;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<h5 id="7-复杂条件的分页查询"><a href="#7-复杂条件的分页查询" class="headerlink" title="7.复杂条件的分页查询"></a>7.<strong>复杂条件的分页查询</strong></h5><p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/08/16/dV8AW4.png" alt=""></p>
+<p>组合条件的查询，在于<code>SQL</code>语句的编写。</p>
+<ol>
+<li>定义初始化<code>SQL</code>语句： <code>select count(*) from user where 1=1</code>再将查询条件进行拼接，再拼接之前先进行判空操作。</li>
+</ol>
+<p><code>web</code>、<code>service</code>、<code>dao</code>层的编写在上一个小节中已包含。</p>
+<h4 id="四、前端代码展示"><a href="#四、前端代码展示" class="headerlink" title="四、前端代码展示"></a>四、前端代码展示</h4><details>
+<summary>
+add.jsp
+</summary>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">%--</span></span></span><br><span class="line"><span class="tag">  <span class="attr">Created</span> <span class="attr">by</span> <span class="attr">IntelliJ</span> <span class="attr">IDEA.</span></span></span><br><span class="line"><span class="tag">  <span class="attr">User:</span> <span class="attr">liz</span></span></span><br><span class="line"><span class="tag">  <span class="attr">Date:</span> <span class="attr">2020</span>/<span class="attr">8</span>/<span class="attr">9</span></span></span><br><span class="line"><span class="tag">  <span class="attr">Time:</span> <span class="attr">19:17</span></span></span><br><span class="line"><span class="tag">  <span class="attr">To</span> <span class="attr">change</span> <span class="attr">this</span> <span class="attr">template</span> <span class="attr">use</span> <span class="attr">File</span> | <span class="attr">Settings</span> | <span class="attr">File</span> <span class="attr">Templates.</span></span></span><br><span class="line"><span class="tag"><span class="attr">--</span>%&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">%@</span> <span class="attr">page</span> <span class="attr">contentType</span>=<span class="string">"text/html;charset=UTF-8"</span> <span class="attr">language</span>=<span class="string">"java"</span> %&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-CN"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 指定字符集 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 使用Edge最新的浏览器的渲染方式 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"IE=edge"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- viewport视口：网页可以根据设置的宽度自动进行适配，在浏览器的内部虚拟一个容器，容器的宽度与设备的宽度相同。</span></span><br><span class="line"><span class="comment">    width: 默认宽度与设备的宽度相同</span></span><br><span class="line"><span class="comment">    initial-scale: 初始的缩放比，为1:1 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>添加用户<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 1. 导入CSS的全局样式 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"css/bootstrap.min.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 2. jQuery导入，建议使用1.9以上的版本 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/jquery-2.1.0.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 3. 导入bootstrap的js文件 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/bootstrap.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">        <span class="selector-class">.error</span> &#123;</span></span><br><span class="line">            color: red;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">        <span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="javascript">            <span class="built_in">document</span>.getElementById(<span class="string">'form'</span>).onsubmit = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"></span><br><span class="line"><span class="actionscript">                <span class="keyword">return</span> checkName() &amp;&amp; checkAge() &amp;&amp; checkQQ() &amp;&amp; checkEmail();</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            &#125;;</span><br><span class="line"><span class="javascript">            <span class="built_in">document</span>.getElementById(<span class="string">"name"</span>).onblur = checkName;</span></span><br><span class="line"><span class="javascript">            <span class="built_in">document</span>.getElementById(<span class="string">"age"</span>).onblur = checkAge;</span></span><br><span class="line"><span class="javascript">            <span class="built_in">document</span>.getElementById(<span class="string">"qq"</span>).onblur = checkQQ;</span></span><br><span class="line"><span class="javascript">            <span class="built_in">document</span>.getElementById(<span class="string">"email"</span>).onblur = checkEmail;</span></span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line"><span class="actionscript">        <span class="function"><span class="keyword">function</span> <span class="title">checkName</span><span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> name = <span class="built_in">document</span>.getElementById(<span class="string">"name"</span>).value;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> regExp = <span class="regexp">/(^([a-zA-Z]+\s)*[a-zA-Z]+$)|(^[\u4e00-\u9fa5]+$)/</span>;</span></span><br><span class="line"><span class="actionscript">            <span class="keyword">var</span> flag = regExp.test(name);</span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> s_name = <span class="built_in">document</span>.getElementById(<span class="string">"s_name"</span>);</span></span><br><span class="line">            if (flag) &#123;</span><br><span class="line"><span class="handlebars"><span class="xml">                s_name.innerHTML = '<span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"img/gou.png"</span> <span class="attr">width</span>=<span class="string">"35px"</span> <span class="attr">height</span>=<span class="string">"25px"</span>&gt;</span>';</span></span></span><br><span class="line"><span class="actionscript">            &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="actionscript">                s_name.innerHTML = <span class="string">"请输入正确姓名"</span></span></span><br><span class="line">            &#125;</span><br><span class="line"><span class="actionscript">            <span class="keyword">return</span> flag;</span></span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript">        <span class="function"><span class="keyword">function</span> <span class="title">checkAge</span><span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> age = <span class="built_in">document</span>.getElementById(<span class="string">"age"</span>).value;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> s_age = <span class="built_in">document</span>.getElementById(<span class="string">"s_age"</span>);</span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> regExp = <span class="regexp">/^(([0-9]|[1-9][1-9]|1[0-7][0-9])(\\.[0-9]+)?|180)$/</span>;</span></span><br><span class="line"><span class="actionscript">            <span class="keyword">var</span> flag = regExp.test(age);</span></span><br><span class="line">            if (flag) &#123;</span><br><span class="line"><span class="handlebars"><span class="xml">                s_age.innerHTML = '<span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"img/gou.png"</span> <span class="attr">width</span>=<span class="string">"35px"</span> <span class="attr">height</span>=<span class="string">"25px"</span>&gt;</span>';</span></span></span><br><span class="line"><span class="actionscript">            &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="actionscript">                s_age.innerHTML = <span class="string">"请输入正确格式的年龄"</span></span></span><br><span class="line">            &#125;</span><br><span class="line"><span class="actionscript">            <span class="keyword">return</span> flag;</span></span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line"><span class="actionscript">        <span class="function"><span class="keyword">function</span> <span class="title">checkQQ</span><span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> qq = <span class="built_in">document</span>.getElementById(<span class="string">"qq"</span>).value;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> regExp = <span class="regexp">/^[1-9][0-9]&#123;4,14&#125;$/</span>;</span></span><br><span class="line"><span class="actionscript">            <span class="keyword">var</span> flag = regExp.test(qq);</span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> s_qq = <span class="built_in">document</span>.getElementById(<span class="string">"s_qq"</span>);</span></span><br><span class="line">            if (flag) &#123;</span><br><span class="line"><span class="handlebars"><span class="xml">                s_qq.innerHTML = '<span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"img/gou.png"</span> <span class="attr">width</span>=<span class="string">"35px"</span> <span class="attr">height</span>=<span class="string">"25px"</span>&gt;</span>';</span></span></span><br><span class="line"><span class="actionscript">            &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="actionscript">                s_qq.innerHTML = <span class="string">'请输入正确格式的qq号'</span></span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"><span class="actionscript">            <span class="keyword">return</span> flag;</span></span><br><span class="line"></span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line"><span class="actionscript">        <span class="function"><span class="keyword">function</span> <span class="title">checkEmail</span><span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> email = <span class="built_in">document</span>.getElementById(<span class="string">"email"</span>).value;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> regExp = <span class="regexp">/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]&#123;2,3&#125;)&#123;1,2&#125;)$/</span>;</span></span><br><span class="line"><span class="actionscript">            <span class="keyword">var</span> flag = regExp.test(email);</span></span><br><span class="line"><span class="javascript">            <span class="keyword">var</span> s_email = <span class="built_in">document</span>.getElementById(<span class="string">"s_email"</span>);</span></span><br><span class="line">            if (flag) &#123;</span><br><span class="line"><span class="handlebars"><span class="xml">                s_email.innerHTML = '<span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"img/gou.png"</span> <span class="attr">width</span>=<span class="string">"35px"</span> <span class="attr">height</span>=<span class="string">"25px"</span>&gt;</span>';</span></span></span><br><span class="line"><span class="actionscript">            &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="actionscript">                s_email.innerHTML = <span class="string">'请输入正确格式的email地址'</span>;</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"><span class="actionscript">            <span class="keyword">return</span> flag;</span></span><br><span class="line"></span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">center</span>&gt;</span><span class="tag">&lt;<span class="name">h3</span>&gt;</span>添加联系人页面<span class="tag">&lt;/<span class="name">h3</span>&gt;</span><span class="tag">&lt;/<span class="name">center</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"$&#123;pageContext.request.contextPath&#125;/addServlet"</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">id</span>=<span class="string">"form"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"name"</span>&gt;</span>姓名：<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">class</span>=<span class="string">"form-control"</span> <span class="attr">id</span>=<span class="string">"name"</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">placeholder</span>=<span class="string">"请输入姓名"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">sapn</span> <span class="attr">id</span>=<span class="string">"s_name"</span> <span class="attr">class</span>=<span class="string">"error"</span>&gt;</span><span class="tag">&lt;/<span class="name">sapn</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">label</span>&gt;</span>性别：<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"radio"</span> <span class="attr">name</span>=<span class="string">"gender"</span> <span class="attr">value</span>=<span class="string">"男"</span> <span class="attr">checked</span>=<span class="string">"checked"</span>/&gt;</span>男</span><br><span class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"radio"</span> <span class="attr">name</span>=<span class="string">"gender"</span> <span class="attr">value</span>=<span class="string">"女"</span>/&gt;</span>女</span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"age"</span>&gt;</span>年龄：<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">class</span>=<span class="string">"form-control"</span> <span class="attr">id</span>=<span class="string">"age"</span> <span class="attr">name</span>=<span class="string">"age"</span> <span class="attr">placeholder</span>=<span class="string">"请输入年龄"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">sapn</span> <span class="attr">id</span>=<span class="string">"s_age"</span> <span class="attr">class</span>=<span class="string">"error"</span>&gt;</span><span class="tag">&lt;/<span class="name">sapn</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"address"</span>&gt;</span>籍贯：<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">"address"</span> <span class="attr">class</span>=<span class="string">"form-control"</span> <span class="attr">id</span>=<span class="string">"address"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"陕西"</span>&gt;</span>陕西<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"北京"</span>&gt;</span>北京<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"南京"</span>&gt;</span>南京<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"安徽"</span>&gt;</span>安徽<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"上海"</span>&gt;</span>上海<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"qq"</span>&gt;</span>QQ：<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">class</span>=<span class="string">"form-control"</span> <span class="attr">id</span>=<span class="string">"qq"</span> <span class="attr">name</span>=<span class="string">"qq"</span> <span class="attr">placeholder</span>=<span class="string">"请输入QQ号码"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">sapn</span> <span class="attr">id</span>=<span class="string">"s_qq"</span> <span class="attr">class</span>=<span class="string">"error"</span>&gt;</span><span class="tag">&lt;/<span class="name">sapn</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"email"</span>&gt;</span>Email：<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">class</span>=<span class="string">"form-control"</span> <span class="attr">id</span>=<span class="string">"email"</span> <span class="attr">name</span>=<span class="string">"email"</span> <span class="attr">placeholder</span>=<span class="string">"请输入邮箱地址"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">sapn</span> <span class="attr">id</span>=<span class="string">"s_email"</span> <span class="attr">class</span>=<span class="string">"error"</span>&gt;</span><span class="tag">&lt;/<span class="name">sapn</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span> <span class="attr">style</span>=<span class="string">"text-align: center"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">"btn btn-primary"</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"提交"</span> <span class="attr">id</span>=<span class="string">"submit"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">"btn btn-default"</span> <span class="attr">type</span>=<span class="string">"reset"</span> <span class="attr">value</span>=<span class="string">"重置"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">"btn btn-default"</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"返回"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+</details>
+
+<details>
+<summary>
+index.jsp
+</summary>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">%--</span></span></span><br><span class="line"><span class="tag">  <span class="attr">Created</span> <span class="attr">by</span> <span class="attr">IntelliJ</span> <span class="attr">IDEA.</span></span></span><br><span class="line"><span class="tag">  <span class="attr">User:</span> <span class="attr">liz</span></span></span><br><span class="line"><span class="tag">  <span class="attr">Date:</span> <span class="attr">2020</span>/<span class="attr">8</span>/<span class="attr">9</span></span></span><br><span class="line"><span class="tag">  <span class="attr">Time:</span> <span class="attr">14:20</span></span></span><br><span class="line"><span class="tag">  <span class="attr">To</span> <span class="attr">change</span> <span class="attr">this</span> <span class="attr">template</span> <span class="attr">use</span> <span class="attr">File</span> | <span class="attr">Settings</span> | <span class="attr">File</span> <span class="attr">Templates.</span></span></span><br><span class="line"><span class="tag"><span class="attr">--</span>%&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">%@</span> <span class="attr">page</span> <span class="attr">contentType</span>=<span class="string">"text/html;charset=UTF-8"</span> <span class="attr">language</span>=<span class="string">"java"</span> %&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-CN"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"IE=edge"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>首页<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&lt;!-- 1. 导入CSS的全局样式 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"css/bootstrap.min.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 2. jQuery导入，建议使用1.9以上的版本 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/jquery-2.1.0.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 3. 导入bootstrap的js文件 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/bootstrap.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">align</span>=<span class="string">"center"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span></span></span><br><span class="line"><span class="tag">          <span class="attr">href</span>=<span class="string">"$&#123;pageContext.request.contextPath&#125;/findUserByPageServlet"</span> <span class="attr">style</span>=<span class="string">"text-decoration:none;font-size:33px"</span>&gt;</span>查询所有用户信息</span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+</details>
+
+<details>
+<summary>
+list.jsp
+</summary>
+
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page contentType=<span class="string">"text/html;charset=UTF-8"</span> language=<span class="string">"java"</span> %&gt;</span><br><span class="line"></span><br><span class="line">&lt;%<span class="meta">@taglib</span> prefix=<span class="string">"c"</span> uri=<span class="string">"http://java.sun.com/jsp/jstl/core"</span> %&gt;</span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;!-- 网页使用的语言 --&gt;</span><br><span class="line">&lt;html lang=<span class="string">"zh-CN"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;!-- 指定字符集 --&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">"utf-8"</span>&gt;</span><br><span class="line">    &lt;!-- 使用Edge最新的浏览器的渲染方式 --&gt;</span><br><span class="line">    &lt;meta http-equiv=<span class="string">"X-UA-Compatible"</span> content=<span class="string">"IE=edge"</span>&gt;</span><br><span class="line">    &lt;!-- viewport视口：网页可以根据设置的宽度自动进行适配，在浏览器的内部虚拟一个容器，容器的宽度与设备的宽度相同。</span><br><span class="line">    width: 默认宽度与设备的宽度相同</span><br><span class="line">    initial-scale: 初始的缩放比，为<span class="number">1</span>:<span class="number">1</span> --&gt;</span><br><span class="line">    &lt;meta name=<span class="string">"viewport"</span> content=<span class="string">"width=device-width, initial-scale=1"</span>&gt;</span><br><span class="line">    &lt;!-- 上述<span class="number">3</span>个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ --&gt;</span><br><span class="line">    &lt;title&gt;用户信息管理系统&lt;/title&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- <span class="number">1</span>. 导入CSS的全局样式 --&gt;</span><br><span class="line">    &lt;link href=<span class="string">"css/bootstrap.min.css"</span> rel=<span class="string">"stylesheet"</span>&gt;</span><br><span class="line">    &lt;!-- <span class="number">2</span>. jQuery导入，建议使用<span class="number">1.9</span>以上的版本 --&gt;</span><br><span class="line">    &lt;script src="js/jquery-2.1.0.min.js"&gt;&lt;/script&gt;</span><br><span class="line">    &lt;!-- <span class="number">3</span>. 导入bootstrap的js文件 --&gt;</span><br><span class="line">    &lt;script src="js/bootstrap.min.js"&gt;&lt;/script&gt;</span><br><span class="line">    &lt;style type=<span class="string">"text/css"</span>&gt;</span><br><span class="line">        td, th &#123;</span><br><span class="line">            text-align: center;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        <span class="function">function <span class="title">give_msg</span><span class="params">(id)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> flag = confirm(<span class="string">"您确定删除么？"</span>);</span><br><span class="line">            <span class="keyword">if</span> (flag) &#123;</span><br><span class="line">                location.href = <span class="string">'$&#123;pageContext.request.contextPath&#125;/deleteServlet?id='</span> + id;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function">function <span class="title">select</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> uids = document.getElementsByName(<span class="string">"uid"</span>);</span><br><span class="line">            <span class="keyword">var</span> flag = <span class="keyword">false</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; uids.length; ++i) &#123;</span><br><span class="line">                <span class="keyword">var</span> checked = uids[i].checked;</span><br><span class="line">                <span class="keyword">if</span> (checked) &#123;</span><br><span class="line">                    flag = <span class="keyword">true</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (flag) &#123;</span><br><span class="line">                <span class="keyword">var</span> flag = window.confirm(<span class="string">"您确认删除么？"</span>);</span><br><span class="line">                <span class="keyword">if</span> (flag) &#123;</span><br><span class="line">                    document.getElementById(<span class="string">"s_form"</span>).submit();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        window.onload = function () &#123;</span><br><span class="line"></span><br><span class="line">            document.getElementById(<span class="string">"selectAll"</span>).onclick = function () &#123;</span><br><span class="line">                <span class="keyword">var</span> uids = document.getElementsByName(<span class="string">"uid"</span>);</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; uids.length; ++i) &#123;</span><br><span class="line">                    uids[i].checked = <span class="keyword">this</span>.checked; <span class="comment">// this代表 --&gt; document.getElementById("selectAll")组件</span></span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;;</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"container"</span>&gt;</span><br><span class="line">    &lt;h3 style="text-align: center"&gt;用户信息列表&lt;/h3&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;form <span class="class"><span class="keyword">class</span></span>=<span class="string">"form-inline"</span> style=<span class="string">"float: left"</span> action=<span class="string">"$&#123;pageContext.request.contextPath&#125;/findUserByPageServlet"</span></span><br><span class="line">              method=<span class="string">"post"</span>&gt;</span><br><span class="line">            &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"form-group"</span>&gt;</span><br><span class="line">                &lt;label for="name"&gt;姓名&lt;/label&gt;</span><br><span class="line">                &lt;input type=<span class="string">"text"</span> name=<span class="string">"name"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"form-control"</span> id=<span class="string">"name"</span> value=<span class="string">"$&#123;condition.name[0]&#125;"</span>&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"form-group"</span>&gt;</span><br><span class="line">                &lt;label for="address"&gt;籍贯&lt;/label&gt;</span><br><span class="line">                &lt;input type=<span class="string">"text"</span> name=<span class="string">"address"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"form-control"</span> id=<span class="string">"address"</span> value=<span class="string">"$&#123;condition.address[0]&#125;"</span>&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"form-group"</span>&gt;</span><br><span class="line">                &lt;label for="email"&gt;Email&lt;/label&gt;</span><br><span class="line">                &lt;input type=<span class="string">"text"</span> name=<span class="string">"email"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"form-control"</span> id=<span class="string">"email"</span> value=<span class="string">"$&#123;condition.email[0]&#125;"</span>&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;button type="submit" name="submit" class="btn btn-default"&gt;查询&lt;/button&gt;</span><br><span class="line">        &lt;/form&gt;</span><br><span class="line">        &lt;div style=<span class="string">"float: right;margin: 3px"</span>&gt;</span><br><span class="line">            &lt;a class="btn btn-primary" href="$&#123;pageContext.request.contextPath&#125;/add.jsp"&gt;添加联系人&lt;/a&gt;</span><br><span class="line">            &lt;a class="btn btn-primary" href="javascript:void(0);" onclick="select()"&gt;删除选中&lt;/a&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;form action=<span class="string">"$&#123;pageContext.request.contextPath&#125;/delSelectServlet"</span> method=<span class="string">"post"</span> id=<span class="string">"s_form"</span>&gt;</span><br><span class="line">        &lt;table border=<span class="string">"1"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"table table-bordered table-hover"</span>&gt;</span><br><span class="line">            &lt;tr <span class="class"><span class="keyword">class</span></span>=<span class="string">"success"</span>&gt;</span><br><span class="line">                &lt;th&gt;&lt;input type="checkbox" id="selectAll"&gt;&lt;/th&gt;</span><br><span class="line">                &lt;th&gt;编号&lt;/th&gt;</span><br><span class="line">                &lt;th&gt;姓名&lt;/th&gt;</span><br><span class="line">                &lt;th&gt;性别&lt;/th&gt;</span><br><span class="line">                &lt;th&gt;年龄&lt;/th&gt;</span><br><span class="line">                &lt;th&gt;籍贯&lt;/th&gt;</span><br><span class="line">                &lt;th&gt;QQ&lt;/th&gt;</span><br><span class="line">                &lt;th&gt;邮箱&lt;/th&gt;</span><br><span class="line">                &lt;th&gt;操作&lt;/th&gt;</span><br><span class="line">            &lt;/tr&gt;</span><br><span class="line">            &lt;c:forEach items=<span class="string">"$&#123;userByPages.user&#125;"</span> <span class="keyword">var</span>=<span class="string">"user"</span> varStatus=<span class="string">"u"</span>&gt;</span><br><span class="line">                &lt;tr&gt;</span><br><span class="line">                    &lt;td&gt;&lt;input type="checkbox" name="uid" value="$&#123;user.id&#125;"&gt;&lt;/td&gt;</span><br><span class="line">                    &lt;td&gt;$&#123;u.count&#125;&lt;/td&gt;</span><br><span class="line">                    &lt;td&gt;$&#123;user.name&#125;&lt;/td&gt;</span><br><span class="line">                    &lt;td&gt;$&#123;user.gender&#125;&lt;/td&gt;</span><br><span class="line">                    &lt;td&gt;$&#123;user.age&#125;&lt;/td&gt;</span><br><span class="line">                    &lt;td&gt;$&#123;user.address&#125;&lt;/td&gt;</span><br><span class="line">                    &lt;td&gt;$&#123;user.qq&#125;&lt;/td&gt;</span><br><span class="line">                    &lt;td&gt;$&#123;user.email&#125;&lt;/td&gt;</span><br><span class="line">                    &lt;td&gt;</span><br><span class="line">                        &lt;a <span class="class"><span class="keyword">class</span></span>=<span class="string">"btn btn-default btn-sm"</span></span><br><span class="line">                           href="$&#123;pageContext.request.contextPath&#125;/findUserServlet?id=$&#123;user.id&#125;"&gt;修改&lt;/a&gt;&amp;nbsp;</span><br><span class="line">                        &lt;a class="btn btn-default btn-sm" href="javascript:give_msg($&#123;user.id&#125;)"&gt;删除&lt;/a&gt;</span><br><span class="line">                    &lt;/td&gt;</span><br><span class="line">                &lt;/tr&gt;</span><br><span class="line">            &lt;/c:forEach&gt;</span><br><span class="line">        &lt;/table&gt;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;nav aria-label=<span class="string">"Page navigation"</span>&gt;</span><br><span class="line">            &lt;ul <span class="class"><span class="keyword">class</span></span>=<span class="string">"pagination"</span>&gt;</span><br><span class="line">                &lt;c:<span class="keyword">if</span> test=<span class="string">"$&#123;userByPages.currentPage - 1==0&#125;"</span>&gt;</span><br><span class="line">                &lt;li <span class="class"><span class="keyword">class</span></span>=<span class="string">"disabled"</span>&gt;</span><br><span class="line">                    &lt;/c:if&gt;</span><br><span class="line">                    &lt;c:<span class="keyword">if</span> test=<span class="string">"$&#123;userByPages.currentPage - 1 &gt; 0&#125;"</span>&gt;</span><br><span class="line">                &lt;li&gt;</span><br><span class="line">                    &lt;/c:if&gt;</span><br><span class="line">                    &lt;a href=<span class="string">"$&#123;pageContext.request.contextPath&#125;/findUserByPageServlet?currentPage=$&#123;userByPages.currentPage - 1&#125;&amp;rows=$&#123;5&#125;&amp;name=$&#123;condition.name[0]&#125;&amp;address=$&#123;condition.address[0]&#125;&amp;email=$&#123;condition.email[0]&#125;"</span></span><br><span class="line">                       aria-label=<span class="string">"Previous"</span>&gt;</span><br><span class="line">                        &lt;span aria-hidden="true"&gt;&amp;laquo;&lt;/span&gt;</span><br><span class="line">                    &lt;/a&gt;</span><br><span class="line">                &lt;/li&gt;</span><br><span class="line">                &lt;c:forEach begin=<span class="string">"1"</span> end=<span class="string">"$&#123;userByPages.totalPage&#125;"</span> <span class="keyword">var</span>=<span class="string">"num"</span> step=<span class="string">"1"</span> varStatus=<span class="string">"c"</span>&gt;</span><br><span class="line">                    &lt;c:<span class="keyword">if</span> test=<span class="string">"$&#123;userByPages.currentPage==num&#125;"</span>&gt;</span><br><span class="line">                        &lt;li <span class="class"><span class="keyword">class</span></span>=<span class="string">"active"</span>&gt;</span><br><span class="line">                            &lt;a href="$&#123;pageContext.request.contextPath&#125;/findUserByPageServlet?currentPage=$&#123;num&#125;&amp;rows=$&#123;5&#125;&amp;name=$&#123;condition.name[0]&#125;&amp;address=$&#123;condition.address[0]&#125;&amp;email=$&#123;condition.email[0]&#125;"&gt;$&#123;num&#125;&lt;/a&gt;</span><br><span class="line">                        &lt;/li&gt;</span><br><span class="line">                    &lt;/c:if&gt;</span><br><span class="line">                    &lt;c:<span class="keyword">if</span> test=<span class="string">"$&#123;userByPages.currentPage!=num&#125;"</span>&gt;</span><br><span class="line">                        &lt;li&gt;</span><br><span class="line">                            &lt;a href="$&#123;pageContext.request.contextPath&#125;/findUserByPageServlet?currentPage=$&#123;num&#125;&amp;rows=$&#123;5&#125;&amp;name=$&#123;condition.name[0]&#125;&amp;address=$&#123;condition.address[0]&#125;&amp;email=$&#123;condition.email[0]&#125;"&gt;$&#123;num&#125;&lt;/a&gt;</span><br><span class="line">                        &lt;/li&gt;</span><br><span class="line">                    &lt;/c:if&gt;</span><br><span class="line">                &lt;/c:forEach&gt;</span><br><span class="line"></span><br><span class="line">                &lt;c:<span class="keyword">if</span> test=<span class="string">"$&#123;userByPages.currentPage + 1 &gt; userByPages.totalPage&#125;"</span>&gt;</span><br><span class="line">                &lt;li <span class="class"><span class="keyword">class</span></span>=<span class="string">"disabled"</span>&gt;</span><br><span class="line">                    &lt;/c:if&gt;</span><br><span class="line">                    &lt;c:<span class="keyword">if</span> test=<span class="string">"$&#123;userByPages.currentPage + 1 &lt;= userByPages.totalPage&#125;"</span>&gt;</span><br><span class="line">                &lt;li&gt;</span><br><span class="line">                    &lt;/c:if&gt;</span><br><span class="line">                    &lt;a href=<span class="string">"$&#123;pageContext.request.contextPath&#125;/findUserByPageServlet?currentPage=$&#123;userByPages.currentPage + 1&#125;&amp;rows=$&#123;5&#125;&amp;name=$&#123;condition.name[0]&#125;&amp;address=$&#123;condition.address[0]&#125;&amp;email=$&#123;condition.email[0]&#125;"</span></span><br><span class="line">                       aria-label=<span class="string">"Next"</span>&gt;</span><br><span class="line">                        &lt;span aria-hidden="true"&gt;&amp;raquo;&lt;/span&gt;</span><br><span class="line">                    &lt;/a&gt;</span><br><span class="line">                &lt;/li&gt;</span><br><span class="line">                &lt;span style=<span class="string">"font-size: 25px;padding-left: 10px"</span>&gt;</span><br><span class="line">                    共$&#123;userByPages.totalCount&#125;条记录，$&#123;userByPages.totalPage&#125;页</span><br><span class="line">                &lt;/span&gt;</span><br><span class="line">            &lt;/ul&gt;</span><br><span class="line">        &lt;/nav&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<details>
+<summary>
+login.jsp
+</summary>
+
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">&lt;%--</span><br><span class="line">  Created by IntelliJ IDEA.</span><br><span class="line">  User: liz</span><br><span class="line">  Date: <span class="number">2020</span>/<span class="number">8</span>/<span class="number">9</span></span><br><span class="line">  Time: <span class="number">16</span>:<span class="number">35</span></span><br><span class="line">  To change <span class="keyword">this</span> template use File | Settings | File Templates.</span><br><span class="line">--%&gt;</span><br><span class="line">&lt;%@ page contentType=<span class="string">"text/html;charset=UTF-8"</span> language=<span class="string">"java"</span> %&gt;</span><br><span class="line">&lt;%<span class="meta">@taglib</span> prefix=<span class="string">"c"</span> uri=<span class="string">"http://java.sun.com/jsp/jstl/core"</span> %&gt;</span><br><span class="line">&lt;html lang=<span class="string">"zh-CN"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">"utf-8"</span>/&gt;</span><br><span class="line">    &lt;meta http-equiv=<span class="string">"X-UA-Compatible"</span> content=<span class="string">"IE=edge"</span>/&gt;</span><br><span class="line">    &lt;meta name=<span class="string">"viewport"</span> content=<span class="string">"width=device-width, initial-scale=1"</span>/&gt;</span><br><span class="line">    &lt;title&gt;管理员登录&lt;/title&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- <span class="number">1</span>. 导入CSS的全局样式 --&gt;</span><br><span class="line">    &lt;link href=<span class="string">"css/bootstrap.min.css"</span> rel=<span class="string">"stylesheet"</span>&gt;</span><br><span class="line">    &lt;!-- <span class="number">2</span>. jQuery导入，建议使用<span class="number">1.9</span>以上的版本 --&gt;</span><br><span class="line">    &lt;script src="js/jquery-2.1.0.min.js"&gt;&lt;/script&gt;</span><br><span class="line">    &lt;!-- <span class="number">3</span>. 导入bootstrap的js文件 --&gt;</span><br><span class="line">    &lt;script src="js/bootstrap.min.js"&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script type="text/javascript"&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        <span class="function">function <span class="title">refreshCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> vcode = document.getElementById(<span class="string">"vcode"</span>);</span><br><span class="line">            <span class="keyword">var</span> date = <span class="keyword">new</span> Date().getTime();</span><br><span class="line">            vcode.src = <span class="string">"$&#123;pageContext.request.contextPath&#125;/checkCode?time="</span> + date;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"container"</span> style=<span class="string">"width: 400px;"</span>&gt;</span><br><span class="line">    &lt;h3 style="text-align: center;"&gt;管理员登录&lt;/h3&gt;</span><br><span class="line">    &lt;form action=<span class="string">"$&#123;pageContext.request.contextPath&#125;/loginUser"</span> method=<span class="string">"post"</span>&gt;</span><br><span class="line">        &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"form-group"</span>&gt;</span><br><span class="line">            &lt;label for="user"&gt;用户名：&lt;/label&gt;</span><br><span class="line">            &lt;input type=<span class="string">"text"</span> name=<span class="string">"username"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"form-control"</span> id=<span class="string">"user"</span> placeholder=<span class="string">"请输入用户名"</span>/&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">        &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"form-group"</span>&gt;</span><br><span class="line">            &lt;label for="password"&gt;密码：&lt;/label&gt;</span><br><span class="line">            &lt;input type=<span class="string">"password"</span> name=<span class="string">"password"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"form-control"</span> id=<span class="string">"password"</span> placeholder=<span class="string">"请输入密码"</span>/&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">        &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"form-inline"</span>&gt;</span><br><span class="line">            &lt;label for="vcode"&gt;验证码：&lt;/label&gt;</span><br><span class="line">            &lt;input type=<span class="string">"text"</span> name=<span class="string">"verifycode"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"form-control"</span> id=<span class="string">"verifycode"</span> placeholder=<span class="string">"请输入验证码"</span></span><br><span class="line">                   style=<span class="string">"width: 120px;"</span>/&gt;</span><br><span class="line">            &lt;a href=<span class="string">"javascript:refreshCode()"</span>&gt;&lt;img src=<span class="string">"$&#123;pageContext.request.contextPath&#125;/checkCode"</span> title=<span class="string">"看不清点击刷新"</span></span><br><span class="line">                                                    id="vcode"/&gt;&lt;/a&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;hr/&gt;</span><br><span class="line">        &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"form-group"</span> style=<span class="string">"text-align: center;"</span>&gt;</span><br><span class="line">            &lt;input <span class="class"><span class="keyword">class</span></span>=<span class="string">"btn btn btn-primary"</span> type=<span class="string">"submit"</span> value=<span class="string">"登录"</span>&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 出错显示的信息框 --&gt;</span><br><span class="line">    &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"alert alert-warning alert-dismissible"</span> role=<span class="string">"alert"</span>&gt;</span><br><span class="line">        &lt;button type=<span class="string">"button"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"close"</span> data-dismiss=<span class="string">"alert"</span>&gt;</span><br><span class="line">            &lt;span&gt;&amp;times;&lt;/span&gt;</span><br><span class="line">        &lt;/button&gt;</span><br><span class="line">        &lt;strong&gt;$&#123;code_error&#125;&lt;/strong&gt;</span><br><span class="line">        &lt;strong&gt;$&#123;adminUser_error&#125;&lt;/strong&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<details>
+<summary>
+update.jsp
+</summary>
+
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br></pre></td><td class="code"><pre><span class="line">&lt;%--</span><br><span class="line">  Created by IntelliJ IDEA.</span><br><span class="line">  User: liz</span><br><span class="line">  Date: <span class="number">2020</span>/<span class="number">8</span>/<span class="number">10</span></span><br><span class="line">  Time: <span class="number">20</span>:<span class="number">03</span></span><br><span class="line">  To change <span class="keyword">this</span> template use File | Settings | File Templates.</span><br><span class="line">--%&gt;</span><br><span class="line">&lt;%@ page contentType=<span class="string">"text/html;charset=UTF-8"</span> language=<span class="string">"java"</span> %&gt;</span><br><span class="line">&lt;%@ taglib prefix=<span class="string">"c"</span> uri=<span class="string">"http://java.sun.com/jsp/jstl/core"</span> %&gt;</span><br><span class="line">&lt;html lang=<span class="string">"zh-CN"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;!-- 指定字符集 --&gt;</span><br><span class="line">    &lt;meta charset=<span class="string">"utf-8"</span>&gt;</span><br><span class="line">    &lt;meta http-equiv=<span class="string">"X-UA-Compatible"</span> content=<span class="string">"IE=edge"</span>&gt;</span><br><span class="line">    &lt;meta name=<span class="string">"viewport"</span> content=<span class="string">"width=device-width, initial-scale=1"</span>&gt;</span><br><span class="line">    &lt;title&gt;修改用户&lt;/title&gt;</span><br><span class="line"></span><br><span class="line">    &lt;link href=<span class="string">"css/bootstrap.min.css"</span> rel=<span class="string">"stylesheet"</span>&gt;</span><br><span class="line">    &lt;script src="js/jquery-2.1.0.min.js"&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script src="js/bootstrap.min.js"&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"container"</span> style=<span class="string">"width: 400px;"</span>&gt;</span><br><span class="line">    &lt;h3 style="text-align: center;"&gt;修改联系人&lt;/h3&gt;</span><br><span class="line">    &lt;form action=<span class="string">"$&#123;pageContext.request.contextPath&#125;/updateUserServlet"</span> method=<span class="string">"post"</span>&gt;</span><br><span class="line">        &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"form-group"</span>&gt;</span><br><span class="line">            &lt;label for="name"&gt;姓名：&lt;/label&gt;</span><br><span class="line">            &lt;input type=<span class="string">"hidden"</span> name=<span class="string">"id"</span> value=<span class="string">"$&#123;user.id&#125;"</span>&gt;</span><br><span class="line">            &lt;input type=<span class="string">"text"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"form-control"</span> id=<span class="string">"name"</span> name=<span class="string">"name"</span> readonly=<span class="string">"readonly"</span> placeholder=<span class="string">"请输入姓名"</span></span><br><span class="line">                   value=<span class="string">"$&#123;requestScope.user.name&#125;"</span>/&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">        &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"form-group"</span>&gt;</span><br><span class="line">            &lt;label&gt;性别：&lt;/label&gt;</span><br><span class="line">            &lt;c:<span class="keyword">if</span> test=<span class="string">"$&#123;user.gender=='男'&#125;"</span>&gt;</span><br><span class="line">                &lt;input type=<span class="string">"radio"</span> name=<span class="string">"gender"</span> value=<span class="string">"男"</span> checked/&gt;男</span><br><span class="line">                &lt;input type=<span class="string">"radio"</span> name=<span class="string">"gender"</span> value=<span class="string">"女"</span>/&gt;女</span><br><span class="line">            &lt;/c:if&gt;</span><br><span class="line">            &lt;c:<span class="keyword">if</span> test=<span class="string">"$&#123;user.gender=='女'&#125;"</span>&gt;</span><br><span class="line">                &lt;input type=<span class="string">"radio"</span> name=<span class="string">"gender"</span> value=<span class="string">"男"</span>/&gt;男</span><br><span class="line">                &lt;input type=<span class="string">"radio"</span> name=<span class="string">"gender"</span> value=<span class="string">"女"</span> checked/&gt;女</span><br><span class="line">            &lt;/c:if&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">        &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"form-group"</span>&gt;</span><br><span class="line">            &lt;label for="age"&gt;年龄：&lt;/label&gt;</span><br><span class="line">            &lt;input type=<span class="string">"text"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"form-control"</span> id=<span class="string">"age"</span> name=<span class="string">"age"</span> placeholder=<span class="string">"请输入年龄"</span> value=<span class="string">"$&#123;user.age&#125;"</span>/&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">        &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"form-group"</span>&gt;</span><br><span class="line">            &lt;label for="address"&gt;籍贯：&lt;/label&gt;</span><br><span class="line">            &lt;select name=<span class="string">"address"</span> id=<span class="string">"address"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"form-control"</span>&gt;</span><br><span class="line">                &lt;c:<span class="keyword">if</span> test=<span class="string">"$&#123;user.address =='陕西'&#125;"</span>&gt;</span><br><span class="line">                    &lt;option value="陕西" selected&gt;陕西&lt;/option&gt;</span><br><span class="line">                    &lt;option value="北京"&gt;北京&lt;/option&gt;</span><br><span class="line">                    &lt;option value="上海"&gt;上海&lt;/option&gt;</span><br><span class="line">                    &lt;option value="南京"&gt;南京&lt;/option&gt;</span><br><span class="line">                    &lt;option value="安徽"&gt;安徽&lt;/option&gt;</span><br><span class="line">                    &lt;option value="苏州"&gt;苏州&lt;/option&gt;</span><br><span class="line">                &lt;/c:if&gt;</span><br><span class="line">                &lt;c:<span class="keyword">if</span> test=<span class="string">"$&#123;user.address =='北京'&#125;"</span>&gt;</span><br><span class="line">                    &lt;option value="陕西"&gt;陕西&lt;/option&gt;</span><br><span class="line">                    &lt;option value="北京" selected&gt;北京&lt;/option&gt;</span><br><span class="line">                    &lt;option value="上海"&gt;上海&lt;/option&gt;</span><br><span class="line">                    &lt;option value="南京"&gt;南京&lt;/option&gt;</span><br><span class="line">                    &lt;option value="安徽"&gt;安徽&lt;/option&gt;</span><br><span class="line">                    &lt;option value="苏州"&gt;苏州&lt;/option&gt;</span><br><span class="line">                &lt;/c:if&gt;</span><br><span class="line">                &lt;c:<span class="keyword">if</span> test=<span class="string">"$&#123;user.address =='上海'&#125;"</span>&gt;</span><br><span class="line">                    &lt;option value="陕西"&gt;陕西&lt;/option&gt;</span><br><span class="line">                    &lt;option value="北京"&gt;北京&lt;/option&gt;</span><br><span class="line">                    &lt;option value="上海" selected&gt;上海&lt;/option&gt;</span><br><span class="line">                    &lt;option value="南京"&gt;南京&lt;/option&gt;</span><br><span class="line">                    &lt;option value="安徽"&gt;安徽&lt;/option&gt;</span><br><span class="line">                    &lt;option value="苏州"&gt;苏州&lt;/option&gt;</span><br><span class="line">                &lt;/c:if&gt;</span><br><span class="line">                &lt;c:<span class="keyword">if</span> test=<span class="string">"$&#123;user.address =='南京'&#125;"</span>&gt;</span><br><span class="line">                    &lt;option value="陕西"&gt;陕西&lt;/option&gt;</span><br><span class="line">                    &lt;option value="北京"&gt;北京&lt;/option&gt;</span><br><span class="line">                    &lt;option value="上海"&gt;上海&lt;/option&gt;</span><br><span class="line">                    &lt;option value="南京" selected&gt;南京&lt;/option&gt;</span><br><span class="line">                    &lt;option value="安徽"&gt;安徽&lt;/option&gt;</span><br><span class="line">                    &lt;option value="苏州"&gt;苏州&lt;/option&gt;</span><br><span class="line">                &lt;/c:if&gt;</span><br><span class="line">                &lt;c:<span class="keyword">if</span> test=<span class="string">"$&#123;user.address =='安徽'&#125;"</span>&gt;</span><br><span class="line">                    &lt;option value="陕西"&gt;陕西&lt;/option&gt;</span><br><span class="line">                    &lt;option value="北京"&gt;北京&lt;/option&gt;</span><br><span class="line">                    &lt;option value="上海"&gt;上海&lt;/option&gt;</span><br><span class="line">                    &lt;option value="南京"&gt;南京&lt;/option&gt;</span><br><span class="line">                    &lt;option value="安徽" selected&gt;安徽&lt;/option&gt;</span><br><span class="line">                    &lt;option value="苏州"&gt;苏州&lt;/option&gt;</span><br><span class="line">                &lt;/c:if&gt;</span><br><span class="line">                &lt;c:<span class="keyword">if</span> test=<span class="string">"$&#123;user.address =='苏州'&#125;"</span>&gt;</span><br><span class="line">                    &lt;option value="陕西"&gt;陕西&lt;/option&gt;</span><br><span class="line">                    &lt;option value="北京"&gt;北京&lt;/option&gt;</span><br><span class="line">                    &lt;option value="上海"&gt;上海&lt;/option&gt;</span><br><span class="line">                    &lt;option value="南京"&gt;南京&lt;/option&gt;</span><br><span class="line">                    &lt;option value="安徽"&gt;安徽&lt;/option&gt;</span><br><span class="line">                    &lt;option value="苏州" selected&gt;苏州&lt;/option&gt;</span><br><span class="line">                &lt;/c:if&gt;</span><br><span class="line">            &lt;/select&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">        &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"form-group"</span>&gt;</span><br><span class="line">            &lt;label for="qq"&gt;QQ：&lt;/label&gt;</span><br><span class="line">            &lt;input type=<span class="string">"text"</span> id=<span class="string">"qq"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"form-control"</span> name=<span class="string">"qq"</span> placeholder=<span class="string">"请输入QQ号码"</span> value=<span class="string">"$&#123;user.qq&#125;"</span>/&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">        &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"form-group"</span>&gt;</span><br><span class="line">            &lt;label for="email"&gt;Email：&lt;/label&gt;</span><br><span class="line">            &lt;input type=<span class="string">"text"</span> id=<span class="string">"email"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"form-control"</span> name=<span class="string">"email"</span> placeholder=<span class="string">"请输入邮箱地址"</span></span><br><span class="line">                   value=<span class="string">"$&#123;user.email&#125;"</span>/&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">        &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"form-group"</span> style=<span class="string">"text-align: center"</span>&gt;</span><br><span class="line">            &lt;input <span class="class"><span class="keyword">class</span></span>=<span class="string">"btn btn-primary"</span> type=<span class="string">"submit"</span> value=<span class="string">"提交"</span>/&gt;</span><br><span class="line">            &lt;input <span class="class"><span class="keyword">class</span></span>=<span class="string">"btn btn-default"</span> type=<span class="string">"reset"</span> value=<span class="string">"重置"</span>/&gt;</span><br><span class="line">            &lt;input <span class="class"><span class="keyword">class</span></span>=<span class="string">"btn btn-default"</span> type=<span class="string">"button"</span> value=<span class="string">"返回"</span>/&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+</details>
+          
+            <br>
+            
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://www.chemlez.cn/2020/08/16/Java%E5%88%9D%E8%AF%95MVC%E5%8F%8A%E4%B8%89%E5%B1%82%E6%9E%B6%E6%9E%84/>https://www.chemlez.cn/2020/08/16/Java%E5%88%9D%E8%AF%95MVC%E5%8F%8A%E4%B8%89%E5%B1%82%E6%9E%B6%E6%9E%84/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget related_posts  desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-bookmark fa-fw" aria-hidden="true"></i><span class='name'>相关文章</span>
+    
+  </header>
+
+
+    <div class="content">
+      <ul class="popular-posts"><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="/2019/11/18/JDBC基础使用/" title="JDBC基础使用" rel="bookmark">JDBC基础使用</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="/2019/12/21/抽取JDBC工具类——JDBCUtils的使用/" title="抽取JDBCU工具类——JDBCUtils的使用" rel="bookmark">抽取JDBCU工具类——JDBCUtils的使用</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="/2020/08/31/Servlet优化之功能重组成模块/" title="Servlet优化之功能重组成模块" rel="bookmark">Servlet优化之功能重组成模块</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="/2020/11/29/从Servlet到HttpServlet都经历了什么/" title="从Servlet到HttpServlet都经历了什么" rel="bookmark">从Servlet到HttpServlet都经历了什么</a></h3></div></li><li class="popular-posts-item"><div class="popular-posts-title"><h3><a href="/2020/09/03/Java基础之Filter/" title="Java基础之Filter" rel="bookmark">Java基础之Filter</a></h3></div></li></ul>
+    </div>
+  </section>
+
+
+  
+
+
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-08-26T10:28:04+08:00">
+  <a class='notlink'>
+    <i class="fas fa-save" aria-hidden="true"></i>
+    <p>更新于：Aug 26, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Java/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i><p>Java</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/MVC/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i><p>MVC</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Servlet/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i><p>Servlet</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.chemlez.cn/2020/08/16/Java%E5%88%9D%E8%AF%95MVC%E5%8F%8A%E4%B8%89%E5%B1%82%E6%9E%B6%E6%9E%84/&title=Java初试MVC及三层架构 - Liz'blog&summary=最近又捡起了对Java的学习，通过对一个实例的介绍，总结下此次对Web开发中MVC三层架构的学习，以便用于日后的复习。
+一、 MVC简单的先介绍下MVC模式：
+
+M（Model）：JavaBean。用于完成具体的业务操作。
+JavaBean：Java中特殊的类.
+JavaBean满足条件：
+
+public修饰的类，并提供public无参构造方法
+所有的属性都是private修饰
+提供getter和setter方法
+
+使用层面：
+
+封装业务逻辑：dao层封装对数据库的底层操作
+封装数据：domain层。对数据库中所要查询对象的封装
+
+
+V（View）：视图。用于数据的展示。
+
+页面的展示
+与用户的交互
+
+
+C（Controller）：控制器。由Servlet实现控制器。
+主要功能：
+
+获取用户的输入
+调用模型，将请求交给模型进行处理
+将数据交给视图进行展示
+
+
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.chemlez.cn/2020/08/16/Java%E5%88%9D%E8%AF%95MVC%E5%8F%8A%E4%B8%89%E5%B1%82%E6%9E%B6%E6%9E%84/&title=Java初试MVC及三层架构 - Liz'blog&summary=最近又捡起了对Java的学习，通过对一个实例的介绍，总结下此次对Web开发中MVC三层架构的学习，以便用于日后的复习。
+一、 MVC简单的先介绍下MVC模式：
+
+M（Model）：JavaBean。用于完成具体的业务操作。
+JavaBean：Java中特殊的类.
+JavaBean满足条件：
+
+public修饰的类，并提供public无参构造方法
+所有的属性都是private修饰
+提供getter和setter方法
+
+使用层面：
+
+封装业务逻辑：dao层封装对数据库的底层操作
+封装数据：domain层。对数据库中所要查询对象的封装
+
+
+V（View）：视图。用于数据的展示。
+
+页面的展示
+与用户的交互
+
+
+C（Controller）：控制器。由Servlet实现控制器。
+主要功能：
+
+获取用户的输入
+调用模型，将请求交给模型进行处理
+将数据交给视图进行展示
+
+
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.chemlez.cn/2020/08/16/Java%E5%88%9D%E8%AF%95MVC%E5%8F%8A%E4%B8%89%E5%B1%82%E6%9E%B6%E6%9E%84/&title=Java初试MVC及三层架构 - Liz'blog&summary=最近又捡起了对Java的学习，通过对一个实例的介绍，总结下此次对Web开发中MVC三层架构的学习，以便用于日后的复习。
+一、 MVC简单的先介绍下MVC模式：
+
+M（Model）：JavaBean。用于完成具体的业务操作。
+JavaBean：Java中特殊的类.
+JavaBean满足条件：
+
+public修饰的类，并提供public无参构造方法
+所有的属性都是private修饰
+提供getter和setter方法
+
+使用层面：
+
+封装业务逻辑：dao层封装对数据库的底层操作
+封装数据：domain层。对数据库中所要查询对象的封装
+
+
+V（View）：视图。用于数据的展示。
+
+页面的展示
+与用户的交互
+
+
+C（Controller）：控制器。由Servlet实现控制器。
+主要功能：
+
+获取用户的输入
+调用模型，将请求交给模型进行处理
+将数据交给视图进行展示
+
+
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXgAAAF4CAAAAAB79r16AAAFKUlEQVR42u3cQXLbMBAEQP//084DUi5iZwe0nTRukiwKbPAyma18fFrfsj4QgAdvgQdvgQdvFeA/wvXXBcPPv/r7p8+/us50/9Pf33qBBw8ePHjw4MGDB9+EPw4A4can30vhT/dx+qCcvn/sBR48ePDgwYMHDx78Bfht4Di9TnpA0xs/DXjt4AYePHjw4MGDBw8e/G+Cf7peWqDcPqDt74AHDx48ePDgwYMH/5vgt0XC9GC2A0tvXQ88ePDgwYMHDx48+Dfhbw0YPW1seiBbiGlR8+MmycCDBw8ePHjw4MGDvxAo/vXXsRd48ODBgwcPHjx48AX4t9ZpgTINLClMGojWDuDBgwcPHjx48ODBF+C3gaIVRFoBpV3QtIoh8ODBgwcPHjx48ODfgD+9welAUBq8pjDpwFL6wB0/kODBgwcPHjx48ODBF+C3wWA66HQrsKWQ0yB3esDxQBN48ODBgwcPHjx48Afw6T/4pwdzeiDTwiT9XqvwOPYBDx48ePDgwYMHD/4C/HZAKC0qWg9COvCUHtT4AMGDBw8ePHjw4MGDL8Df2lBadKRB6fRg0wduuh4DFHjw4MGDBw8ePHjwBfh0YGcakNLrbgenWoHsdP/Hk2TgwYMHDx48ePDgwQfwreJhG3i+K3hN93OtgQIPHjx48ODBgwcPPpiraW2gHVRaweg44IQFyvH74MGDBw8ePHjw4MEX4VPYaUFx+jotaj6Ha/v98YGABw8ePHjw4MGDB/8CfAso/fu08JgOXqUHPd4/ePDgwYMHDx48ePBF+C3oadFw64BaRcitAwAPHjx48ODBgwcPvgk/vfB0bQuNdCBpex/p94+LEPDgwYMHDx48ePDgi/CtgHG7kNgGq9tFymMRAh48ePDgwYMHDx58Ef7xi+UBp3EAOfz91nWnv//4Gjx48ODBgwcPHjz4C/DbANUeENoGtG1h82uSK3jw4MGDBw8ePPj/Er410LMdFErhpvueBq3tYBV48ODBgwcPHjx48Dfg24NEW5D2ANM26KX7HDdQ4MGDBw8ePHjw4MEX/+P+9KBaRUu7IEmhwYMHDx48ePDgwYP/SfDbwLA9gO0gUes6rSLkcaAJPHjw4MGDBw8ePPgi/OkNtTZ4PAi0HExqBbo0SIEHDx48ePDgwYMH34RvDQhdDx6lYqb1QKWFDXjw4MGDBw8ePHjwDfhWkGkBTj9PB47SB2z9Gjx48ODBgwcPHjz4Ivz0Bk/BbhUSacDaFh/poBd48ODBgwcPHjx48E34bQBKi460uJhCtouZ7QMEHjx48ODBgwcPHnwDfnoDaQFx62DSQJM+cOnvgAcPHjx48ODBgwd/A75VYEzBWvvYwt4KiODBgwcPHjx48ODB34RPi4H0RtKglRYWrfvdPkjgwYMHDx48ePDgwTfg0wGe6SDRFD49iHahUx+AAg8ePHjw4MGDBw++AL9dU/hp8Nh+noJvfx88ePDgwYMHDx48+Jvw20DSDkJtsNPP0wA4fg0ePHjw4MGDBw8efBF+GpimwWpaiLSLk7cD3JfvgwcPHjx48ODBgwd/AT4dCLodWLYDRbd+dxwswYMHDx48ePDgwYP/AfBvDT5NA8tp8Jke4LooAQ8ePHjw4MGDBw/+B8C3i4ptEHv7gMbvgwcPHjx48ODBgwd/Af6tAaNpYEqD1/bz0/v69kky8ODBgwcPHjx48P8lfDq409r49AZOg9I0ALULkscABR48ePDgwYMHDx58AG+9u8CDB2+BB2+BB28t1h9M/CGCK15ALgAAAABJRU5ErkJggg==">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/2020/08/20/Git%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Git的基本操作</p>
+                <p class='content'>本文借鉴廖雪峰老师博客而整理的git相关总结，以方便自己查阅使用。
+1.Git用户设定及其配置1.Git配置Git 提供了一个叫做 git config 的工具，专门用来配置或读取相应的工作环境...</p>
+              </a>
+            
+            
+              <a class='next' href='/2020/05/27/conda%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/'>
+                <p class='title'>conda常用命令<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>一、设置镜像源conda1234&#x2F;&#x2F; 以清华镜像为例conda config --add channels https:&#x2F;&#x2F;mirrors.tuna.ts...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box comments shadow floatable">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> Comment</p>
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-spinner fa-spin fa-fw"></i>
+          </div>
+        </section>
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Java初试MVC及三层架构',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+    
+    
+
+<section class="widget blogger shadow floatable desktop">
+  <div class='content'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='https://s1.ax1x.com/2020/03/13/8mvbCj.jpg'/>
+      </div>
+    
+    
+      <div class='text'>
+        
+        
+        
+          <p><span id="jinrishici-sentence">Liz'blog</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="https://github.com/Chemlez"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://weibo.com/u/5653780011?nick=Sane_z&is_all=1"
+              class="social fab fa-weibo flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="mailto:liz_1106@163.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget category shadow floatable desktop">
+    
+  <header>
+    
+      <a href='/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <ul class="entry navigation">
+        
+          <li><a class="flat-box"
+            title="/categories/Java/" href="/categories/Java/"
+            id="categoriesJava"
+            ><div class='name'>Java</div><div class='badge'>(17)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Java/%E6%A1%86%E6%9E%B6/" href="/categories/Java/%E6%A1%86%E6%9E%B6/"
+            id="categoriesJavaE6A186E69EB6"
+            ><div class='name'>框架</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Linux/" href="/categories/Linux/"
+            id="categoriesLinux"
+            ><div class='name'>Linux</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Machine-Learning/" href="/categories/Machine-Learning/"
+            id="categoriesMachine-Learning"
+            ><div class='name'>Machine Learning</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Machine-Learning/sklearn/" href="/categories/Machine-Learning/sklearn/"
+            id="categoriesMachine-Learningsklearn"
+            ><div class='name'>sklearn</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Mongodb/" href="/categories/Mongodb/"
+            id="categoriesMongodb"
+            ><div class='name'>Mongodb</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Nginx/" href="/categories/Nginx/"
+            id="categoriesNginx"
+            ><div class='name'>Nginx</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Python/" href="/categories/Python/"
+            id="categoriesPython"
+            ><div class='name'>Python</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Python/%E7%88%AC%E8%99%AB/" href="/categories/Python/%E7%88%AC%E8%99%AB/"
+            id="categoriesPythonE788ACE899AB"
+            ><div class='name'>爬虫</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/git/" href="/categories/git/"
+            id="categoriesgit"
+            ><div class='name'>git</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E5%89%8D%E7%AB%AF/" href="/categories/%E5%89%8D%E7%AB%AF/"
+            id="categoriesE5898DE7ABAF"
+            ><div class='name'>前端</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"
+            id="categoriesE5A49AE7BABFE7A88B"
+            ><div class='name'>多线程</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"
+            id="categoriesE695B0E68DAEE7BB93E69E84E4B88EE7AE97E6B395"
+            ><div class='name'>数据结构与算法</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"
+            id="categoriesE8AEBEE8AEA1E6A8A1E5BC8F"
+            ><div class='name'>设计模式</div><div class='badge'>(10)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget tagcloud shadow floatable desktop">
+    
+  <header>
+    
+      <a href='/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <a href="/tags/Beautifulsoup/" style="font-size: 17.33px; color: #828282">Beautifulsoup</a> <a href="/tags/Data-Preprocessing/" style="font-size: 14px; color: #999">Data Preprocessing</a> <a href="/tags/DecisionTree/" style="font-size: 14px; color: #999">DecisionTree</a> <a href="/tags/Feature-Engineering/" style="font-size: 14px; color: #999">Feature Engineering</a> <a href="/tags/Filter/" style="font-size: 14px; color: #999">Filter</a> <a href="/tags/IO%E6%B5%81/" style="font-size: 14px; color: #999">IO流</a> <a href="/tags/JDBC/" style="font-size: 17.33px; color: #828282">JDBC</a> <a href="/tags/JQuery/" style="font-size: 14px; color: #999">JQuery</a> <a href="/tags/Java/" style="font-size: 20.67px; color: #6c6c6c">Java</a> <a href="/tags/JavaScript/" style="font-size: 14px; color: #999">JavaScript</a> <a href="/tags/JavaWeb/" style="font-size: 17.33px; color: #828282">JavaWeb</a> <a href="/tags/Kaggle/" style="font-size: 14px; color: #999">Kaggle</a> <a href="/tags/Linux/" style="font-size: 17.33px; color: #828282">Linux</a> <a href="/tags/MBG/" style="font-size: 14px; color: #999">MBG</a> <a href="/tags/MVC/" style="font-size: 14px; color: #999">MVC</a> <a href="/tags/Mapper/" style="font-size: 14px; color: #999">Mapper</a> <a href="/tags/Mongodb/" style="font-size: 14px; color: #999">Mongodb</a> <a href="/tags/MySQL/" style="font-size: 20.67px; color: #6c6c6c">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 20.67px; color: #6c6c6c">Mybatis</a> <a href="/tags/Nginx/" style="font-size: 14px; color: #999">Nginx</a> <a href="/tags/Python/" style="font-size: 14px; color: #999">Python</a> <a href="/tags/Request/" style="font-size: 17.33px; color: #828282">Request</a> <a href="/tags/Servlet/" style="font-size: 20.67px; color: #6c6c6c">Servlet</a> <a href="/tags/Spring/" style="font-size: 17.33px; color: #828282">Spring</a> <a href="/tags/SpringMVC/" style="font-size: 17.33px; color: #828282">SpringMVC</a> <a href="/tags/Springboot-starter/" style="font-size: 14px; color: #999">Springboot-starter</a> <a href="/tags/ThreadLocal/" style="font-size: 14px; color: #999">ThreadLocal</a> <a href="/tags/VMware/" style="font-size: 14px; color: #999">VMware</a> <a href="/tags/conda/" style="font-size: 14px; color: #999">conda</a> <a href="/tags/git/" style="font-size: 14px; color: #999">git</a> <a href="/tags/hexo/" style="font-size: 14px; color: #999">hexo</a> <a href="/tags/redis/" style="font-size: 14px; color: #999">redis</a> <a href="/tags/servlet/" style="font-size: 14px; color: #999">servlet</a> <a href="/tags/sklearn/" style="font-size: 17.33px; color: #828282">sklearn</a> <a href="/tags/ssm/" style="font-size: 14px; color: #999">ssm</a> <a href="/tags/%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">依赖倒置原则</a> <a href="/tags/%E5%89%8D%E7%BC%80%E6%A0%91/" style="font-size: 14px; color: #999">前缀树</a> <a href="/tags/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" style="font-size: 14px; color: #999">动态代理</a> <a href="/tags/%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">单一职责原则</a> <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">单例模式</a> <a href="/tags/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">原型模式</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 17.33px; color: #828282">反射</a> <a href="/tags/%E5%A0%86%E6%8E%92%E5%BA%8F/" style="font-size: 14px; color: #999">堆排序</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 14px; color: #999">多线程</a> <a href="/tags/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">工厂模式</a> <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/" style="font-size: 14px; color: #999">并查集</a> <a href="/tags/%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">建造者模式</a> <a href="/tags/%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">开闭原则</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E9%9A%94%E7%A6%BB%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">接口隔离原则</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 17.33px; color: #828282">正则表达式</a> <a href="/tags/%E6%BA%90%E7%A0%81/" style="font-size: 17.33px; color: #828282">源码</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 17.33px; color: #828282">爬虫</a> <a href="/tags/%E7%BB%84%E5%90%88%E4%BC%98%E4%BA%8E%E7%BB%A7%E6%89%BF%E5%8E%9F%E5%88%99/" style="font-size: 14px; color: #999">组合优于继承原则</a> <a href="/tags/%E8%A1%A8%E5%8D%95%E9%AA%8C%E8%AF%81/" style="font-size: 14px; color: #999">表单验证</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 24px; color: #555">设计模式</a> <a href="/tags/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" style="font-size: 14px; color: #999">适配器模式</a>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow floatable desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#一、-MVC"><span class="toc-text">一、 MVC</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二、三层架构"><span class="toc-text">二、三层架构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#三、案例"><span class="toc-text">三、案例</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-查询所有用户信息"><span class="toc-text">1.查询所有用户信息</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-增加用户信息"><span class="toc-text">2.增加用户信息</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-用户信息更改"><span class="toc-text">3.用户信息更改</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-用户的删除"><span class="toc-text">4.用户的删除</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-删除选中功能"><span class="toc-text">5.删除选中功能</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-分页查询"><span class="toc-text">6.分页查询</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-复杂条件的分页查询"><span class="toc-text">7.复杂条件的分页查询</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#四、前端代码展示"><span class="toc-text">四、前端代码展示</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="https://github.com/Chemlez"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="https://weibo.com/u/5653780011?nick=Sane_z&amp;is_all=1"
+                class="social fab fa-weibo flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="mailto:liz_1106@163.com"
+                class="social fas fa-envelope flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://chemlez.cn" target="_blank" rel="noopener">Copyright © 2019-2021 Chemlez</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.0/js/valine.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var notify = 'true' == true;
+  var verify = 'true' == true;
+  var valine = new Valine();
+  valine.init({
+    el: '#valine_container',
+    notify: notify,
+    verify: verify,
+    guest_info: guest_info,
+    
+    appId: "YSitK1ig1lRcy3jvrtTzT6fb-MdYXbMMI",
+    appKey: "e7hFf2zqvyWgNmDsClWcM7W3",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'wavatar',
+    lang:'zh-cn',
+    visitor: 'false',
+    highlight:'true'
+  })
+  </script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1.5/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.1/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copyed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-clipboard-check');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPYED';
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-exclamation-triangle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+
+  <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "[object Object]";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+<script>!function(e){var c=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){for(var r=0;r<c.length;r++)t=c[r],0<=(n=t.getBoundingClientRect()).bottom&&0<=n.left&&n.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=c[r];t=o,n=function(){c=c.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n&&n()},e.src=i}();var t,n}i(),e.addEventListener("scroll",function(){var t,n;t=i,n=e,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)})}(this);</script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script></body>
+</html>
