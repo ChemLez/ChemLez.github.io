@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta name="renderer" content="webkit">
@@ -18,7 +16,9 @@
 
   <!-- 页面元数据 -->
   
-    <title>Tag: 反射 - Liz&#39;blog</title>
+    <title>初学NIO之基本介绍 - Liz&#39;blog</title>
+  
+    <meta name="keywords" content="NIO">
   
   
 
@@ -353,27 +353,12 @@
     <div class='body-wrapper'>
       
 
-
 <div class='l_main'>
   
-    
-      
-  <section class="post-list ">
-    
-      
-        
-          
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow floatable reveal ">
+
   
+    <article id="post" class="post white-box shadow floatable article-type-post" itemscope itemprop="blogPost">
+      
 
 
   <section class='meta'>
@@ -382,11 +367,13 @@
     <div class="meta" id="header-meta">
       
         
-  <h2 class="title">
-    <a href="/2020/09/05/Java%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%8F%8D%E5%B0%84%E5%88%9D%E6%AD%A5%E7%90%86%E8%A7%A3/">
-      Java基础之反射初步理解
-    </a>
-  </h2>
+  
+    <h1 class="title">
+      <a href="/2022/03/19/%E5%88%9D%E5%AD%A6NIO%E4%B9%8B%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D/">
+        初学NIO之基本介绍
+      </a>
+    </h1>
+  
 
 
       
@@ -422,27 +409,9 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-edit" aria-hidden="true"></i>
-    <p>发布于：Sep 5, 2020</p>
+    <p>发布于：Mar 19, 2022</p>
   </a>
 </div>
-
-          
-        
-          
-            
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard" aria-hidden="true"></i>
-      <p>1.9k words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half" aria-hidden="true"></i>
-      <p>7 min</p>
-    </a>
-  </div>
-
 
           
         
@@ -459,153 +428,191 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <p>由于在学习框架时，经常会遇到反射，故此篇文章用于对反射的基本学习。</p>
-<h3 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h3><p><strong>基本定义:</strong><btn><a href="https://baike.baidu.com/item/JAVA反射机制/6015990" target="_blank" rel="noopener">JAVA反射机制</a></btn>是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意方法和属性；这种动态获取信息以及动态调用对象方法的功能称为java语言的反射机制。</p>
-<p>对其简单的理解就是将类的各个组成部分封装为其他对象，以便我们能够更加细化的使用。同时，我们也都知道，<code>Java</code>中程序是运行在虚拟机中，我们平常用文本编辑器或者是IDE编写的程序都是<code>.java</code>格式的文件，这是最基础的源码，但这类文件是不能直接运行的，必须经过编译成<code>.class</code>字节码文件进而加载进内存供<code>JVM</code>虚拟机执行。要想理解反射，就先需要谈起<code>Java</code>代码在计算机中经历的三个阶段，见下图。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/09/04/wkOWlQ.png" alt="java代码经历的三个阶段"></p>
-      
-        
-          <div class="button readmore">
-            <a href="/2020/09/05/Java%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%8F%8D%E5%B0%84%E5%88%9D%E6%AD%A5%E7%90%86%E8%A7%A3/">
-              Read More <i class="fas fa-chevron-right"></i>
-            </a>
-          </div>
-        
-      
-    </div>
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow floatable reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2020/08/31/Servlet%E4%BC%98%E5%8C%96%E4%B9%8B%E5%8A%9F%E8%83%BD%E9%87%8D%E7%BB%84%E6%88%90%E6%A8%A1%E5%9D%97/">
-      Servlet优化之功能重组成模块
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
           
-        
           
-            
-<div class='new-meta-item author'>
-  <a href="https://chemlez.cn" target="_blank" rel="nofollow noopener">
-    <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/03/13/8mvbCj.jpg">
-    <p>Chemlez</p>
-  </a>
-</div>
-
           
-        
-          
+            <br>
             
   
-  <div class='new-meta-item category'>
-    <a href='/categories/Java/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>Java</p>
-    </a>
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://chemlez.github.io/2022/03/19/%E5%88%9D%E5%AD%A6NIO%E4%B9%8B%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D/>https://chemlez.github.io/2022/03/19/%E5%88%9D%E5%AD%A6NIO%E4%B9%8B%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D/</a></p>
+          
+        
+      </blockquote>
+    
   </div>
+</section>
+
+  
+
+  
+    
+    
+
+  
 
 
           
+        </div>
         
           
-            <div class="new-meta-item date">
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-03-19T16:35:33+08:00">
   <a class='notlink'>
-    <i class="fas fa-edit" aria-hidden="true"></i>
-    <p>发布于：Aug 31, 2020</p>
+    <i class="fas fa-save" aria-hidden="true"></i>
+    <p>更新于：Mar 19, 2022</p>
   </a>
 </div>
 
-          
         
-          
-            
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard" aria-hidden="true"></i>
-      <p>1.9k words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half" aria-hidden="true"></i>
-      <p>8 min</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-      </div>
       
-        <hr>
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/NIO/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i><p>NIO</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://chemlez.github.io/2022/03/19/%E5%88%9D%E5%AD%A6NIO%E4%B9%8B%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D/&title=初学NIO之基本介绍 - Liz'blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://chemlez.github.io/2022/03/19/%E5%88%9D%E5%AD%A6NIO%E4%B9%8B%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D/&title=初学NIO之基本介绍 - Liz'blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://chemlez.github.io/2022/03/19/%E5%88%9D%E5%AD%A6NIO%E4%B9%8B%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D/&title=初学NIO之基本介绍 - Liz'blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a><img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/wechat.png"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXgAAAF4CAAAAAB79r16AAAFRUlEQVR42u3bQXLcOBAEwPn/p+0HOBiD6i7Q8m7iNtaIBBO8lKr9+WX9lfVBAB68BR68BR68VYD/DNcfF/zy70+///T56XqPD/Tl++k+TveXeoEHDx48ePDgwYMH34TfPuDpdU4B0gduQbee8/HgwIMHDx48ePDgwYO/AD8NPKefWw+4hT096GmgAg8ePHjw4MGDBw/+X4RPg9K0gEmDzLaQAQ8ePHjw4MGDBw/+vwz/1kGeHsw1SPDgwYMHDx48ePDgfwB8PKDzpTBIg9S0EGkVKNOBrtcnycCDBw8ePHjw4MGDXxQS/9fPYy/w4MGDBw8ePHjw4Avw25VuNA0i0wCV3jcNdmMv8ODBgwcPHjx48OAL8NOAsC0KWoVKer9W8TL2AQ8ePHjw4MGDBw/+AnwaINo/b0GmQem1AAcePHjw4MGDBw8efBE+DRjTgmBanGyD0fQ6bR/w4MGDBw8ePHjw4BvwaeA4vsFhwGlBtYuL033HgQw8ePDgwYMHDx48+AL8dJBoG0jSANUKdK2Bq3HxAh48ePDgwYMHDx58Af4UYBqApgeQwqUHOoVL7xsnV/DgwYMHDx48ePDgA/jWA0yLlG0xMS1qXn9BwIMHDx48ePDgwYMvwH/ClW5gGqzeKj5aBxcHKPDgwYMHDx48ePDgC/BboO0DtoLSdj+tIubx+cCDBw8ePHjw4MGDL8BPA0064PRWwdGCux6gwIMHDx48ePDgwYMvFiGnG2oHodP7pZ9Pg2HqMT4Y8ODBgwcPHjx48OAL8GkBksJuA8/pdbeDWdMBrvjgwIMHDx48ePDgwYMvwLcGmqYHN71f6/qt/YyTK3jw4MGDBw8ePHjwhSJkW1y0CovT4JUGtPZ14xcCPHjw4MGDBw8ePPgCfGug6LRgmAaW9kBTa6ArfqHAgwcPHjx48ODBgy/Cp3/QTweNtgNKW7j0e7eKIvDgwYMHDx48ePDgm0VIeqEUJg1It/Zxe8Dq60GCBw8ePHjw4MGDB1+A3xYI0wfcHkhr8OjWQT1+Bg8ePHjw4MGDBw++AN8uEqaDUtsDv32ArecDDx48ePDgwYMHD74BPw0Y6YBR+mDTgiQdkDp94aYDYMfJFTx48ODBgwcPHjz4wd/j0wfcBpX2gU9fiG2Aiwsk8ODBgwcPHjx48OCL8GnAOIWcBq30e6eBcFp0TL93PNAEHjx48ODBgwcPHnwAnxYYbajpwU0LlOnv11448ODBgwcPHjx48OAL8FPwadGwPcAp+Ong0vY5v/4cPHjw4MGDBw8ePPgCfKvgmAaPbZBpfX9cbKTPCR48ePDgwYMHDx58AT7dQPpg0wCTBpTTAJUWLWkh9HVf4MGDBw8ePHjw4MEX4KdBahq8WgNErRcnDYbrIgg8ePDgwYMHDx48+CL8NGikxUarsDjdb3rw2+IDPHjw4MGDBw8ePPg34Kc3nhYPaYCaFhq3DmBaiIAHDx48ePDgwYMH34Tfru3g0LQY2RYVW8Bx0QMePHjw4MGDBw8efAH+M1zbgagUbHow0wPYBr7jIgQ8ePDgwYMHDx48+AX8FnI66HR7oKpVgFwLUODBgwcPHjx48ODBF+C3AaJdPGwDzja4tYMlePDgwYMHDx48ePA/CX77e9MCJA1YcXFxuM/jFwk8ePDgwYMHDx48+B8EnxYE2+JkW8y0g9rxPsCDBw8ePHjw4MGDvwCfDjS1BpjSYDINMNMBqrRAiYsQ8ODBgwcPHjx48OBf/A/G7WCUFhPTwabWftYBCjx48ODBgwcPHjz4Abz17gIPHrwFHrwFHry1WL8BIm2kxtKmLpEAAAAASUVORK5CYII=">
+          </div>
+        </div>
+      
+    
+  </div>
+</div>
+
+
+
+        
       
     </div>
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <p>在之前的总结<btn><a href="http://www.liizhi.cn/2020/08/16/Java%E5%88%9D%E8%AF%95MVC%E5%8F%8A%E4%B8%89%E5%B1%82%E6%9E%B6%E6%9E%84/" target="_blank" rel="noopener">Java初试MVC及三层架构</a></btn>中，查看其目录结构仅仅对于<code>User</code>对象的操作就写了6，7个<code>servlet</code>，而每一个<code>servlet</code>只对应一个功能，但随着以后项目的扩大，业务逻辑的复杂化，我们需要操作的对象不仅仅是一个<code>User</code>类时，换句话说，我们操作数据库中的表不止一张时，那么可想而知我们的servlet需要写多少！</p>
-<img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/placeholder/d570170f4f12e1ee829ca0e85a7dffeb77343a.svg" data-original="https://s1.ax1x.com/2020/08/31/dXaNXq.png" alt="未优化前的目录结构" style="zoom:50%;" />
-
-<p><strong>思考:</strong>我们能否像<code>service</code>层和<code>dao</code>层一样，将关于<code>User</code>的操作都写在一个类当中，方便我们的使用呢。从而减少<code>Servlet</code>的数量，现在是一个功能一个<code>Servlet</code>，将其优化为一个模块一个<code>Servlet</code>，相当于在数据库中一张表对应一个<code>Servlet</code>，在<code>Servlet</code>中提供不同的方法，完成用户的请求。</p>
-<p>我们编写的所有<code>servlet</code>都继承了<code>HttpServlet</code>，与此同时都复写了<code>doGet</code>以及<code>doPost</code>方法。查看<code>HttpServlet</code>源码，可以看见对<code>doGet</code>以及<code>doPost</code>的方法的调用都写在<code>service</code>中。</p>
-      
         
-          <div class="button readmore">
-            <a href="/2020/08/31/Servlet%E4%BC%98%E5%8C%96%E4%B9%8B%E5%8A%9F%E8%83%BD%E9%87%8D%E7%BB%84%E6%88%90%E6%A8%A1%E5%9D%97/">
-              Read More <i class="fas fa-chevron-right"></i>
-            </a>
+        
+          <div class="prev-next">
+            
+            
+              <a class='next' href='/2022/03/17/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%89%8D%E7%BC%80%E6%A0%91/'>
+                <p class='title'>数据结构之前缀树<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>前缀树，又称为Trie树，是一种树形数据结构，可用于高效地存储和检索字符串数据集合中的键，常用于自动补完和拼写检查等应用场景。下面对是对前缀树节点的定义：
+1234class WordNetTr...</p>
+              </a>
+            
           </div>
         
-      
-    </div>
-  </section>
-</article>
+      </section>
+    </article>
+  
 
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box comments shadow floatable">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> Comment</p>
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-spinner fa-spin fa-fw"></i>
           </div>
-        
+        </section>
       
-    
-  </section>
-  
-    
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-    
-    
+    </section>
+  </article>
+
 
   
 
 
-    
-  
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '初学NIO之基本介绍',
+      tools: true
+    }
+  </script>
+
+
 </div>
 <aside class='l_side'>
   
@@ -780,6 +787,14 @@
 
   
 
+  
+    
+    
+
+
+
+  
+
 
 </aside>
 
@@ -928,6 +943,36 @@
 
 
 
+
+  
+    
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.0/js/valine.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var notify = 'true' == true;
+  var verify = 'true' == true;
+  var valine = new Valine();
+  valine.init({
+    el: '#valine_container',
+    notify: notify,
+    verify: verify,
+    guest_info: guest_info,
+    
+    appId: "YSitK1ig1lRcy3jvrtTzT6fb-MdYXbMMI",
+    appKey: "e7hFf2zqvyWgNmDsClWcM7W3",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'wavatar',
+    lang:'zh-cn',
+    visitor: 'false',
+    highlight:'true'
+  })
+  </script>
 
 
 
